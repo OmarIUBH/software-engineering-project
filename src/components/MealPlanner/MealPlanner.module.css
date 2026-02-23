@@ -1,0 +1,273 @@
+.budgetBar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.budgetLeft,
+.budgetRight {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.budgetRight {
+    flex: 1;
+    min-width: 200px;
+}
+
+.budgetLabel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.budgetInputRow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.currency {
+    font-weight: 700;
+    color: var(--color-success);
+    font-size: 1.1rem;
+}
+
+.budgetInput {
+    width: 90px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-border);
+    border-radius: 0;
+    padding: 2px 4px;
+    color: var(--color-text);
+}
+
+.budgetInput:focus {
+    border-bottom-color: var(--color-primary);
+}
+
+.costOk {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-success);
+}
+
+.costOver {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-danger);
+}
+
+.progressTrack {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-success), var(--color-primary));
+    border-radius: 3px;
+    transition: width 500ms ease;
+}
+
+.progressOver {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-danger));
+}
+
+.overAlert {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-danger);
+}
+
+.summary {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+}
+
+.summaryLink {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: 100px repeat(7, 1fr);
+    gap: 6px;
+    overflow-x: auto;
+    margin-bottom: 40px;
+}
+
+.gridCorner {
+    /* empty top-left cell */
+}
+
+.dayHeader {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 4px;
+}
+
+.mealLabel {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: capitalize;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.slot {
+    min-height: 80px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    position: relative;
+    transition: border-color var(--transition);
+}
+
+.slotDraggable {
+    border-style: dashed;
+}
+
+.slotDraggable:hover {
+    border-color: var(--color-primary);
+    background: rgba(108, 138, 255, .05);
+}
+
+.slotCard {
+    padding: 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: grab;
+}
+
+.slotCard:active {
+    cursor: grabbing;
+}
+
+.slotName {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+}
+
+.slotMeta {
+    font-size: 0.7rem;
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+.slotRemove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--color-surface2);
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: 4px;
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.slotCard:hover .slotRemove {
+    opacity: 1;
+}
+
+.slotEmpty {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: var(--color-border);
+    font-style: italic;
+}
+
+/* Picker */
+.pickerSection {
+    margin-top: 8px;
+}
+
+.pickerTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.pickerHint {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin-bottom: 14px;
+}
+
+.pickerGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pickerCard {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    cursor: grab;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    max-width: 160px;
+}
+
+.pickerCard:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.pickerName {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.pickerCost {
+    font-size: 0.7rem;
+    color: var(--color-success);
+}

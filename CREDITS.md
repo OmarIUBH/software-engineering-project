@@ -1,46 +1,14 @@
-# Credits & Third-Party Licenses
-
-## React
-- **Package:** react, react-dom
-- **Version:** 18.x
-- **License:** MIT
-- **Used for:** UI rendering, component system
-
-## React Router
-- **Package:** react-router-dom
-- **Version:** 6.x
-- **License:** MIT
-- **Used for:** client-side routing between views
-
-## SortableJS
-- **Package:** sortablejs
-- **Version:** 1.15.x
-- **License:** MIT
-- **Used for:** drag-and-drop in the MealPlanner grid
-
-## Vite
-- **Package:** vite, @vitejs/plugin-react
-- **Version:** 5.x
-- **License:** MIT
-- **Used for:** build tooling, HMR dev server
-
-## Vitest
-- **Package:** vitest
-- **Version:** 2.x
-- **License:** MIT
-- **Used for:** unit and integration testing
-
-## React Testing Library
-- **Package:** @testing-library/react, @testing-library/jest-dom, @testing-library/user-event
-- **License:** MIT
-- **Used for:** component and DOM testing utilities
+# Credits
 
 ## Inter Font
-- **Source:** Google Fonts
+- **Source:** [Google Fonts](https://fonts.google.com/specimen/Inter)
 - **License:** SIL Open Font License 1.1
-- **Used for:** application typography
+- **Used for:** Application typography
 
-## ESLint + plugins
-- **Packages:** eslint, eslint-plugin-react, eslint-plugin-react-hooks
+## SortableJS
+- **Package:** [sortablejs](https://github.com/SortableJS/Sortable)
 - **License:** MIT
-- **Used for:** code quality and style enforcement
+- **Used for:** Drag-and-drop in the Meal Planner
+
+## Frameworks & Tooling
+Built with [React 18](https://react.dev), [Vite 5](https://vitejs.dev), [React Router 6](https://reactrouter.com), and [Vitest](https://vitest.dev) — all MIT licensed.

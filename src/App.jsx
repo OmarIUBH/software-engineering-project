@@ -3,6 +3,7 @@ import RecipeLibrary from './components/RecipeLibrary/RecipeLibrary.jsx';
 import MealPlanner from './components/MealPlanner/MealPlanner.jsx';
 import GroceryList from './components/GroceryList/GroceryList.jsx';
 import PantryManager from './components/PantryManager/PantryManager.jsx';
+import NotFound from './components/NotFound/NotFound.jsx';
 
 function Navbar() {
     return (
@@ -31,6 +32,7 @@ export default function App() {
                         <Route path="/planner" element={<MealPlanner />} />
                         <Route path="/grocery" element={<GroceryList />} />
                         <Route path="/pantry" element={<PantryManager />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
             </div>

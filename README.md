@@ -69,10 +69,5 @@ npm run test:e2e
 
 ---
 
-## License
-MIT – see [LICENSE](LICENSE).
-
----
-
 ## Credits
 See [CREDITS.md](CREDITS.md) for third‑party libraries and their licenses.

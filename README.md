@@ -69,5 +69,12 @@ npm run test:e2e
 
 ---
 
+## Documentation
+- [Project Profile](docs/PROJECT_PROFILE.md) — overview, target group, problem statement, tech stack
+- [Requirements](docs/REQUIREMENTS.md) — functional requirements, user stories, non-functional requirements, technical debt
+- [Architecture](docs/ARCHITECTURE.md) — system design, component structure, data flow, deployment
+
+---
+
 ## Credits
 See [CREDITS.md](CREDITS.md) for third‑party libraries and their licenses.

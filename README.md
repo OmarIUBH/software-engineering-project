@@ -20,8 +20,8 @@ MealMate is a browser‑native meal planning app built with **React 18** and **V
 ## Local Development (without Docker)
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/mealmate.git
-cd mealmate
+git clone https://github.com/OmarIUBH/software-engineering-project.git
+cd software-engineering-project
 
 # Install dependencies
 npm install

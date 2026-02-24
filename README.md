@@ -50,7 +50,7 @@ http://localhost:5173
 ## Production Build with Docker (NGINX)
 ```bash
 # Build and run the production image
-docker compose -f docker-compose.prod.yml up --build -d
+docker compose -f docker-compose.yml up --build -d
 
 # Access the optimized app
 http://localhost:8080

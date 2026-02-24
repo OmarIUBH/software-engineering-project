@@ -62,9 +62,6 @@ http://localhost:8080
 ```bash
 # Run unit tests (Vitest)
 npm test
-
-# Run end‑to‑end tests (Playwright)
-npm run test:e2e
 ```
 
 ---

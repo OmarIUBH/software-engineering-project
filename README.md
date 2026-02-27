@@ -1,7 +1,8 @@
 # MealMate – Meal Planner & Smart Grocery List
 
 ## Live Demo
-Check out the live application hosted on Cloudflare Pages: [https://mealmate.pages.dev](https://mealmate.pages.dev)
+Check out the live application hosted on Cloudflare Pages: [https://mealmate-835.pages.dev](https://mealmate-835.pages.dev)
+
 
 
 

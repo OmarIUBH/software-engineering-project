@@ -1,73 +1,76 @@
-# MealMate – Meal Planner & Smart Grocery List
+# 🥗 MealMate
 
-## Live Demo
-Check out the live application hosted on Cloudflare Pages: [https://mealmate-835.pages.dev](https://mealmate-835.pages.dev)
+MealMate is a modern, high-performance meal planning and grocery management application. Built for efficiency and a premium user experience, it helps you organize your weekly meals, optimize your budget, and manage your pantry with ease.
 
-
-
-
----
-
-## Overview
-MealMate is a browser‑native meal planning app built with **React 18** and **Vite 5**. It lets you browse recipes, generate a smart grocery list, manage your pantry, track a weekly budget, and more.
+## 🚀 Live Demo
+**[Check out the live application on Cloudflare Pages](https://mealmate-835.pages.dev)**
 
 ---
 
-## Prerequisites
-- **Node.js** ≥ 18 LTS ([nodejs.org](https://nodejs.org))
-- **npm** ≥ 9 (comes with Node)
-- **Docker Desktop** (optional, for containerised development/production)
+## ✨ Key Features
+
+### 📖 Smart Recipe Library
+- Browse a curated collection of diverse recipes.
+- **Dynamic Scaling**: Adjust serving sizes, and ingredients scale automatically.
+- **Dietary Filters**: Quickly find Vegetarian, Vegan, High-Protein, and Gluten-Free options.
+
+### 🗓️ Weekly Meal Planner
+- Plan your meals for every day of the week.
+- Simple, intuitive interface to assign recipes to breakfast, lunch, or dinner.
+
+### 🛒 Smart Grocery List
+- Automatically aggregates ingredients from your weekly plan.
+- **Budget Tracking**: Real-time integration with your target budget (default: €40).
+- **Print & Export**: Clean, minimalist layout for physical shopping lists.
+- **Pantry Deduction**: Automatically substracts items you already have.
+
+### 🥫 Pantry Manager
+- Keep track of your kitchen inventory.
+- **Search Helper**: Intelligent autocomplete suggests ingredient names from the recipe library as you type.
+- Seamlessly integrates with the grocery list to prevent overbuying.
 
 ---
 
-## Local Development (without Docker)
+## 🛠️ Tech Stack
+
+- **Core**: React 18 & Vite 5
+- **Styling**: Vanilla CSS (Custom Variable System)
+- **State & Storage**: Browser-native LocalStorage
+- **Testing**: Vitest & JSDOM
+- **Hosting**: Cloudflare Pages (Unlimited Build Time)
+- **Containerization**: Docker & NGINX
+
+---
+
+## 💻 Local Development
+
+### Quick Start
 ```bash
-# Clone the repository
-git clone https://github.com/OmarIUBH/software-engineering-project.git
-cd software-engineering-project
-
 # Install dependencies
 npm install
 
-# Start the Vite dev server (hot‑reload)
+# Start development server
 npm run dev
-# → Open http://localhost:5173 in your browser
 ```
 
----
-
-## Development with Docker (hot‑reload)
+### Docker Development
+For a consistent development environment:
 ```bash
-# Build and start the development container
-docker compose -f docker-compose.dev.yml up --build -d
-
-# Follow logs (optional)
-docker compose -f docker-compose.dev.yml logs -f
-
-# Access the app
-http://localhost:5173
+docker compose -f docker-compose.dev.yml up --build
 ```
 
----
-
-## Production Build with Docker (NGINX)
+### Testing
 ```bash
-# Build and run the production image
-docker compose -f docker-compose.yml up --build -d
-
-# Access the optimized app
-http://localhost:8080
-```
-
----
-
-## Testing
-```bash
-# Run unit tests (Vitest)
+# Run unit tests
 npm test
 ```
 
 ---
 
-## Credits
-See [CREDITS.md](CREDITS.md) for third‑party libraries and their licenses.
+## 📦 Deployment
+The project is optimized for **Cloudflare Pages**. It includes a special `_redirects` configuration to handle Single Page Application (SPA) routing seamlessly.
+
+---
+
+## 📜 Credits
+Developed as part of a software engineering project. See [CREDITS.md](CREDITS.md) for a list of third-party libraries used.

@@ -93,3 +93,30 @@
     color: var(--color-text-muted);
     line-height: 1.6;
 }
+
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    list-style: none;
+    padding: 4px 0;
+    margin: 4px 0 0 0;
+    z-index: 100;
+}
+
+.suggestions li {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.suggestions li:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-primary);
+}

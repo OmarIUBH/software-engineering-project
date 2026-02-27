@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { storageService } from '../../services/storageService.js';
 import styles from './PantryManager.module.css';
 
@@ -9,9 +9,57 @@ export default function PantryManager() {
     const [form, setForm] = useState({ name: '', qty: '', unit: 'g' });
     const [error, setError] = useState('');
 
+    // Autocomplete state
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const suggestionRef = useRef(null);
+
+    // Load unique ingredients from recipes for suggestions
+    const allIngredients = useMemo(() => {
+        const recipes = storageService.getRecipes();
+        const names = new Set();
+        recipes.forEach(r => {
+            r.ingredients.forEach(ing => names.add(ing.name));
+        });
+        return Array.from(names).sort();
+    }, []);
+
+    // Handle clicking outside suggestions
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     function save(updated) {
         setItems(updated);
         storageService.setPantry(updated);
+    }
+
+    function handleNameChange(e) {
+        const val = e.target.value;
+        setForm(f => ({ ...f, name: val }));
+
+        if (val.trim().length > 0) {
+            const filtered = allIngredients.filter(ing =>
+                ing.toLowerCase().includes(val.toLowerCase()) &&
+                ing.toLowerCase() !== val.toLowerCase()
+            ).slice(0, 5); // Limit to 5 suggestions
+            setSuggestions(filtered);
+            setShowSuggestions(filtered.length > 0);
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    }
+
+    function selectSuggestion(name) {
+        setForm(f => ({ ...f, name }));
+        setShowSuggestions(false);
     }
 
     function handleAdd(e) {
@@ -41,6 +89,7 @@ export default function PantryManager() {
             save([...items, newItem]);
         }
         setForm((f) => ({ ...f, name: '', qty: '' }));
+        setShowSuggestions(false);
     }
 
     function handleRemove(id) {
@@ -61,16 +110,26 @@ export default function PantryManager() {
             {/* Add form */}
             <form onSubmit={handleAdd} className={styles.addForm} noValidate>
                 <div className={styles.formRow}>
-                    <div className={styles.formField} style={{ flex: 2 }}>
+                    <div className={styles.formField} style={{ flex: 2, position: 'relative' }} ref={suggestionRef}>
                         <label htmlFor="pantry-name">Ingredient</label>
                         <input
                             id="pantry-name"
                             type="text"
                             placeholder="e.g. Olive oil"
                             value={form.name}
-                            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                            onChange={handleNameChange}
+                            onFocus={() => form.name.trim() && suggestions.length > 0 && setShowSuggestions(true)}
                             autoComplete="off"
                         />
+                        {showSuggestions && (
+                            <ul className={styles.suggestions}>
+                                {suggestions.map((s) => (
+                                    <li key={s} onClick={() => selectSuggestion(s)}>
+                                        {s}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                     <div className={styles.formField}>
                         <label htmlFor="pantry-qty">Quantity</label>

@@ -38,68 +38,70 @@ export default function GroceryList() {
         : finalList;
 
     return (
-        <div>
-            <div className={styles.header}>
-                <div>
-                    <h1 className="section-title">Grocery List</h1>
-                    <p className="section-subtitle">
-                        {finalList.length} items · Est. weekly cost:{' '}
-                        <span className={cost > budget ? styles.overBudget : styles.underBudget}>
-                            €{cost.toFixed(2)}
-                        </span>
-                        {cost > budget && <span className={styles.overLabel}> (over budget!)</span>}
-                    </p>
+        <div className={styles.groceryContainer}>
+            <div className={styles.screenOnly}>
+                <div className={styles.header}>
+                    <div>
+                        <h1 className="section-title">Grocery List</h1>
+                        <p className="section-subtitle">
+                            {finalList.length} items · Est. weekly cost:{' '}
+                            <span className={cost > budget ? styles.overBudget : styles.underBudget}>
+                                €{cost.toFixed(2)}
+                            </span>
+                            {cost > budget && <span className={styles.overLabel}> (over budget!)</span>}
+                        </p>
+                    </div>
+                    <button className="btn btn-ghost" onClick={handlePrint} aria-label="Print grocery list">
+                        🖨 Print / Export
+                    </button>
                 </div>
-                <button className="btn btn-ghost" onClick={handlePrint} aria-label="Print grocery list">
-                    🖨 Print / Export
-                </button>
-            </div>
 
-            {/* Toggles */}
-            <div className={styles.toggleRow}>
-                <label className={styles.toggle}>
-                    <input type="checkbox" checked={grouped} onChange={(e) => setGrouped(e.target.checked)} />
-                    <span>Group by category</span>
-                </label>
-                <label className={styles.toggle}>
-                    <input type="checkbox" checked={deductEnabled} onChange={(e) => setDeductEnabled(e.target.checked)} />
-                    <span>Deduct pantry items</span>
-                </label>
-            </div>
-
-            {finalList.length === 0 ? (
-                <div className="empty-state">
-                    <div className="empty-state__icon">🛒</div>
-                    <p className="empty-state__text">
-                        {rawList.length === 0
-                            ? 'Add recipes to your weekly plan to generate a grocery list.'
-                            : 'All ingredients are covered by your pantry!'}
-                    </p>
+                {/* Toggles */}
+                <div className={styles.toggleRow}>
+                    <label className={styles.toggle}>
+                        <input type="checkbox" checked={grouped} onChange={(e) => setGrouped(e.target.checked)} />
+                        <span>Group by category</span>
+                    </label>
+                    <label className={styles.toggle}>
+                        <input type="checkbox" checked={deductEnabled} onChange={(e) => setDeductEnabled(e.target.checked)} />
+                        <span>Deduct pantry items</span>
+                    </label>
                 </div>
-            ) : grouped ? (
-                <div className={styles.categoryList}>
-                    {categories.map(({ category, items: catItems }) => (
-                        <div key={category} className={styles.categoryGroup}>
-                            <div className={styles.categoryHeader}>
-                                <span>{CATEGORY_ICONS[category] ?? '📦'}</span>
-                                <span>{category}</span>
-                                <span className="badge">{catItems.length}</span>
+
+                {finalList.length === 0 ? (
+                    <div className="empty-state">
+                        <div className="empty-state__icon">🛒</div>
+                        <p className="empty-state__text">
+                            {rawList.length === 0
+                                ? 'Add recipes to your weekly plan to generate a grocery list.'
+                                : 'All ingredients are covered by your pantry!'}
+                        </p>
+                    </div>
+                ) : grouped ? (
+                    <div className={styles.categoryList}>
+                        {categories.map(({ category, items: catItems }) => (
+                            <div key={category} className={styles.categoryGroup}>
+                                <div className={styles.categoryHeader}>
+                                    <span>{CATEGORY_ICONS[category] ?? '📦'}</span>
+                                    <span>{category}</span>
+                                    <span className="badge">{catItems.length}</span>
+                                </div>
+                                <ul className={styles.itemList}>
+                                    {catItems.map((item) => (
+                                        <GroceryItem key={item.id} item={item} checked={!!checked[item.id]} onToggle={toggleCheck} />
+                                    ))}
+                                </ul>
                             </div>
-                            <ul className={styles.itemList}>
-                                {catItems.map((item) => (
-                                    <GroceryItem key={item.id} item={item} checked={!!checked[item.id]} onToggle={toggleCheck} />
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <ul className={styles.itemList}>
-                    {finalList.map((item) => (
-                        <GroceryItem key={item.id} item={item} checked={!!checked[item.id]} onToggle={toggleCheck} />
-                    ))}
-                </ul>
-            )}
+                        ))}
+                    </div>
+                ) : (
+                    <ul className={styles.itemList}>
+                        {finalList.map((item) => (
+                            <GroceryItem key={item.id} item={item} checked={!!checked[item.id]} onToggle={toggleCheck} />
+                        ))}
+                    </ul>
+                )}
+            </div>
 
             {/* Print-only view */}
             <div className={styles.printView}>

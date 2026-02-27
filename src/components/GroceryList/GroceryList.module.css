@@ -134,26 +134,44 @@
     font-size: 0.8rem;
 }
 
+.screenOnly {
+    display: block;
+}
+
 /* Print-only view – hidden on screen */
 .printView {
     display: none;
 }
 
 @media print {
+    .screenOnly {
+        display: none !important;
+    }
+
     .printView {
-        display: block;
+        display: block !important;
         color: #000;
+        background: #fff;
     }
 
     .printView h2 {
-        font-size: 18pt;
-        margin-bottom: 6pt;
+        font-size: 20pt;
+        margin-bottom: 10pt;
+        color: #000;
+    }
+
+    .printView p {
+        font-size: 11pt;
+        margin-bottom: 20pt;
+        color: #666;
     }
 
     .printView h3 {
-        font-size: 13pt;
-        margin-top: 12pt;
-        margin-bottom: 4pt;
+        font-size: 14pt;
+        margin-top: 15pt;
+        margin-bottom: 6pt;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 4pt;
     }
 
     .printView ul {
@@ -163,7 +181,9 @@
 
     .printView li {
         font-size: 11pt;
-        padding: 3pt 0;
-        border-bottom: 1px solid #ccc;
+        padding: 6pt 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
     }
 }

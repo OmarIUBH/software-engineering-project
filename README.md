@@ -1,7 +1,8 @@
 # MealMate – Meal Planner & Smart Grocery List
 
 ## Live Demo
-Check out the live application hosted on Netlify: [https://mealmate-web-omariubh.netlify.app](https://mealmate-web-omariubh.netlify.app)
+Check out the live application hosted on Cloudflare Pages (Link coming soon after first build).
+
 
 ---
 

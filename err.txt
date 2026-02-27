@@ -1,0 +1,43 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/omare/Desktop/Project[39m
+
+ [31m❯[39m src/__tests__/integration.test.jsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 511[2mms[22m[39m
+[31m   [31m×[31m MealMate Core Integration Tests[2m > [22mScenario: Adds recipe to planner, updates budget, checks grocery list, adds to pantry[33m 510[2mms[22m[31m[39m
+[31m     → groceryLink is not defined[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m   Start at [22m 10:06:21
+[2m   Duration [22m 1.48s[2m (transform 120ms, setup 53ms, collect 262ms, tests 511ms, environment 331ms, prepare 73ms)[22m
+
+\n[90mstderr[2m | src/__tests__/integration.test.jsx[2m > [22m[2mMealMate Core Integration Tests[2m > [22m[2mScenario: Adds recipe to planner, updates budget, checks grocery list, adds to pantry
+[22m[39m⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+[90mstderr[2m | src/__tests__/integration.test.jsx[2m > [22m[2mMealMate Core Integration Tests[2m > [22m[2mScenario: Adds recipe to planner, updates budget, checks grocery list, adds to pantry
+[22m[39mWarning: Each child in a list should have a unique "key" prop.
+
+Check the render method of `MealPlanner`. See https://reactjs.org/link/warning-keys for more information.
+    at MealPlanner (C:\Users\omare\Desktop\Project\src\components\MealPlanner\MealPlanner.jsx:109:57)
+    at RenderedRoute (C:\Users\omare\Desktop\Project\node_modules\react-router\dist\umd\react-router.development.js:539:7)
+    at Routes (C:\Users\omare\Desktop\Project\node_modules\react-router\dist\umd\react-router.development.js:1273:7)
+    at main
+    at div
+    at Router (C:\Users\omare\Desktop\Project\node_modules\react-router\dist\umd\react-router.development.js:1207:17)
+    at BrowserRouter (C:\Users\omare\Desktop\Project\node_modules\react-router-dom\dist\umd\react-router-dom.development.js:695:7)
+    at App
+
+[31m⎯⎯⎯⎯⎯⎯⎯[1m[7m Failed Tests 1 [27m[22m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[31m[1m[7m FAIL [27m[22m[39m src/__tests__/integration.test.jsx[2m > [22mMealMate Core Integration Tests[2m > [22mScenario: Adds recipe to planner, updates budget, checks grocery list, adds to pantry
+[31m[1mReferenceError[22m: groceryLink is not defined[39m
+[36m [2m❯[22m src/__tests__/integration.test.jsx:[2m96:26[22m[39m
+    [90m 94| [39m
+    [90m 95| [39m        [90m// Go back to grocery list[39m
+    [90m 96| [39m        [35mawait[39m user[33m.[39m[34mclick[39m(groceryLink)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m 97| [39m
+    [90m 98| [39m        [90m// The ingredient should now have a "already in pantry" tag or[39m…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+

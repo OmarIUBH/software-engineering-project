@@ -1,0 +1,660 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/omare/Desktop/Project[39m
+
+[90mstderr[2m | src/__tests__/integration.test.jsx[2m > [22m[2mMealMate Core Integration Tests[2m > [22m[2mScenario 1 & 2: Adds recipe to planner and updates budget
+[22m[39m⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [31m❯[39m src/__tests__/integration.test.jsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1030[2mms[22m[39m
+[31m   [31m×[31m MealMate Core Integration Tests[2m > [22mScenario 1 & 2: Adds recipe to planner and updates budget[33m 1029[2mms[22m[31m[39m
+[31m     → Unable to find an element with the text: /Add to week/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"app-layout"[31m
+    [36m>[31m
+      [36m<nav[31m
+        [33mclass[31m=[32m"navbar"[31m
+      [36m>[31m
+        [36m<span[31m
+          [33mclass[31m=[32m"navbar__logo"[31m
+        [36m>[31m
+          [36m<span[31m
+            [33mclass[31m=[32m"navbar__logo-icon"[31m
+          [36m>[31m
+            [0m🥗[0m
+          [36m</span>[31m
+          [0m MealMate[0m
+        [36m</span>[31m
+        [36m<ul[31m
+          [33mclass[31m=[32m"navbar__links"[31m
+        [36m>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33maria-current[31m=[32m"page"[31m
+              [33mclass[31m=[32m"active"[31m
+              [33mhref[31m=[32m"/"[31m
+            [36m>[31m
+              [0mRecipes[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/planner"[31m
+            [36m>[31m
+              [0mPlanner[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/grocery"[31m
+            [36m>[31m
+              [0mGrocery List[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/pantry"[31m
+            [36m>[31m
+              [0mPantry[0m
+            [36m</a>[31m
+          [36m</li>[31m
+        [36m</ul>[31m
+      [36m</nav>[31m
+      [36m<main[31m
+        [33mclass[31m=[32m"main-content"[31m
+      [36m>[31m
+        [36m<div>[31m
+          [36m<h1[31m
+            [33mclass[31m=[32m"section-title"[31m
+          [36m>[31m
+            [0mRecipe Library[0m
+          [36m</h1>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"section-subtitle"[31m
+          [36m>[31m
+            [0mBrowse [0m
+            [0m0[0m
+            [0m recipes · filter by diet · add to your weekly plan[0m
+          [36m</p>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"_searchRow_2eb513"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"_searchWrap_2eb513"[31m
+            [36m>[31m
+              [36m<span[31m
+                [33mclass[31m=[32m"_searchIcon_2eb513"[31m
+              [36m>[31m
+                [0m🔍[0m
+              [36m</span>[31m
+              [36m<input[31m
+                [33maria-label[31m=[32m"Search recipes"[31m
+                [33mclass[31m=[32m"_searchInput_2eb513"[31m
+                [33mplaceholder[31m=[32m"Search by name or ingredient…"[31m
+                [33mtype[31m=[32m"search"[31m
+                [33mvalue[31m=[32m""[31m
+              [36m/>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33maria-label[31m=[32m"Diet tag filters"[31m
+            [33mclass[31m=[32m"_filtersBar_2eb513"[31m
+            [33mrole[31m=[32m"group"[31m
+          [36m>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-vegetarian _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌿 Vegetarian[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-vegan _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌱 Vegan[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-high-protein _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m💪 High-Protein[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-dairy-free _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🥛 Dairy-Free[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-gluten-free _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌾 Gluten-Free[0m
+            [36m</button>[31m
+          [36m</div>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"_resultsCount_2eb513"[31m
+          [36m>[31m
+            [0m0[0m
+            [0m recipe[0m
+            [0ms[0m
+            [0m found[0m
+          [36m</p>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"empty-state"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"empty-state__icon"[31m
+            [36m>[31m
+              [0m🍽[0m
+            [36m</div>[31m
+            [36m<p[31m
+              [33mclass[31m=[32m"empty-state__text"[31m
+            [36m>[31m
+              [0mNo recipes match your filters.[0m
+            [36m</p>[31m
+          [36m</div>[31m
+        [36m</div>[31m
+      [36m</main>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"app-layout"[31m
+    [36m>[31m
+      [36m<nav[31m
+        [33mclass[31m=[32m"navbar"[31m
+      [36m>[31m
+        [36m<span[31m
+          [33mclass[31m=[32m"navbar__logo"[31m
+        [36m>[31m
+          [36m<span[31m
+            [33mclass[31m=[32m"navbar__logo-icon"[31m
+          [36m>[31m
+            [0m🥗[0m
+          [36m</span>[31m
+          [0m MealMate[0m
+        [36m</span>[31m
+        [36m<ul[31m
+          [33mclass[31m=[32m"navbar__links"[31m
+        [36m>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33maria-current[31m=[32m"page"[31m
+              [33mclass[31m=[32m"active"[31m
+              [33mhref[31m=[32m"/"[31m
+            [36m>[31m
+              [0mRecipes[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/planner"[31m
+            [36m>[31m
+              [0mPlanner[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/grocery"[31m
+            [36m>[31m
+              [0mGrocery List[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m""[31m
+              [33mhref[31m=[32m"/pantry"[31m
+            [36m>[31m
+              [0mPantry[0m
+            [36m</a>[31m
+          [36m</li>[31m
+        [36m</ul>[31m
+      [36m</nav>[31m
+      [36m<main[31m
+        [33mclass[31m=[32m"main-content"[31m
+      [36m>[31m
+        [36m<div>[31m
+          [36m<h1[31m
+            [33mclass[31m=[32m"section-title"[31m
+          [36m>[31m
+            [0mRecipe Library[0m
+          [36m</h1>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"section-subtitle"[31m
+          [36m>[31m
+            [0mBrowse [0m
+            [0m0[0m
+            [0m recipes · filter by diet · add to your weekly plan[0m
+          [36m</p>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"_searchRow_2eb513"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"_searchWrap_2eb513"[31m
+            [36m>[31m
+              [36m<span[31m
+                [33mclass[31m=[32m"_searchIcon_2eb513"[31m
+              [36m>[31m
+                [0m🔍[0m
+              [36m</span>[31m
+              [36m<input[31m
+                [33maria-label[31m=[32m"Search recipes"[31m
+                [33mclass[31m=[32m"_searchInput_2eb513"[31m
+                [33mplaceholder[31m=[32m"Search by name or ingredient…"[31m
+                [33mtype[31m=[32m"search"[31m
+                [33mvalue[31m=[32m""[31m
+              [36m/>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33maria-label[31m=[32m"Diet tag filters"[31m
+            [33mclass[31m=[32m"_filtersBar_2eb513"[31m
+            [33mrole[31m=[32m"group"[31m
+          [36m>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-vegetarian _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌿 Vegetarian[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-vegan _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌱 Vegan[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-high-protein _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m💪 High-Protein[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-dairy-free _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🥛 Dairy-Free[0m
+            [36m</button>[31m
+            [36m<button[31m
+              [33maria-pressed[31m=[32m"false"[31m
+              [33mclass[31m=[32m"tag tag-gluten-free _filterBtn_2eb513 "[31m
+            [36m>[31m
+              [0m🌾 Gluten-Free[0m
+            [36m</button>[31m
+          [36m</div>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"_resultsCount_2eb513"[31m
+          [36m>[31m
+            [0m0[0m
+            [0m recipe[0m
+            [0ms[0m
+            [0m found[0m
+          [36m</p>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"empty-state"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"empty-state__icon"[31m
+            [36m>[31m
+              [0m🍽[0m
+            [36m</div>[31m
+            [36m<p[31m
+              [33mclass[31m=[32m"empty-state__text"[31m
+            [36m>[31m
+              [0mNo recipes match your filters.[0m
+            [36m</p>[31m
+          [36m</div>[31m
+        [36m</div>[31m
+      [36m</main>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[1m[7m Failed Tests 1 [27m[22m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[31m[1m[7m FAIL [27m[22m[39m src/__tests__/integration.test.jsx[2m > [22mMealMate Core Integration Tests[2m > [22mScenario 1 & 2: Adds recipe to planner and updates budget
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: /Add to week/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app-layout"[39m
+    [36m>[39m
+      [36m<nav[39m
+        [33mclass[39m=[32m"navbar"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"navbar__logo"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"navbar__logo-icon"[39m
+          [36m>[39m
+            [0m🥗[0m
+          [36m</span>[39m
+          [0m MealMate[0m
+        [36m</span>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"navbar__links"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-current[39m=[32m"page"[39m
+              [33mclass[39m=[32m"active"[39m
+              [33mhref[39m=[32m"/"[39m
+            [36m>[39m
+              [0mRecipes[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/planner"[39m
+            [36m>[39m
+              [0mPlanner[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/grocery"[39m
+            [36m>[39m
+              [0mGrocery List[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/pantry"[39m
+            [36m>[39m
+              [0mPantry[0m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</nav>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"main-content"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"section-title"[39m
+          [36m>[39m
+            [0mRecipe Library[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"section-subtitle"[39m
+          [36m>[39m
+            [0mBrowse [0m
+            [0m0[0m
+            [0m recipes · filter by diet · add to your weekly plan[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"_searchRow_2eb513"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"_searchWrap_2eb513"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"_searchIcon_2eb513"[39m
+              [36m>[39m
+                [0m🔍[0m
+              [36m</span>[39m
+              [36m<input[39m
+                [33maria-label[39m=[32m"Search recipes"[39m
+                [33mclass[39m=[32m"_searchInput_2eb513"[39m
+                [33mplaceholder[39m=[32m"Search by name or ingredient…"[39m
+                [33mtype[39m=[32m"search"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"Diet tag filters"[39m
+            [33mclass[39m=[32m"_filtersBar_2eb513"[39m
+            [33mrole[39m=[32m"group"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-vegetarian _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌿 Vegetarian[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-vegan _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌱 Vegan[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-high-protein _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m💪 High-Protein[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-dairy-free _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🥛 Dairy-Free[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-gluten-free _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌾 Gluten-Free[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"_resultsCount_2eb513"[39m
+          [36m>[39m
+            [0m0[0m
+            [0m recipe[0m
+            [0ms[0m
+            [0m found[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"empty-state"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"empty-state__icon"[39m
+            [36m>[39m
+              [0m🍽[0m
+            [36m</div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"empty-state__text"[39m
+            [36m>[39m
+              [0mNo recipes match your filters.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app-layout"[39m
+    [36m>[39m
+      [36m<nav[39m
+        [33mclass[39m=[32m"navbar"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"navbar__logo"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"navbar__logo-icon"[39m
+          [36m>[39m
+            [0m🥗[0m
+          [36m</span>[39m
+          [0m MealMate[0m
+        [36m</span>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"navbar__links"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-current[39m=[32m"page"[39m
+              [33mclass[39m=[32m"active"[39m
+              [33mhref[39m=[32m"/"[39m
+            [36m>[39m
+              [0mRecipes[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/planner"[39m
+            [36m>[39m
+              [0mPlanner[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/grocery"[39m
+            [36m>[39m
+              [0mGrocery List[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m""[39m
+              [33mhref[39m=[32m"/pantry"[39m
+            [36m>[39m
+              [0mPantry[0m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</nav>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"main-content"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"section-title"[39m
+          [36m>[39m
+            [0mRecipe Library[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"section-subtitle"[39m
+          [36m>[39m
+            [0mBrowse [0m
+            [0m0[0m
+            [0m recipes · filter by diet · add to your weekly plan[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"_searchRow_2eb513"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"_searchWrap_2eb513"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"_searchIcon_2eb513"[39m
+              [36m>[39m
+                [0m🔍[0m
+              [36m</span>[39m
+              [36m<input[39m
+                [33maria-label[39m=[32m"Search recipes"[39m
+                [33mclass[39m=[32m"_searchInput_2eb513"[39m
+                [33mplaceholder[39m=[32m"Search by name or ingredient…"[39m
+                [33mtype[39m=[32m"search"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"Diet tag filters"[39m
+            [33mclass[39m=[32m"_filtersBar_2eb513"[39m
+            [33mrole[39m=[32m"group"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-vegetarian _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌿 Vegetarian[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-vegan _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌱 Vegan[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-high-protein _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m💪 High-Protein[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-dairy-free _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🥛 Dairy-Free[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"tag tag-gluten-free _filterBtn_2eb513 "[39m
+            [36m>[39m
+              [0m🌾 Gluten-Free[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"_resultsCount_2eb513"[39m
+          [36m>[39m
+            [0m0[0m
+            [0m recipe[0m
+            [0ms[0m
+            [0m found[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"empty-state"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"empty-state__icon"[39m
+            [36m>[39m
+              [0m🍽[0m
+            [36m</div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"empty-state__text"[39m
+            [36m>[39m
+              [0mNo recipes match your filters.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:[2m163:27[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m86:33[22m[39m
+[36m [2m❯[22m src/__tests__/integration.test.jsx:[2m36:41[22m[39m
+    [90m 34| [39m
+    [90m 35| [39m        [90m// 1. Wait for recipes to load[39m
+    [90m 36| [39m        [35mconst[39m addButtons [33m=[39m [35mawait[39m screen[33m.[39m[34mfindAllByText[39m([36m/Add to week/i[39m)[33m;[39m
+    [90m   | [39m                                        [31m^[39m
+    [90m 37| [39m        [34mexpect[39m(addButtons[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m 38| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m   Start at [22m 09:55:08
+[2m   Duration [22m 1.93s[2m (transform 112ms, setup 55ms, collect 234ms, tests 1.03s, environment 335ms, prepare 95ms)[22m
+

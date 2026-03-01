@@ -21,8 +21,8 @@
 - [x] Deploy live application to Netlify
 
 ## Phase 4: Project Documentation
-- [x] Create Project Profile (`PROJECT_PROFILE.md`)
-- [x] Create Functional and Non-Functional Requirements Document (`REQUIREMENTS.md`)
-- [x] Create Architecture Document (`ARCHITECTURE.md`)
-- [x] Create Requirements Traceability Matrix (`TRACEABILITY_MATRIX.md`)
+- [x] Create Project Profile ([PROJECT_PROFILE.md](docs/PROJECT_PROFILE.md))
+- [x] Create Functional and Non-Functional Requirements Document ([REQUIREMENTS.md](docs/REQUIREMENTS.md))
+- [x] Create Architecture Document ([ARCHITECTURE.md](docs/ARCHITECTURE.md))
+- [x] Create Requirements Traceability Matrix ([TRACEABILITY_MATRIX.md](docs/TRACEABILITY_MATRIX.md))
 - [x] Finalize `README.md` instructions and documentation

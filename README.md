@@ -72,5 +72,16 @@ The project is optimized for **Cloudflare Pages**. It includes a special `_redir
 
 ---
 
+## 📄 Documentation
+
+Comprehensive project documentation is available in the [`/docs`](docs/) folder:
+
+- **[Project Profile](docs/PROJECT_PROFILE.md)**: Objectives, scope, and project organization.
+- **[Requirements Specification](docs/REQUIREMENTS.md)**: Detailed functional and non-functional requirements.
+- **[Architecture Documentation](docs/ARCHITECTURE.md)**: System design and deployment view (includes Mermaid diagrams).
+- **[Traceability Matrix](docs/TRACEABILITY_MATRIX.md)**: Mapping requirements to components and tests.
+
+---
+
 ## 📜 Credits
 Developed as part of a software engineering project. See [CREDITS.md](CREDITS.md) for a list of third-party libraries used.

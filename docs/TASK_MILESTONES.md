@@ -18,7 +18,7 @@
 ## Phase 3: Infrastructure & Deployment
 - [x] Configure Docker for Development (`docker-compose.dev.yml`)
 - [x] Configure Docker for Production (`docker-compose.yml`, NGINX)
-- [x] Deploy live application to Netlify
+- [x] Deploy live application to Cloudflare Pages
 
 ## Phase 4: Project Documentation
 - [x] Create Project Profile (`PROJECT_PROFILE.md`)

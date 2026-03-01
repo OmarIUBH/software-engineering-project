@@ -32,7 +32,7 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 ## 5. Project Plan
 - **Phase 1**: Core MVP Development (Recipe Library, Planner).
 - **Phase 2**: Enhancement of Grocery/Pantry logic & Quality Assurance.
-- **Phase 3**: Deployment & CI/CD Pipelines (Docker, Cloudflare).
+- **Phase 3**: Deployment & CI/CD Pipelines (Docker, Cloudflare Pages).
 - **Phase 4**: Final Documentation & Tutor Evaluation preparation.
 
 ## 6. Project Organization

@@ -49,7 +49,7 @@ The system is containerized for consistent behavior across environments.
 - **Development**: Managed via `docker-compose.dev.yml` for rapid prototyping.
 - **Production**:
     - **Docker**: NGINX serves the static assets built by Vite.
-    - **Cloudflare Pages**: Automated CI/CD pipeline triggered on GitHub pushes.
+    - **Cloudflare Pages**: Automated CI/CD pipeline triggered on GitHub pushes. Cloudflare Pages is used for static hosting of the Vite build output (dist) because it is lightweight and suitable for an MVP web application.
 
 ```mermaid
 graph TD

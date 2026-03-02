@@ -17,6 +17,9 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 ### 🗓️ Weekly Meal Planner
 - Plan your meals for every day of the week.
 - Simple, intuitive interface to assign recipes to breakfast, lunch, or dinner.
+- **Weekly Planning**: Create and manage weekly meal rotations.
+- **Pantry Integration**: Sync your inventory with planned recipes.
+- **Persistent Backend (Phase 2)**: Real-time API with SQLite database.
 
 ### 🛒 Smart Grocery List
 - Automatically aggregates ingredients from your weekly plan.
@@ -28,6 +31,24 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 - Keep track of your kitchen inventory.
 - **Search Helper**: Intelligent autocomplete suggests ingredient names from the recipe library as you type.
 - Seamlessly integrates with the grocery list to prevent overbuying.
+
+---
+
+## Architecture (Phase 2)
+MealMate now follows a traditional Client-Server architecture:
+- **Frontend**: React/Vite SPA.
+- **Backend**: Node.js Express REST API.
+- **Database**: SQLite for student-friendly, file-based persistence.
+
+## Getting Started
+### Docker (Recommended)
+```bash
+docker-compose up --build
+```
+The application will be available at [http://localhost:8080](http://localhost:8080) and the API at [http://localhost:3000/api](http://localhost:3000/api).
+
+### Manual Development
+Refer to [backend/README-backend.md](backend/README-backend.md) for detailed backend setup instructions.
 
 ---
 

@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "migrate": "node src/db.js --migrate",
     "seed": "node seed/seed.js",
-    "reset-db": "del data\\mealmate.db && npm run migrate && npm run seed"
+    "reset-db": "if exist data\\mealmate.db (del data\\mealmate.db) && npm run migrate && npm run seed"
   },
   "keywords": [],
   "author": "",

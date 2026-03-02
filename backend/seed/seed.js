@@ -3,19 +3,11 @@ const { db } = require('../src/db');
 const seedData = () => {
     console.log('Seeding database...');
 
-    // Clear existing data (optional, but good for idempotency if handled correctly)
-    // For now, assume a fresh DB or handled by migrations
-
     const insertIngredient = db.prepare('INSERT OR IGNORE INTO ingredients (name, default_unit) VALUES (?, ?)');
-    const insertRecipe = db.prepare('INSERT INTO recipes (user_id, title, instructions, default_servings) VALUES (?, ?, ?, ?)');
-    const insertRecipeIngredient = db.prepare('INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (?, ?, ?, ?)');
     const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name) VALUES (?)');
-    const insertRecipeTag = db.prepare('INSERT INTO recipe_tags (recipe_id, tag_id) VALUES (?, ?)');
     const insertPrice = db.prepare('INSERT OR IGNORE INTO ingredient_prices (ingredient_id, price_per_unit, currency) VALUES (?, ?, ?)');
 
     const transaction = db.transaction(() => {
-        // Users (Default user id=1 already in migration)
-
         // Tags
         const tags = ['Vegan', 'Vegetarian', 'Gluten-Free', 'High-Protein', 'Low-Carb', 'Breakfast', 'Lunch', 'Dinner', 'Italian', 'Mexican'];
         const tagMap = {};
@@ -163,7 +155,7 @@ const seedData = () => {
                     { name: 'Onion', quantity: 1, unit: 'piece' },
                     { name: 'Carrot', quantity: 2, unit: 'piece' },
                     { name: 'Garlic', quantity: 3, unit: 'clove' },
-                    { name: 'Vegetable Broth', quantity: 1000, unit: 'ml' } // Will add to ingredients
+                    { name: 'Vegetable Broth', quantity: 1000, unit: 'ml' }
                 ]
             },
             {
@@ -291,50 +283,68 @@ const seedData = () => {
             }
         ];
 
-        // Add missing ingredients from recipes
-        ['Vegetable Broth'].forEach(name => {
-            if (!ingredientMap[name]) {
-                insertIngredient.run(name, 'ml');
-                const row = db.prepare('SELECT id FROM ingredients WHERE name = ?').get(name);
-                ingredientMap[name] = row.id;
-                insertPrice.run(row.id, 0.001, 'USD');
-            }
-        });
+        // Check if recipes already exist
+        const existingRecipesCount = db.prepare('SELECT COUNT(*) as count FROM recipes').get().count;
+        if (existingRecipesCount >= recipes.length) {
+            console.log(`[SEED] Found ${existingRecipesCount} recipes already in database. Skipping recipe source-of-truth seed.`);
+        } else {
+            console.log(`[SEED] Syncing ${recipes.length} recipes...`);
 
-        recipes.forEach(r => {
-            const result = insertRecipe.run(1, r.title, r.instructions, r.servings);
-            const recipeId = result.lastInsertRowid;
-
-            r.tags.forEach(tagName => {
-                if (tagMap[tagName]) {
-                    insertRecipeTag.run(recipeId, tagMap[tagName]);
+            ['Vegetable Broth'].forEach(name => {
+                if (!ingredientMap[name]) {
+                    insertIngredient.run(name, 'ml');
+                    const row = db.prepare('SELECT id FROM ingredients WHERE name = ?').get(name);
+                    ingredientMap[name] = row.id;
+                    insertPrice.run(row.id, 0.001, 'USD');
                 }
             });
 
-            r.ingredients.forEach(ing => {
-                const ingredientId = ingredientMap[ing.name];
-                if (ingredientId) {
-                    insertRecipeIngredient.run(recipeId, ingredientId, ing.quantity, ing.unit);
-                }
+            recipes.forEach(r => {
+                db.prepare('INSERT OR IGNORE INTO recipes (user_id, title, instructions, default_servings) VALUES (?, ?, ?, ?)')
+                    .run(1, r.title, r.instructions, r.servings || 1);
+
+                const recRow = db.prepare('SELECT id FROM recipes WHERE user_id = ? AND title = ?').get(1, r.title);
+                const recipeId = recRow.id;
+
+                r.tags.forEach(tagName => {
+                    if (tagMap[tagName]) {
+                        db.prepare('INSERT OR IGNORE INTO recipe_tags (recipe_id, tag_id) VALUES (?, ?)').run(recipeId, tagMap[tagName]);
+                    }
+                });
+
+                r.ingredients.forEach(ing => {
+                    const ingredientId = ingredientMap[ing.name];
+                    if (ingredientId) {
+                        db.prepare('INSERT OR IGNORE INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit) VALUES (?, ?, ?, ?)').run(recipeId, ingredientId, ing.quantity, ing.unit);
+                    }
+                });
             });
-        });
+        }
 
         // Meal Plan
         const weekStart = '2026-03-02';
-        const resultMealPlan = db.prepare('INSERT INTO meal_plans (user_id, week_start_date, weekly_budget) VALUES (?, ?, ?)')
-            .run(1, weekStart, 50.0);
-        const mealPlanId = resultMealPlan.lastInsertRowid;
+        const existingMealPlan = db.prepare('SELECT id FROM meal_plans WHERE week_start_date = ?').get(weekStart);
 
-        const insertMealItem = db.prepare('INSERT INTO meal_plan_items (meal_plan_id, day_of_week, meal_type, recipe_id, servings) VALUES (?, ?, ?, ?, ?)');
-        const recipeIDs = db.prepare('SELECT id FROM recipes LIMIT 5').all().map(r => r.id);
+        if (existingMealPlan) {
+            console.log(`[SEED] Meal plan for ${weekStart} already exists. Skipping.`);
+        } else {
+            console.log(`[SEED] Creating meal plan for ${weekStart}...`);
+            const resultMealPlan = db.prepare('INSERT INTO meal_plans (user_id, week_start_date, weekly_budget) VALUES (?, ?, ?)')
+                .run(1, weekStart, 50.0);
+            const mealPlanId = resultMealPlan.lastInsertRowid;
 
-        for (let day = 0; day < 7; day++) {
-            insertMealItem.run(mealPlanId, day, 'Lunch', recipeIDs[day % recipeIDs.length], 2);
-            insertMealItem.run(mealPlanId, day, 'Dinner', recipeIDs[(day + 1) % recipeIDs.length], 2);
+            const insertMealItem = db.prepare('INSERT OR IGNORE INTO meal_plan_items (meal_plan_id, day_of_week, meal_type, recipe_id, servings) VALUES (?, ?, ?, ?, ?)');
+            const recipeIDs = db.prepare('SELECT id FROM recipes LIMIT 5').all().map(r => r.id);
+
+            for (let day = 0; day < 7; day++) {
+                insertMealItem.run(mealPlanId, day, 'Lunch', recipeIDs[day % recipeIDs.length], 2);
+                insertMealItem.run(mealPlanId, day, 'Dinner', recipeIDs[(day + 1) % recipeIDs.length], 2);
+            }
         }
 
         // Pantry
-        const insertPantry = db.prepare('INSERT INTO pantry_items (user_id, ingredient_id, quantity, unit) VALUES (?, ?, ?, ?)');
+        console.log('[SEED] Syncing pantry items...');
+        const insertPantry = db.prepare('INSERT OR IGNORE INTO pantry_items (user_id, ingredient_id, quantity, unit) VALUES (?, ?, ?, ?)');
         const commonIngs = ['Oats', 'Milk', 'Pasta', 'Rice', 'Olive Oil', 'Salt', 'Onion', 'Garlic', 'Sugar', 'Flour'];
         commonIngs.forEach(name => {
             insertPantry.run(1, ingredientMap[name], 500, 'g');
@@ -343,7 +353,7 @@ const seedData = () => {
     });
 
     transaction();
-    console.log('Seeding completed.');
+    console.log('Seeding process finished.');
 };
 
 seedData();

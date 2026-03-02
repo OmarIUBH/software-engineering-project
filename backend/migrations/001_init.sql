@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS recipes (
     default_servings INTEGER DEFAULT 1 CHECK(default_servings > 0),
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(user_id, title)
 );
 
 -- Ingredients table

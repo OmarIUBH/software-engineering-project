@@ -19,7 +19,7 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 - Simple, intuitive interface to assign recipes to breakfast, lunch, or dinner.
 - **Weekly Planning**: Create and manage weekly meal rotations.
 - **Pantry Integration**: Sync your inventory with planned recipes.
-- **Persistent Backend (Phase 2)**: Real-time API with SQLite database.
+- **Persistent Backend**: Real-time API with SQLite database.
 
 ### 🛒 Smart Grocery List
 - Automatically aggregates ingredients from your weekly plan.
@@ -34,7 +34,7 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 
 ---
 
-## Architecture (Phase 2)
+## Architecture
 MealMate now follows a traditional Client-Server architecture:
 - **Frontend**: React/Vite SPA.
 - **Backend**: Node.js Express REST API.
@@ -88,7 +88,53 @@ npm test
 
 ---
 
-## 📦 Deployment
+## 🚀 Deployment
+
+The live version is hosted on **Cloudflare Pages**.
+
+### Environment Variables
+For local development and Docker, the frontend uses:
+- `VITE_API_BASE_URL`: The URL of the backend API (e.g., `http://localhost:3000/api`).
+
+## 🐳 Docker (Full Stack)
+
+MealMate is fully containerized for both development and production.
+
+### Development Mode
+Runs the frontend with Vite (HMR) and the backend with Node:
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3000`
+
+### Production Mode
+Runs the frontend served by NGINX and the backend with Node, including a persistent SQLite volume:
+```bash
+docker compose up --build -d
+```
+- Web Interface: `http://localhost:8080`
+
+## 🛠 Backend & Database
+
+The backend is built with **Node.js/Express** and uses **SQLite** for data persistence.
+
+### Scripts
+- `npm run migrate`: Initialize/update database schema.
+- `npm run seed`: Populate database with sample recipes and ingredients.
+- `npm run reset-db`: Wipe database, migrate, and seed (caution: deletes all data).
+
+## 🧪 Testing
+
+- **Frontend**: `npm test` (Vitest)
+- **Backend API**: `cd backend && npm test` (Jest + Supertest)
+
+## Submission & Versioning
+To tag a release for submission:
+```bash
+git tag -a v1.0 -m "Final submission"
+git push origin v1.0
+```
 The project is optimized for **Cloudflare Pages**. It includes a special `_redirects` configuration to handle Single Page Application (SPA) routing seamlessly. Cloudflare Pages is used for static hosting of the Vite build output (dist) because it is lightweight and suitable for an MVP web application.
 
 ---

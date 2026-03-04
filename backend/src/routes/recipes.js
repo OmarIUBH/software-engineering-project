@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
                 );
                 ingredients.forEach(ing => {
                     // Assuming ingredient_id is provided or resolved elsewhere
-                    // For simplicity in Phase 2, we assume ingredient_id is sent
+                    // For simplicity, we assume ingredient_id is sent
                     if (ing.ingredient_id) {
                         insertRI.run(recipeId, ing.ingredient_id, ing.quantity, ing.unit);
                     }

@@ -1,4 +1,4 @@
--- MealMate Phase 2 Database Schema
+-- MealMate Database Schema
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
@@ -6,9 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
     name TEXT NOT NULL,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
-
--- Default user for student MVP
-INSERT OR IGNORE INTO users (id, name) VALUES (1, 'Default Student');
 
 -- Recipes table
 CREATE TABLE IF NOT EXISTS recipes (
@@ -73,7 +70,7 @@ CREATE TABLE IF NOT EXISTS meal_plan_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     meal_plan_id INTEGER NOT NULL,
     day_of_week INTEGER NOT NULL CHECK(day_of_week BETWEEN 0 AND 6),
-    meal_type TEXT NOT NULL, -- e.g., 'Breakfast', 'Lunch', 'Dinner'
+    meal_type TEXT NOT NULL,
     recipe_id INTEGER NOT NULL,
     servings INTEGER DEFAULT 1 CHECK(servings > 0),
     FOREIGN KEY (meal_plan_id) REFERENCES meal_plans(id) ON DELETE CASCADE,
@@ -102,7 +99,7 @@ CREATE TABLE IF NOT EXISTS ingredient_prices (
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
 );
 
--- Triggers for updated_at
+-- Triggers for updated_at (cleaned up)
 CREATE TRIGGER IF NOT EXISTS trigger_recipes_updated_at
 AFTER UPDATE ON recipes
 BEGIN

@@ -1,4 +1,4 @@
-# MealMate Backend (Phase 2)
+# MealMate Backend
 
 This is the Node.js/Express backend for MealMate, featuring a SQLite database for persistent storage of recipes, meal plans, pantry inventory, and budgeting.
 

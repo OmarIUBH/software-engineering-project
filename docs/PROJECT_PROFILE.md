@@ -12,7 +12,7 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 - **Responsive Design**: Optimization for desktop and mobile performance.
 
 ### Out-of-Scope (Future Enhancements)
-- User Authentication (Phase 2 remains LocalStorage-based).
+- User Authentication (LocalStorage-based for simplicity).
 - Shared shopping lists (Social features).
 - Direct API integration with grocery retailers for price updates.
 
@@ -30,10 +30,10 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 | Inaccurate Ingredient Scaling | High | Use unit conversion libraries and rigorous testing. |
 
 ## 5. Project Plan
-- **Phase 1**: Core MVP Development (Recipe Library, Planner).
-- **Phase 2**: Enhancement of Grocery/Pantry logic & Quality Assurance.
-- **Phase 3**: Deployment & CI/CD Pipelines (Docker, Cloudflare Pages).
-- **Phase 4**: Final Documentation & Tutor Evaluation preparation.
+- **Core Development**: Recipe Library, Planner, and basic application structure.
+- **Testing & Quality**: Enhancement of Grocery/Pantry logic and rigorous QA.
+- **Infrastructure**: Deployment and CI/CD Pipeline configuration.
+- **Final Documentation**: Project reports and evaluation preparation.
 
 ## 6. Project Organization
 - **Development Model**: Agile (Iterative sprints).

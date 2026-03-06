@@ -7,7 +7,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:8080'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Routes
@@ -16,12 +20,14 @@ const mealplansRouter = require('./routes/mealplans');
 const pantryRouter = require('./routes/pantry');
 const tagsRouter = require('./routes/tags');
 const pricesRouter = require('./routes/prices');
+const { router: authRouter } = require('./routes/auth');
 
 app.use('/api/recipes', recipesRouter);
 app.use('/api/mealplans', mealplansRouter);
 app.use('/api/pantry', pantryRouter);
 app.use('/api/tags', tagsRouter);
 app.use('/api/prices', pricesRouter);
+app.use('/api/auth', authRouter);
 
 // Health check
 app.get('/health', (req, res) => {

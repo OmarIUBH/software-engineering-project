@@ -15,6 +15,7 @@ export function scaleIngredients(ingredients, baseServings, desiredServings) {
     const factor = desiredServings / baseServings;
     return ingredients.map((ing) => ({
         ...ing,
+        // Scale quantity and round to 2 decimal places to avoid floating point issues
         qty: Math.round(ing.qty * factor * 100) / 100,
     }));
 }

@@ -5,6 +5,9 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { storageService } from '../services/storageService.js';
 import { RECIPES, PANTRY_ITEMS, WEEKLY_PLAN } from '../data/seedData.js';
 
+import { recipesApi } from '../services/recipesApi.js';
+import { pantryApi } from '../services/pantryApi.js';
+
 // Mock matchMedia to fix potential JSDOM errors
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -20,11 +23,45 @@ Object.defineProperty(window, 'matchMedia', {
     })),
 });
 
+// Mock API services modules
+vi.mock('../services/recipesApi.js', () => ({
+    recipesApi: {
+        getAll: vi.fn(),
+        getById: vi.fn(),
+    }
+}));
+
+vi.mock('../services/pantryApi.js', () => ({
+    pantryApi: {
+        getAll: vi.fn(),
+        create: vi.fn(),
+        delete: vi.fn(),
+        update: vi.fn(),
+    }
+}));
+
 const renderApp = () => render(<App />);
+
+const MOCK_USER = { id: 1, name: 'Test User', email: 'test@mealmate.com' };
+const MOCK_TOKEN = 'fake-jwt-token-for-testing';
 
 describe('MealMate Core Integration Tests', () => {
     beforeEach(() => {
         window.localStorage.clear();
+
+        // Inject a mock auth session so the ProtectedRoute lets us through
+        window.localStorage.setItem('mealmate_token', MOCK_TOKEN);
+        window.localStorage.setItem('mealmate_user', JSON.stringify(MOCK_USER));
+
+        // Setup API mocks
+        recipesApi.getAll.mockResolvedValue(RECIPES);
+        recipesApi.getById.mockImplementation((id) => Promise.resolve(RECIPES.find(r => r.id === id)));
+
+        pantryApi.getAll.mockResolvedValue([]);
+        pantryApi.create.mockImplementation((item) => Promise.resolve({ id: 99, ...item }));
+        pantryApi.delete.mockResolvedValue({ success: true });
+        pantryApi.update.mockResolvedValue({ success: true });
+
         storageService.setRecipes(RECIPES);
         storageService.setPantry([]);
         // Start with empty plan to add items
@@ -49,22 +86,36 @@ describe('MealMate Core Integration Tests', () => {
         // Toast should appear, let it fade or just ignore
 
         // 2. Navigate to Planner and check budget
-        const plannerLink = screen.getByRole('link', { name: /Planner/i });
+        const plannerLink = await screen.findByRole('link', { name: /Planner/i });
         await user.click(plannerLink);
+
+        // Wait for Loading to disappear and content to appear
+        await waitFor(() => {
+            expect(screen.queryByText(/Loading planner.../i)).not.toBeInTheDocument();
+        });
 
         // Check if item is in planner (we should see the recipe name in the slot)
         const addedSlotNames = await screen.findAllByText(/€\d+\.\d{2}/i); // Find cost labels
         expect(addedSlotNames.length).toBeGreaterThan(0);
 
-        // Check Budget Bar
+        // Check Budget Bar - Wait for async calculation
+        await waitFor(() => {
+            const budgetLabel = screen.getByText(/estimated/i);
+            expect(budgetLabel.textContent).not.toBe('€0.00 estimated');
+        }, { timeout: 2000 });
+
         const budgetLabel = screen.getByText(/estimated/i);
-        expect(budgetLabel.textContent).not.toBe('€0.00 estimated');
         const budgetAmount = parseFloat(budgetLabel.textContent.replace(/[^\d.]/g, ''));
         expect(budgetAmount).toBeGreaterThan(0);
 
         // 3. Check auto-generated grocery list
         const groceryLinks = screen.getAllByRole('link', { name: /Grocery List/i });
         await user.click(groceryLinks[0]);
+
+        // Wait for loading
+        await waitFor(() => {
+            expect(screen.queryByText(/Loading data.../i)).not.toBeInTheDocument();
+        });
 
         // Find grocery items (they are typically in an unordered list)
         const listItems = await screen.findAllByRole('listitem');

@@ -40,9 +40,12 @@ const DIMENSION = {
  */
 export function convert(value, fromUnit, toUnit) {
     if (fromUnit === toUnit) return value;
+    // Check if units are within the same dimension (e.g., both volumetric)
     const fromDim = DIMENSION[fromUnit];
     const toDim = DIMENSION[toUnit];
     if (!fromDim || !toDim || fromDim !== toDim) return null;
+
+    // Convert to base unit first (ml, g, or pcs), then to target unit
     const baseValue = value * (TO_BASE[fromUnit] ?? 1);
     return baseValue / (TO_BASE[toUnit] ?? 1);
 }

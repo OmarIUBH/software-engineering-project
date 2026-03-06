@@ -81,11 +81,11 @@ export function generateGroceryList(weeklyPlan, recipes) {
             const scaled = scaleIngredients(
                 recipe.ingredients,
                 recipe.servings,
-                recipe.servings // use default servings for plan aggregate
+                recipe.servings // Use default servings for plan aggregate; ensures consistency
             );
             for (const ing of scaled) {
-                const key = normalise(ing.name);
-                const { qty: baseQty, unit: bUnit } = toBase(ing.qty, ing.unit);
+                const key = normalise(ing.name); // Normalise (e.g., 'Tomatoes' -> 'tomato') to avoid duplicates
+                const { qty: baseQty, unit: bUnit } = toBase(ing.qty, ing.unit); // Convert to base unit for summation
                 if (totals[key]) {
                     totals[key].qty += baseQty;
                 } else {
@@ -128,9 +128,12 @@ export function deductPantry(groceryList, pantryItems) {
         .map((item) => {
             const pantry = pantryMap[item.canonicalName];
             if (!pantry) return item;
-            // Only deduct if units are in the same base dimension
+
+            // Only deduct if units are in the same base dimension (volumetric vs weight)
             const { unit: groceryBase } = toBase(0, item.unit);
             if (pantry.unit !== groceryBase && pantry.unit !== item.unit) return item;
+
+            // Subtract pantry quantity from needed quantity, floor at 0
             const remaining = Math.max(0, item.qty - pantry.qty);
             return { ...item, qty: Math.round(remaining * 100) / 100 };
         })

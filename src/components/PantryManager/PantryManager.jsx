@@ -1,30 +1,56 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { pantryApi } from '../../services/pantryApi.js';
+import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import styles from './PantryManager.module.css';
 
 const UNITS = ['g', 'kg', 'ml', 'L', 'pcs', 'slices', 'tbsp', 'tsp', 'cup'];
 
 export default function PantryManager() {
-    const [items, setItems] = useState(() => storageService.getPantry());
-    const [form, setForm] = useState({ name: '', qty: '', unit: 'g' });
-    const [error, setError] = useState('');
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [form, setForm] = useState({ name: '', qty: '', unit: 'g', expiry_date: '' });
+    const [formError, setFormError] = useState('');
+    const [recipes, setRecipes] = useState([]);
 
     // Autocomplete state
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const suggestionRef = useRef(null);
 
-    // Load unique ingredients from recipes for suggestions
-    const allIngredients = useMemo(() => {
-        const recipes = storageService.getRecipes();
-        const names = new Set();
-        recipes.forEach(r => {
-            r.ingredients.forEach(ing => names.add(ing.name));
-        });
-        return Array.from(names).sort();
+    // Initial load
+    useEffect(() => {
+        Promise.all([pantryApi.getAll(), recipesApi.getAll()])
+            .then(([pantryData, recipesData]) => {
+                setItems(pantryData.map(item => ({
+                    ...item,
+                    name: item.ingredient_name,
+                    qty: item.quantity,
+                    expiry_date: item.expiry_date || ''
+                })));
+                setRecipes(recipesData);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Pantry load failed:', err);
+                setError('Failed to load pantry data.');
+                setLoading(false);
+            });
     }, []);
 
-    // Handle clicking outside suggestions
+    // Load unique ingredients from recipes for suggestions
+    const allIngredients = useMemo(() => {
+        const names = new Set();
+        recipes.forEach(r => {
+            // Check if ingredients exist (might be minimized list)
+            if (r.ingredients) {
+                r.ingredients.forEach(ing => names.add(ing.name));
+            }
+        });
+        return Array.from(names).sort();
+    }, [recipes]);
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
@@ -35,22 +61,17 @@ export default function PantryManager() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    function save(updated) {
-        setItems(updated);
-        storageService.setPantry(updated);
-    }
-
     function handleNameChange(e) {
         const val = e.target.value;
         setForm(f => ({ ...f, name: val }));
 
-        if (val.trim().length > 0) {
-            const filtered = allIngredients.filter(ing =>
-                ing.toLowerCase().includes(val.toLowerCase()) &&
-                ing.toLowerCase() !== val.toLowerCase()
-            ).slice(0, 5); // Limit to 5 suggestions
-            setSuggestions(filtered);
-            setShowSuggestions(filtered.length > 0);
+        if (val.trim()) {
+            const matches = allIngredients.filter(n =>
+                n.toLowerCase().includes(val.toLowerCase()) &&
+                n.toLowerCase() !== val.toLowerCase()
+            ).slice(0, 5);
+            setSuggestions(matches);
+            setShowSuggestions(matches.length > 0);
         } else {
             setSuggestions([]);
             setShowSuggestions(false);
@@ -59,46 +80,71 @@ export default function PantryManager() {
 
     function selectSuggestion(name) {
         setForm(f => ({ ...f, name }));
+        setSuggestions([]);
         setShowSuggestions(false);
     }
 
-    function handleAdd(e) {
+    async function handleAdd(e) {
         e.preventDefault();
         const name = form.name.trim();
         const qty = parseFloat(form.qty);
-        if (!name) { setError('Please enter an ingredient name.'); return; }
-        if (!qty || qty <= 0) { setError('Please enter a valid quantity.'); return; }
-        setError('');
+        if (!name) { setFormError('Please enter an ingredient name.'); return; }
+        if (!qty || qty <= 0) { setFormError('Please enter a valid quantity.'); return; }
+        setFormError('');
 
-        const existing = items.findIndex(
-            (i) => i.name.toLowerCase() === name.toLowerCase() && i.unit === form.unit
-        );
+        // Find ingredient ID from recipes
+        // This is a simplification; in a real app we'd have an ingredients API
+        const ingredient = recipes.flatMap(r => r.ingredients || []).find(i => i.name.toLowerCase() === name.toLowerCase());
 
-        if (existing >= 0) {
-            const updated = items.map((item, idx) =>
-                idx === existing ? { ...item, qty: Math.round((item.qty + qty) * 100) / 100 } : item
-            );
-            save(updated);
-        } else {
-            const newItem = {
-                id: `p${Date.now()}`,
-                name,
-                qty,
-                unit: form.unit,
-            };
-            save([...items, newItem]);
+        if (!ingredient) {
+            setFormError('Ingredient not found in recipe database.');
+            return;
         }
-        setForm((f) => ({ ...f, name: '', qty: '' }));
-        setShowSuggestions(false);
+
+        try {
+            const newItem = {
+                ingredient_id: ingredient.ingredient_id || ingredient.id, // backend might use different fields
+                quantity: qty,
+                unit: form.unit,
+                expiry_date: form.expiry_date
+            };
+            const result = await pantryApi.create(newItem);
+            const added = {
+                id: result.id,
+                name: name,
+                qty: qty,
+                unit: form.unit,
+                expiry_date: form.expiry_date
+            };
+            setItems(prev => [...prev, added]);
+            setForm({ name: '', qty: '', unit: 'g', expiry_date: '' });
+            setShowSuggestions(false);
+        } catch (err) {
+            setFormError('Failed to add item to pantry.');
+        }
     }
 
-    function handleRemove(id) {
-        save(items.filter((i) => i.id !== id));
+    async function handleRemove(id) {
+        try {
+            await pantryApi.delete(id);
+            setItems(items.filter((i) => i.id !== id));
+        } catch (err) {
+            alert('Failed to delete item.');
+        }
     }
 
-    function handleUpdateQty(id, qty) {
-        save(items.map((i) => i.id === id ? { ...i, qty: parseFloat(qty) || 0 } : i));
+    async function handleUpdateQty(id, qty) {
+        const val = parseFloat(qty) || 0;
+        try {
+            await pantryApi.update(id, { quantity: val });
+            setItems(items.map((i) => i.id === id ? { ...i, qty: val } : i));
+        } catch (err) {
+            console.error('Update failed');
+        }
     }
+
+    if (loading) return <div className="loading">Loading pantry...</div>;
+    if (error) return <div className="error">{error}</div>;
 
     return (
         <div>
@@ -153,9 +199,18 @@ export default function PantryManager() {
                             {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
                         </select>
                     </div>
+                    <div className={styles.formField}>
+                        <label htmlFor="pantry-expiry">Expiry</label>
+                        <input
+                            id="pantry-expiry"
+                            type="date"
+                            value={form.expiry_date}
+                            onChange={(e) => setForm((f) => ({ ...f, expiry_date: e.target.value }))}
+                        />
+                    </div>
                     <button type="submit" className={`btn btn-primary ${styles.addBtn}`}>+ Add</button>
                 </div>
-                {error && <p className={styles.error}>{error}</p>}
+                {formError && <p className={styles.error}>{formError}</p>}
             </form>
 
             <div className="divider" />
@@ -172,6 +227,11 @@ export default function PantryManager() {
                         <li key={item.id} className={styles.pantryItem}>
                             <div className={styles.itemInfo}>
                                 <span className={styles.itemName}>{item.name}</span>
+                                {item.expiry_date && (
+                                    <span style={{ fontSize: '0.85em', color: '#666', marginLeft: '8px' }}>
+                                        (Expires: {item.expiry_date})
+                                    </span>
+                                )}
                             </div>
                             <div className={styles.itemControls}>
                                 <input

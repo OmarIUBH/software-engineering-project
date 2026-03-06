@@ -4,9 +4,9 @@ import MealPlanner from './components/MealPlanner/MealPlanner.jsx';
 import GroceryList from './components/GroceryList/GroceryList.jsx';
 import PantryManager from './components/PantryManager/PantryManager.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
-import Login from './components/Auth/Login.jsx';
-import Signup from './components/Auth/Signup.jsx';
-import { AuthProvider, useAuth } from './components/Auth/AuthContext.jsx';
+import Login from './components/auth/Login.jsx';
+import Signup from './components/auth/Signup.jsx';
+import { AuthProvider, useAuth } from './components/auth/AuthContext.jsx';
 
 function Navbar() {
     const { user, logout } = useAuth();

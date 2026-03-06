@@ -9,6 +9,10 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 > - **Email**: `demo@mealmate.com`
 > - **Password**: `Demo1234!`
 
+> ⚠️ **IMPORTANT NOTE FOR REVIEWERS**:  
+> The Cloudflare link above hosts the **Frontend UI only**. Because MealMate is a Full-Stack application that utilizes a local Node.js server and an SQLite database, **login and database features will "fail to fetch" on the live site.**  
+> To fully test Authentication, the Database, and API routes, you **must run the project locally** using Docker or the manual setup instructions below.
+
 ---
 
 ## ✨ Key Features

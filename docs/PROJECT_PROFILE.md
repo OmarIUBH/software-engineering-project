@@ -5,6 +5,7 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 
 ## 2. Project Scope
 ### In-Scope (MVP)
+- **User Authentication**: Secure JWT-based backend login and user registration via SQLite.
 - **Recipe Library**: Curated recipes with dietary filters (Vegan, Vegetarian, Gluten-Free, High-Protein).
 - **Weekly Planner**: Drag-and-drop or click-to-assign interface for Breakfast, Lunch, and Dinner.
 - **Smart Grocery List**: Automatic aggregation of ingredients with real-time budget tracking.
@@ -12,7 +13,6 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 - **Responsive Design**: Optimization for desktop and mobile performance.
 
 ### Out-of-Scope (Future Enhancements)
-- User Authentication (Backend-integrated persistence).
 - Shared shopping lists (Social features).
 - Direct API integration with grocery retailers for price updates.
 
@@ -38,4 +38,4 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 ## 6. Project Organization
 - **Development Model**: Agile (Iterative sprints).
 - **Developer**: Omar (Student Project).
-- **Tools**: GitHub (Version Control), Vitest (Testing), Docker (Containerization).
+- **Tools**: GitHub (Version Control), Vitest (Unit Testing), Postman (API Testing), Docker (Containerization).

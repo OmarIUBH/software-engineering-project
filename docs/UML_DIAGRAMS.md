@@ -1,88 +1,830 @@
-# UML Diagrams for MealMate Project
+<!DOCTYPE html>
+<html lang="en">
 
-This document provides a visual representation of the MealMate system's architecture and data model using UML diagrams rendered with Mermaid.
-
-## 1. Use Case Diagram (Functional Scope)
-
-The Use Case diagram illustrates the core interactions between the User and the MealMate system, defining the functional boundaries of the application.
-
-![MealMate Use Case Diagram](./assets/usecase_diagram.png)
-
-### Source (Mermaid)
-useCaseDiagram
-    actor User
-    
-    package "MealMate System" {
-        usecase "Browse & Search Recipes" as UC1
-        usecase "Filter by Diet Tags" as UC2
-        usecase "Adjust Serving Sizes" as UC3
-        usecase "Manage Weekly Meal Plan" as UC4
-        usecase "Generate & Aggregated Grocery List" as UC5
-        usecase "Manage Pantry Inventory" as UC6
-        usecase "Monitor Weekly Budget" as UC7
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MealMate – UML Diagrams</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #30363d;
+      --accent: #3d8bea;
+      --accent2: #58a6ff;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --green: #3fb950;
+      --purple: #bc8cff;
+      --orange: #f0883e;
     }
-    
-    User --> UC1
-    User --> UC2
-    User --> UC3
-    User --> UC4
-    User --> UC5
-    User --> UC6
-    User --> UC7
-    
-    UC1 ..> UC2 : <<extend>>
-    UC4 ..> UC5 : <<include>>
-    UC5 ..> UC6 : <<include>>
-    UC4 ..> UC7 : <<include>>
-```
 
-## 2. Component Diagram (System Architecture)
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-The system follows a Client-Server architecture with a React-based frontend and a Node.js-based backend.
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-![MealMate Component Diagram](./assets/component_diagram.png)
+    /* ── Header ────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #0d1117 0%, #1a2233 60%, #0d1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-### Source (Mermaid)
-```mermaid
-componentDiagram
-    component [Frontend (React/Vite)] as FE
-    component [Backend (Node/Express API)] as BE
-    database [Database (SQLite)] as DB
-    
-    FE -- BE : REST API (JSON)
-    BE -- DB : SQL (better-sqlite3)
-    
-    subgraph Browser
-        FE
-    end
-    
-    subgraph Server
-        BE
-        DB
-    end
-```
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(61, 139, 234, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-## 3. Sequence Diagram (Add Recipe to Meal Plan)
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(61, 139, 234, 0.12);
+      border: 1px solid rgba(61, 139, 234, 0.35);
+      border-radius: 99px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
 
-This diagram illustrates the flow when a user adds a recipe to their weekly meal plan.
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #e6edf3 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.6rem;
+    }
 
-![MealMate Sequence Diagram](./assets/sequence_diagram.png)
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
 
-### Source (Mermaid)
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI as Frontend (React)
-    participant API as Backend (Node/Express)
-    participant DB as SQLite Database
+    /* ── Nav Pills ─────────────────────────────────────────────── */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1.2rem 1rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
 
-    User->>UI: Select Recipe for Meal Plan
-    UI->>API: POST /api/mealplans/items {meal_plan_id, recipe_id, day, type}
-    API->>DB: Check if Recipe/Plan exist
-    DB-->>API: Exist
-    API->>DB: INSERT INTO meal_plan_items
-    DB-->>API: Success (ID)
-    API-->>UI: 201 Created {id, ...}
-    UI->>UI: Update Local State (Redraw Planner)
-    UI-->>User: Display Updated Meal Plan
-```
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.45rem 1rem;
+      border-radius: 99px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: var(--surface2);
+      border-color: var(--border);
+    }
+
+    nav a.active {
+      color: var(--accent2);
+      background: rgba(61, 139, 234, 0.1);
+      border-color: rgba(61, 139, 234, 0.4);
+    }
+
+    /* ── Main Layout ───────────────────────────────────────────── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    /* ── Diagram Section ───────────────────────────────────────── */
+    .diagram-section {
+      scroll-margin-top: 4rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-icon {
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .icon-purple {
+      background: rgba(188, 140, 255, 0.15);
+      border: 1px solid rgba(188, 140, 255, 0.3);
+    }
+
+    .icon-blue {
+      background: rgba(61, 139, 234, 0.15);
+      border: 1px solid rgba(61, 139, 234, 0.3);
+    }
+
+    .icon-green {
+      background: rgba(63, 185, 80, 0.15);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+    }
+
+    .icon-orange {
+      background: rgba(240, 136, 62, 0.15);
+      border: 1px solid rgba(240, 136, 62, 0.3);
+    }
+
+    .section-header-text h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-header-text p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 680px;
+    }
+
+    /* number badge */
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Diagram Card ──────────────────────────────────────────── */
+    .diagram-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .diagram-card:hover {
+      border-color: rgba(61, 139, 234, 0.4);
+      box-shadow: 0 0 0 1px rgba(61, 139, 234, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .diagram-card-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .toolbar-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .toolbar-dots span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot-red {
+      background: #ff5f57;
+    }
+
+    .dot-yellow {
+      background: #febc2e;
+    }
+
+    .dot-green {
+      background: #28c840;
+    }
+
+    .diagram-body {
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+      min-height: 200px;
+    }
+
+    .diagram-body .mermaid {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* ── Explanation Box ─────────────────────────────────────────── */
+    .diagram-explanation {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .diagram-explanation .exp-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .diagram-explanation strong {
+      color: var(--text);
+    }
+
+    .diagram-explanation code {
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      padding: 0.1em 0.35em;
+      color: var(--accent2);
+    }
+
+    /* ── Divider ───────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    }
+
+    /* ── Footer ────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    footer span {
+      color: var(--accent2);
+    }
+
+    /* ── Scroll behaviour ──────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 600px) {
+      .section-header {
+        flex-direction: column;
+      }
+
+      .diagram-body {
+        padding: 1rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════ HEADER ══════════════════════════════════ -->
+  <header>
+    <div class="header-badge">📐 UML Diagrams</div>
+    <h1>MealMate — System Architecture</h1>
+    <p>Visual representation of the MealMate system using standard UML notation, rendered with Mermaid.js.</p>
+  </header>
+
+  <!-- ══════════════════════════════════ NAV ════════════════════════════════════ -->
+  <nav id="nav">
+    <a href="#usecase" class="active">🎯 Use Case</a>
+    <a href="#component">🧩 Component</a>
+    <a href="#sequence">🔁 Sequence</a>
+    <a href="#class">🗂 Class</a>
+  </nav>
+
+  <!-- ══════════════════════════════════ MAIN ═══════════════════════════════════ -->
+  <main>
+
+    <!-- ── 1. Use Case ─────────────────────────────────────────────────────── -->
+    <section class="diagram-section" id="usecase">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🎯</div>
+        <div class="section-header-text">
+          <h2><span class="section-num">1</span>Use Case Diagram</h2>
+          <p>Illustrates the core interactions between the <strong>User</strong> and the MealMate system, including
+            Authentication, Meal Planning, and Pantry management flows.</p>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-card-toolbar">
+          <div class="toolbar-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <span>use_case_diagram.mermaid</span>
+        </div>
+        <div class="diagram-body">
+          <div class="mermaid">
+            %%{init: {
+            'theme': 'base',
+            'themeVariables': {
+            'background': '#161b22',
+            'primaryColor': '#1c2330',
+            'primaryTextColor': '#e6edf3',
+            'primaryBorderColor': '#bc8cff',
+            'lineColor': '#8b949e',
+            'secondaryColor': '#1c2330',
+            'tertiaryColor': '#1c2330',
+            'edgeLabelBackground': '#161b22',
+            'fontFamily': 'Inter, sans-serif'
+            }
+            }}%%
+            graph LR
+            User(["👤 User"])
+
+            subgraph MealMate["🍽️ MealMate System"]
+            direction TB
+            UC0["Create Account / Login"]
+            UC1["Browse & Search Recipes"]
+            UC2["Filter by Diet Tags"]
+            UC3["Adjust Serving Sizes"]
+            UC4["Manage Weekly Meal Plan"]
+            UC5["Generate Grocery List"]
+            UC6["Manage Pantry Inventory"]
+            UC7["Monitor Weekly Budget"]
+            end
+
+            User --- UC0
+            User --- UC1
+            User --- UC3
+            User --- UC4
+            User --- UC6
+
+            UC1 -.->|requires auth| UC0
+            UC4 -.->|requires auth| UC0
+            UC1 -.->|«extend»| UC2
+            UC3 -.->|«extend»| UC1
+            UC4 -.->|«include»| UC5
+            UC5 -.->|«include»| UC6
+            UC4 -.->|«include»| UC7
+
+            style MealMate fill:#1c2330,stroke:#bc8cff,stroke-width:2px,color:#e6edf3
+            style User fill:#192b45,stroke:#3d8bea,stroke-width:2px,color:#e6edf3
+            style UC0 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC1 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC2 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC3 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC4 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC5 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC6 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+            style UC7 fill:#1c2330,stroke:#bc8cff,stroke-width:1px,color:#e6edf3
+          </div>
+        </div>
+      </div>
+      <div class="diagram-explanation">
+        <span class="exp-icon">💡</span>
+        <span>The <strong>User</strong> is the single actor who drives all interactions. <strong>«include»</strong>
+          arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while
+          <strong>«extend»</strong> arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag
+          filtering). All core features require the user to be authenticated via <strong>Create Account /
+            Login</strong>.</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── 2. Component ────────────────────────────────────────────────────── -->
+    <section class="diagram-section" id="component">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🧩</div>
+        <div class="section-header-text">
+          <h2><span class="section-num">2</span>Component Diagram</h2>
+          <p>Shows the <strong>Client-Server architecture</strong>. The React frontend communicates with the Express
+            backend via JWT-authenticated REST API calls, persisting data in SQLite.</p>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-card-toolbar">
+          <div class="toolbar-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <span>component_diagram.mermaid</span>
+        </div>
+        <div class="diagram-body">
+          <div class="mermaid">
+            %%{init: {
+            'theme': 'base',
+            'themeVariables': {
+            'background': '#161b22',
+            'primaryColor': '#1c2330',
+            'primaryTextColor': '#e6edf3',
+            'primaryBorderColor': '#3d8bea',
+            'lineColor': '#8b949e',
+            'secondaryColor': '#1c2330',
+            'tertiaryColor': '#192b45',
+            'edgeLabelBackground': '#161b22',
+            'fontFamily': 'Inter, sans-serif'
+            }
+            }}%%
+            graph TD
+            subgraph Browser["🌐 Client Browser"]
+            direction TB
+            FE["⚛️ Frontend Application\n(React + Vite)"]
+            Auth["🔐 AuthContext\n(JWT → localStorage)"]
+            RecipeUI["🍳 Recipe Browser\n& Search"]
+            MealPlanUI["📅 Meal Planner\nUI"]
+            PantryUI["🧺 Pantry Manager\nUI"]
+            BudgetUI["💰 Budget\nTracker UI"]
+            FE <--> Auth
+              FE --> RecipeUI
+              FE --> MealPlanUI
+              FE --> PantryUI
+              FE --> BudgetUI
+              end
+
+              subgraph Server["🖥️ Backend Server (Node.js + Express)"]
+              direction TB
+              BE["🔀 API Gateway\n& Controllers"]
+              AuthAPI["POST /api/auth/*\nLogin & Register"]
+              RecipeAPI["GET/POST /api/recipes\nRecipe CRUD"]
+              MealAPI["GET/POST /api/mealplans\nMeal Plan CRUD"]
+              PantryAPI["GET/POST /api/pantry\nPantry CRUD"]
+              DB[("💾 SQLite\nDatabase")]
+              BE --> AuthAPI
+              BE --> RecipeAPI
+              BE --> MealAPI
+              BE --> PantryAPI
+              AuthAPI <--> DB
+                RecipeAPI <--> DB
+                  MealAPI <--> DB
+                    PantryAPI <--> DB
+                      end
+
+                      FE <-->|"REST API · JSON\nAuthorization: Bearer Token"| BE
+
+                        style Browser fill:#161b22,stroke:#3d8bea,stroke-width:2px,stroke-dasharray:5 5,color:#e6edf3
+                        style Server fill:#161b22,stroke:#3fb950,stroke-width:2px,stroke-dasharray:5 5,color:#e6edf3
+                        style FE fill:#192b45,stroke:#3d8bea,stroke-width:2px,color:#e6edf3
+                        style Auth fill:#1a2e1a,stroke:#3fb950,stroke-width:2px,color:#e6edf3
+                        style RecipeUI fill:#1c2330,stroke:#3d8bea,stroke-width:1px,color:#e6edf3
+                        style MealPlanUI fill:#1c2330,stroke:#3d8bea,stroke-width:1px,color:#e6edf3
+                        style PantryUI fill:#1c2330,stroke:#3d8bea,stroke-width:1px,color:#e6edf3
+                        style BudgetUI fill:#1c2330,stroke:#3d8bea,stroke-width:1px,color:#e6edf3
+                        style BE fill:#192b45,stroke:#3fb950,stroke-width:2px,color:#e6edf3
+                        style AuthAPI fill:#1c2330,stroke:#3fb950,stroke-width:1px,color:#e6edf3
+                        style RecipeAPI fill:#1c2330,stroke:#3fb950,stroke-width:1px,color:#e6edf3
+                        style MealAPI fill:#1c2330,stroke:#3fb950,stroke-width:1px,color:#e6edf3
+                        style PantryAPI fill:#1c2330,stroke:#3fb950,stroke-width:1px,color:#e6edf3
+                        style DB fill:#2a1f0e,stroke:#f0883e,stroke-width:2px,color:#e6edf3
+          </div>
+        </div>
+      </div>
+      <div class="diagram-explanation">
+        <span class="exp-icon">💡</span>
+        <span>MealMate follows a classic <strong>Client-Server</strong> pattern. The <strong>React + Vite</strong>
+          frontend runs entirely in the browser, managing state through an <code>AuthContext</code> that persists the
+          JWT in <code>localStorage</code>. Every protected API call attaches the token as a <code>Bearer</code> header.
+          The <strong>Node.js / Express</strong> backend exposes four REST route groups (<code>/auth</code>,
+          <code>/recipes</code>, <code>/mealplans</code>, <code>/pantry</code>), all backed by a single
+          <strong>SQLite</strong> file.</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── 3. Sequence ─────────────────────────────────────────────────────── -->
+    <section class="diagram-section" id="sequence">
+      <div class="section-header">
+        <div class="section-icon icon-green">🔁</div>
+        <div class="section-header-text">
+          <h2><span class="section-num">3</span>Sequence Diagram</h2>
+          <p>Traces the complete flow from <strong>User Login</strong> (JWT acquisition) through to <strong>adding a
+              recipe</strong> to the weekly meal plan using the authenticated session.</p>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-card-toolbar">
+          <div class="toolbar-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <span>sequence_diagram.mermaid</span>
+        </div>
+        <div class="diagram-body">
+          <div class="mermaid">
+            %%{init: {
+            'theme': 'base',
+            'themeVariables': {
+            'background': '#161b22',
+            'primaryColor': '#192b45',
+            'primaryTextColor': '#e6edf3',
+            'primaryBorderColor': '#3d8bea',
+            'lineColor': '#8b949e',
+            'actorBkg': '#192b45',
+            'actorBorder': '#3d8bea',
+            'actorTextColor': '#e6edf3',
+            'activationBorderColor': '#3fb950',
+            'activationBkgColor': '#1a2e1a',
+            'noteBkgColor': '#1c2330',
+            'noteTextColor': '#e6edf3',
+            'noteBorderColor': '#30363d',
+            'labelBoxBkgColor': '#1c2330',
+            'labelBoxBorderColor': '#30363d',
+            'labelTextColor': '#e6edf3',
+            'loopTextColor': '#e6edf3',
+            'signalTextColor': '#e6edf3',
+            'signalColor': '#8b949e',
+            'sequenceNumberColor': '#bc8cff',
+            'fontFamily': 'Inter, sans-serif'
+            }
+            }}%%
+            sequenceDiagram
+            autonumber
+            actor User
+            participant UI as Frontend\n(React)
+            participant Auth as AuthContext\n(State / Storage)
+            participant API as API Server\n(Node / Express)
+            participant DB as SQLite DB
+
+            Note over User,DB: 🔐 Authentication Phase
+
+            User->>UI: Enter Email & Password
+            UI->>API: POST /api/auth/login
+            API->>DB: SELECT user WHERE email = ?
+            DB-->>API: Return password_hash & record
+            API->>API: bcrypt.compare(password, hash)
+            API-->>UI: 200 OK { token, user }
+            UI->>Auth: Store JWT in localStorage
+
+            Note over User,DB: 🍽️ Application Execution Phase
+
+            User->>UI: Select Recipe for Meal Plan
+            Auth-->>UI: Provide JWT Token
+            UI->>API: POST /api/mealplans/items\n[Authorization: Bearer {token}]
+            API->>API: jwt.verify(token, secret)
+            API->>DB: CHECK Recipe & Plan exist
+            DB-->>API: Validated ✓
+            API->>DB: INSERT INTO meal_plan_items
+            DB-->>API: 201 { id, ... }
+            API-->>UI: 201 Created { item data }
+            UI->>UI: Update local state
+            UI-->>User: ✅ Visual success feedback
+          </div>
+        </div>
+      </div>
+      <div class="diagram-explanation">
+        <span class="exp-icon">💡</span>
+        <span>The flow is split into two phases. In the <strong>Authentication Phase</strong> the frontend POSTs
+          credentials, the server verifies the password hash with <code>bcrypt</code>, and returns a signed JWT that is
+          stored in <code>localStorage</code>. In the <strong>Application Execution Phase</strong> the stored token is
+          attached to subsequent requests; the server validates the signature with <code>jwt.verify()</code> before
+          writing to the database, ensuring only authenticated users can modify meal plan data.</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── 4. Class ────────────────────────────────────────────────────────── -->
+    <section class="diagram-section" id="class">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🗂</div>
+        <div class="section-header-text">
+          <h2><span class="section-num">4</span>Class Diagram</h2>
+          <p>Depicts the <strong>data model</strong> as stored in SQLite, including Authentication fields on
+            <code>User</code>, <code>expiry_date</code> on <code>PantryItem</code>, and all entity relationships.</p>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <div class="diagram-card-toolbar">
+          <div class="toolbar-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <span>class_diagram.mermaid</span>
+        </div>
+        <div class="diagram-body">
+          <div class="mermaid">
+            %%{init: {
+            'theme': 'base',
+            'themeVariables': {
+            'background': '#161b22',
+            'primaryColor': '#192b45',
+            'primaryTextColor': '#e6edf3',
+            'primaryBorderColor': '#3d8bea',
+            'lineColor': '#8b949e',
+            'tertiaryColor': '#192b45',
+            'edgeLabelBackground': '#161b22',
+            'classBorderColor': '#3d8bea',
+            'classTextColor': '#e6edf3',
+            'fontFamily': 'Inter, sans-serif'
+            }
+            }}%%
+            classDiagram
+            direction TB
+
+            class User {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +String name
+            +String email
+            +String password_hash
+            +String preferences
+            +DateTime created_at
+            }
+
+            class MealPlan {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +Integer user_id
+            +Date week_start_date
+            +Decimal weekly_budget
+            +String currency
+            +DateTime created_at
+            }
+
+            class MealPlanItem {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +Integer meal_plan_id
+            +Integer day_of_week
+            +String meal_type
+            +Integer recipe_id
+            +Integer servings
+            }
+
+            class Recipe {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +Integer user_id
+            +String title
+            +String instructions
+            +Integer default_servings
+            +DateTime created_at
+            +DateTime updated_at
+            }
+
+            class RecipeIngredient {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer recipe_id
+            +Integer ingredient_id
+            +Double quantity
+            +String unit
+            }
+
+            class Ingredient {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +String name
+            +String default_unit
+            +DateTime created_at
+            }
+
+            class IngredientPrice {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +Integer ingredient_id
+            +Decimal price_per_unit
+            +String currency
+            +DateTime updated_at
+            }
+
+            class PantryItem {
+            &lt;&lt;Entity&gt;&gt;
+            +Integer id
+            +Integer user_id
+            +Integer ingredient_id
+            +Double quantity
+            +String unit
+            +String expiry_date
+            +DateTime updated_at
+            }
+
+            User "1" --> "0..*" MealPlan
+            User "1" --> "0..*" PantryItem
+            MealPlan "1" *-- "0..*" MealPlanItem : Contains
+            MealPlanItem "0..*" o-- "1" Recipe : References
+            Recipe "1" *-- "1..*" RecipeIngredient : Requires
+            RecipeIngredient "0..*" o-- "1" Ingredient : Maps To
+            PantryItem "0..*" o-- "1" Ingredient : Maps To
+            Ingredient "1" *-- "0..*" IngredientPrice : Priced As
+          </div>
+        </div>
+      </div>
+      <div class="diagram-explanation">
+        <span class="exp-icon">💡</span>
+        <span>Every <strong>User</strong> owns zero-or-more <strong>MealPlan</strong> and <strong>PantryItem</strong>
+          records. A <code>MealPlan</code> is composed of <code>MealPlanItem</code> rows (one per meal slot), each
+          referencing a <strong>Recipe</strong>. Recipes are built from <code>RecipeIngredient</code> join records that
+          map to shared <strong>Ingredient</strong> entities — keeping ingredient names canonical. Each
+          <code>Ingredient</code> has zero-or-more <strong>IngredientPrice</strong> entries used for budget calculation.
+          <code>PantryItem</code> links a user's stock to the same <code>Ingredient</code> catalogue, and includes an
+          <code>expiry_date</code> field for freshness tracking.</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════ FOOTER ═════════════════════════════════ -->
+  <footer>
+    MealMate UML Diagrams · Rendered with <span>Mermaid.js v11</span> · March 2026
+  </footer>
+
+  <!-- ══════════════════════════════════ SCRIPTS ════════════════════════════════ -->
+  <script>
+    // Initialise Mermaid
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: 'loose',
+      theme: 'base'
+    });
+
+    // Active nav highlighting on scroll
+    const sections = document.querySelectorAll('.diagram-section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+
+</html>

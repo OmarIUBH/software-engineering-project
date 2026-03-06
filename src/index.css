@@ -127,6 +127,24 @@ img {
   background: var(--color-surface2);
 }
 
+.nav-logout-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-danger);
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-logout-btn:hover {
+  color: #fff;
+  background: rgba(248, 113, 113, 0.15);
+}
+
 /* ── Buttons ── */
 .btn {
   display: inline-flex;

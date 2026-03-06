@@ -1,0 +1,624 @@
+﻿
+> mealmate@1.0.0 test
+> vitest run src/__tests__/integration.test.jsx
+
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/omare/Desktop/Project[39m
+
+node.exe : 
+[90mstderr[2m | src/__
+tests__/integration.test
+.jsx[2m > 
+[22m[2mMealMate Core 
+Integration Tests[2m > 
+[22m[2mScenario: Adds 
+recipe to planner, 
+updates budget, checks 
+grocery list, adds to 
+pantry
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo      
+        : NotSpecifi    
+ed: ([90mstderr[    
+2m... adds to pant    
+ry:String) [], Rem    
+oteException
+    + FullyQualifiedEr  
+  rorId : NativeComm    
+andError
+ 
+[22m[39mΓÜá∩╕Å React 
+Router Future Flag 
+Warning: React Router 
+will begin wrapping 
+state updates in 
+`React.startTransition` 
+in v7. You can use the 
+`v7_startTransition` 
+future flag to opt-in 
+early. For more 
+information, see https:/
+/reactrouter.com/v6/upgr
+ading/future#v7_starttra
+nsition.
+ΓÜá∩╕Å React Router 
+Future Flag Warning: 
+Relative route 
+resolution within Splat 
+routes is changing in 
+v7. You can use the 
+`v7_relativeSplatPath` 
+future flag to opt-in 
+early. For more 
+information, see https:/
+/reactrouter.com/v6/upgr
+ading/future#v7_relative
+splatpath.
+
+[90mstderr[2m | src/__
+tests__/integration.test
+.jsx[2m > 
+[22m[2mMealMate Core 
+Integration Tests[2m > 
+[22m[2mScenario: Adds 
+recipe to planner, 
+updates budget, checks 
+grocery list, adds to 
+pantry
+[22m[39mError: 
+Uncaught 
+[ReferenceError: 
+handleNameChange is not 
+defined]
+    at reportException (
+C:\Users\omare\Desktop\P
+roject\node_modules\jsdo
+m\lib\jsdom\living\helpe
+rs\runtime-script-errors
+.js:66:24)
+    at innerInvokeEventL
+isteners (C:\Users\omare
+\Desktop\Project\node_mo
+dules\jsdom\lib\jsdom\li
+ving\events\EventTarget-
+impl.js:353:9)
+    at 
+invokeEventListeners (C:
+\Users\omare\Desktop\Pro
+ject\node_modules\jsdom\
+lib\jsdom\living\events\
+EventTarget-impl.js:286:
+3)
+    at HTMLUnknownElemen
+tImpl._dispatch (C:\User
+s\omare\Desktop\Project\
+node_modules\jsdom\lib\j
+sdom\living\events\Event
+Target-impl.js:233:9)
+    at HTMLUnknownElemen
+tImpl.dispatchEvent (C:\
+Users\omare\Desktop\Proj
+ect\node_modules\jsdom\l
+ib\jsdom\living\events\E
+ventTarget-impl.js:104:1
+7)
+    at HTMLUnknownElemen
+t.dispatchEvent (C:\User
+s\omare\Desktop\Project\
+node_modules\jsdom\lib\j
+sdom\living\generated\Ev
+entTarget.js:241:34)
+    at Object.invokeGuar
+dedCallbackDev (C:\Users
+\omare\Desktop\Project\n
+ode_modules\react-dom\cj
+s\react-dom.development.
+js:4213:16)
+    at 
+invokeGuardedCallback (C
+:\Users\omare\Desktop\Pr
+oject\node_modules\react
+-dom\cjs\react-dom.devel
+opment.js:4277:31)
+    at beginWork$1 (C:\U
+sers\omare\Desktop\Proje
+ct\node_modules\react-do
+m\cjs\react-dom.developm
+ent.js:27490:7)
+    at 
+performUnitOfWork (C:\Us
+ers\omare\Desktop\Projec
+t\node_modules\react-dom
+\cjs\react-dom.developme
+nt.js:26599:12) 
+ReferenceError: 
+handleNameChange is not 
+defined
+    at PantryManager [9
+0m(C:\Users\omare\Deskto
+p\Project\[39msrc\compo
+nents\PantryManager\Pant
+ryManager.jsx:132:39[90
+m)[39m
+    at renderWithHooks 
+[90m(C:\Users\omare\Desk
+top\Project\[39mnode_mo
+dules\[4mreact-dom[24m
+\cjs\react-dom.developme
+nt.js:15486:18[90m)[39
+m
+    at 
+updateFunctionComponent 
+[90m(C:\Users\omare\Des
+ktop\Project\[39mnode_m
+odules\[4mreact-dom[24
+m\cjs\react-dom.developm
+ent.js:19617:20[90m)[3
+9m
+    at beginWork [90m(C
+:\Users\omare\Desktop\Pr
+oject\[39mnode_modules\
+[4mreact-dom[24m\cjs\r
+eact-dom.development.js:
+21640:16[90m)[39m
+    at HTMLUnknownElemen
+t.callCallback [90m(C:\
+Users\omare\Desktop\Proj
+ect\[39mnode_modules\[
+4mreact-dom[24m\cjs\rea
+ct-dom.development.js:41
+64:14[90m)[39m
+    at HTMLUnknownElemen
+t.callTheUserObjectsOper
+ation [90m(C:\Users\oma
+re\Desktop\Project\[39m
+node_modules\[4mjsdom[
+24m\lib\jsdom\living\gen
+erated\EventListener.js:
+26:30[90m)[39m
+    at innerInvokeEventL
+isteners [90m(C:\Users\
+omare\Desktop\Project\[
+39mnode_modules\[4mjsdo
+m[24m\lib\jsdom\living\
+events\EventTarget-impl.
+js:350:25[90m)[39m
+    at 
+invokeEventListeners [9
+0m(C:\Users\omare\Deskto
+p\Project\[39mnode_modu
+les\[4mjsdom[24m\lib\j
+sdom\living\events\Event
+Target-impl.js:286:3[90
+m)[39m
+    at HTMLUnknownElemen
+tImpl._dispatch [90m(C:
+\Users\omare\Desktop\Pro
+ject\[39mnode_modules\
+[4mjsdom[24m\lib\jsdom\
+living\events\EventTarge
+t-impl.js:233:9[90m)[3
+9m
+    at HTMLUnknownElemen
+tImpl.dispatchEvent [90
+m(C:\Users\omare\Desktop
+\Project\[39mnode_modul
+es\[4mjsdom[24m\lib\js
+dom\living\events\EventT
+arget-impl.js:104:17[90
+m)[39m
+Error: Uncaught 
+[ReferenceError: 
+handleNameChange is not 
+defined]
+    at reportException (
+C:\Users\omare\Desktop\P
+roject\node_modules\jsdo
+m\lib\jsdom\living\helpe
+rs\runtime-script-errors
+.js:66:24)
+    at innerInvokeEventL
+isteners (C:\Users\omare
+\Desktop\Project\node_mo
+dules\jsdom\lib\jsdom\li
+ving\events\EventTarget-
+impl.js:353:9)
+    at 
+invokeEventListeners (C:
+\Users\omare\Desktop\Pro
+ject\node_modules\jsdom\
+lib\jsdom\living\events\
+EventTarget-impl.js:286:
+3)
+    at HTMLUnknownElemen
+tImpl._dispatch (C:\User
+s\omare\Desktop\Project\
+node_modules\jsdom\lib\j
+sdom\living\events\Event
+Target-impl.js:233:9)
+    at HTMLUnknownElemen
+tImpl.dispatchEvent (C:\
+Users\omare\Desktop\Proj
+ect\node_modules\jsdom\l
+ib\jsdom\living\events\E
+ventTarget-impl.js:104:1
+7)
+    at HTMLUnknownElemen
+t.dispatchEvent (C:\User
+s\omare\Desktop\Project\
+node_modules\jsdom\lib\j
+sdom\living\generated\Ev
+entTarget.js:241:34)
+    at Object.invokeGuar
+dedCallbackDev (C:\Users
+\omare\Desktop\Project\n
+ode_modules\react-dom\cj
+s\react-dom.development.
+js:4213:16)
+    at 
+invokeGuardedCallback (C
+:\Users\omare\Desktop\Pr
+oject\node_modules\react
+-dom\cjs\react-dom.devel
+opment.js:4277:31)
+    at beginWork$1 (C:\U
+sers\omare\Desktop\Proje
+ct\node_modules\react-do
+m\cjs\react-dom.developm
+ent.js:27490:7)
+    at 
+performUnitOfWork (C:\Us
+ers\omare\Desktop\Projec
+t\node_modules\react-dom
+\cjs\react-dom.developme
+nt.js:26599:12) 
+ReferenceError: 
+handleNameChange is not 
+defined
+    at PantryManager [9
+0m(C:\Users\omare\Deskto
+p\Project\[39msrc\compo
+nents\PantryManager\Pant
+ryManager.jsx:132:39[90
+m)[39m
+    at renderWithHooks 
+[90m(C:\Users\omare\Desk
+top\Project\[39mnode_mo
+dules\[4mreact-dom[24m
+\cjs\react-dom.developme
+nt.js:15486:18[90m)[39
+m
+    at 
+updateFunctionComponent 
+[90m(C:\Users\omare\Des
+ktop\Project\[39mnode_m
+odules\[4mreact-dom[24
+m\cjs\react-dom.developm
+ent.js:19617:20[90m)[3
+9m
+    at beginWork [90m(C
+:\Users\omare\Desktop\Pr
+oject\[39mnode_modules\
+[4mreact-dom[24m\cjs\r
+eact-dom.development.js:
+21640:16[90m)[39m
+    at HTMLUnknownElemen
+t.callCallback [90m(C:\
+Users\omare\Desktop\Proj
+ect\[39mnode_modules\[
+4mreact-dom[24m\cjs\rea
+ct-dom.development.js:41
+64:14[90m)[39m
+    at HTMLUnknownElemen
+t.callTheUserObjectsOper
+ation [90m(C:\Users\oma
+re\Desktop\Project\[39m
+node_modules\[4mjsdom[
+24m\lib\jsdom\living\gen
+erated\EventListener.js:
+26:30[90m)[39m
+    at innerInvokeEventL
+isteners [90m(C:\Users\
+omare\Desktop\Project\[
+39mnode_modules\[4mjsdo
+m[24m\lib\jsdom\living\
+events\EventTarget-impl.
+js:350:25[90m)[39m
+    at 
+invokeEventListeners [9
+0m(C:\Users\omare\Deskto
+p\Project\[39mnode_modu
+les\[4mjsdom[24m\lib\j
+sdom\living\events\Event
+Target-impl.js:286:3[90
+m)[39m
+    at HTMLUnknownElemen
+tImpl._dispatch [90m(C:
+\Users\omare\Desktop\Pro
+ject\[39mnode_modules\
+[4mjsdom[24m\lib\jsdom\
+living\events\EventTarge
+t-impl.js:233:9[90m)[3
+9m
+    at HTMLUnknownElemen
+tImpl.dispatchEvent [90
+m(C:\Users\omare\Desktop
+\Project\[39mnode_modul
+es\[4mjsdom[24m\lib\js
+dom\living\events\EventT
+arget-impl.js:104:17[90
+m)[39m
+The above error 
+occurred in the 
+<PantryManager> 
+component:
+
+    at PantryManager (C:
+\Users\omare\Desktop\Pro
+ject\src\components\Pant
+ryManager\PantryManager.
+jsx:15:51)
+    at RenderedRoute (C:
+\Users\omare\Desktop\Pro
+ject\node_modules\react-
+router\dist\umd\react-ro
+uter.development.js:539:
+7)
+    at Routes (C:\Users\
+omare\Desktop\Project\no
+de_modules\react-router\
+dist\umd\react-router.de
+velopment.js:1273:7)
+    at main
+    at div
+    at Router (C:\Users\
+omare\Desktop\Project\no
+de_modules\react-router\
+dist\umd\react-router.de
+velopment.js:1207:17)
+    at BrowserRouter (C:
+\Users\omare\Desktop\Pro
+ject\node_modules\react-
+router-dom\dist\umd\reac
+t-router-dom.development
+.js:695:7)
+    at App
+
+Consider adding an 
+error boundary to your 
+tree to customize error 
+handling behavior.
+Visit https://reactjs.or
+g/link/error-boundaries 
+to learn more about 
+error boundaries.
+
+ [31mΓ¥»[39m src/__tests__/integration.test.jsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 389[2mms[22m[39m
+[31m   [31m├ù[31m MealMate Core Integration Tests[2m > [22mScenario: Adds recipe to planner, updates budget, checks grocery list, adds to pantry[33m 388[2mms[22m[31m[39m
+[31m     ΓåÆ Unable to find an element with the placeholder text of: /e\.g\. Olive oil/i
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div />[31m
+[36m</body>[31m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»[1m[7m Failed Tests 
+1 [27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»[39m
+
+[31m[1m[7m FAIL 
+[27m[22m[39m src/__te
+sts__/integration.test.j
+sx[2m > [22mMealMate 
+Core Integration 
+Tests[2m > 
+[22mScenario: Adds 
+recipe to planner, 
+updates budget, checks 
+grocery list, adds to 
+pantry
+[31m[1mTestingLibraryE
+lementError[22m: 
+Unable to find an 
+element with the 
+placeholder text of: 
+/e\.g\. Olive oil/i
+
+Ignored nodes: 
+comments, script, style
+[36m<body>[31m
+  [36m<div />[31m
+[36m</body>[31m[39m
+[90m [2mΓ¥»[22m 
+Object.getElementError n
+ode_modules/@testing-lib
+rary/dom/dist/config.js:
+[2m37:19[22m[39m
+[90m [2mΓ¥»[22m node_
+modules/@testing-library
+/dom/dist/query-helpers.
+js:[2m76:38[22m[39m
+[90m [2mΓ¥»[22m node_
+modules/@testing-library
+/dom/dist/query-helpers.
+js:[2m52:17[22m[39m
+[90m [2mΓ¥»[22m node_
+modules/@testing-library
+/dom/dist/query-helpers.
+js:[2m95:19[22m[39m
+[36m [2mΓ¥»[22m src/_
+_tests__/integration.tes
+t.jsx:[2m129:30[22m[3
+9m
+    [90m127| [39m
+    [90m128| [39m     
+   [90m// Add to 
+pantry[39m
+    [90m129| [39m     
+   [35mconst[39m 
+input [33m=[39m screen
+[33m.[39m[34mgetByPla
+ceholderText[39m([36m/
+e\.g\. Olive 
+oil/i[39m)[33m;[39m
+    [90m   | [39m     
+                        
+[31m^[39m
+    [90m130| [39m     
+   [35mconst[39m 
+validSearchName 
+[33m=[39m searchName 
+[33m||[39m [32m'Garli
+c'[39m[33m;[39m 
+[90m// Fallback 
+ju[39mΓÇª
+    [90m131| [39m     
+   [35mawait[39m user
+[33m.[39m[34mtype[39m
+(input[33m,[39m validS
+earchName)[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»[22m[
+39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1m[7m Unhandled Errors [27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+[31m[1m
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1m
+[7m Uncaught Exception 
+[27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»[39m
+[31m[1mReferenceError
+[22m: handleNameChange 
+is not defined[39m
+[36m [2mΓ¥»[22m 
+PantryManager src/compon
+ents/PantryManager/Pantr
+yManager.jsx:[2m132:39
+[22m[39m
+    [90m130| [39m     
+                       
+[33mplaceholder[39m[33
+m=[39m[32m"e.g. Olive 
+oil"[39m
+    [90m131| [39m     
+                       
+[33mvalue[39m[33m=[39
+m[33m{[39mform[33m.[
+39mname[33m}[39m
+    [90m132| [39m     
+                       
+[33monChange[39m[33m=
+[39m[33m{[39mhandleNam
+eChange[33m}[39m
+    [90m   | [39m     
+                        
+         [31m^[39m
+    [90m133| [39m     
+                       
+[33monFocus[39m[33m=[
+39m[33m{[39m() 
+[33m=>[39m form[33m.
+[39mname[33m.[39m[34m
+trim[39m() 
+[33m&&[39m suggestΓÇª
+    [90m134| [39m     
+                       
+[33mautoComplete[39m[3
+3m=[39m[32m"off"[39m
+[90m [2mΓ¥»[22m 
+renderWithHooks node_mod
+ules/react-dom/cjs/react
+-dom.development.js:[2m
+15486:18[22m[39m
+[90m [2mΓ¥»[22m 
+updateFunctionComponent 
+node_modules/react-dom/c
+js/react-dom.development
+.js:[2m19617:20[22m[3
+9m
+[90m [2mΓ¥»[22m 
+beginWork node_modules/r
+eact-dom/cjs/react-dom.d
+evelopment.js:[2m21640:
+16[22m[39m
+[90m [2mΓ¥»[22m 
+beginWork$1 node_modules
+/react-dom/cjs/react-dom
+.development.js:[2m2746
+5:14[22m[39m
+[90m [2mΓ¥»[22m 
+performUnitOfWork node_m
+odules/react-dom/cjs/rea
+ct-dom.development.js:[
+2m26599:12[22m[39m
+[90m [2mΓ¥»[22m 
+workLoopSync node_module
+s/react-dom/cjs/react-do
+m.development.js:[2m265
+05:5[22m[39m
+[90m [2mΓ¥»[22m 
+renderRootSync node_modu
+les/react-dom/cjs/react-
+dom.development.js:[2m2
+6473:7[22m[39m
+[90m [2mΓ¥»[22m recov
+erFromConcurrentError no
+de_modules/react-dom/cjs
+/react-dom.development.j
+s:[2m25889:20[22m[39m
+[90m [2mΓ¥»[22m 
+performSyncWorkOnRoot no
+de_modules/react-dom/cjs
+/react-dom.development.j
+s:[2m26135:20[22m[39m
+
+[31mThis error 
+originated in "[1msrc/_
+_tests__/integration.tes
+t.jsx[22m" test file. 
+It doesn't mean the 
+error was thrown inside 
+the file itself, but 
+while it was 
+running.[39m
+[31mThe latest test 
+that might've caused 
+the error is 
+"[1mScenario: Adds 
+recipe to planner, 
+updates budget, checks 
+grocery list, adds to 
+pantry[22m". It might 
+mean one of the 
+following:
+- The error was thrown, 
+while Vitest was 
+running this test.
+- If the error occurred 
+after the test had been 
+completed, this was the 
+last documented test 
+before it was 
+thrown.[39m
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m     Errors [22m [1m[31m1 error[39m[22m
+[2m   Start at [22m 16:13:04
+[2m   Duration [22m 1.37s[2m (transform 143ms, setup 54ms, collect 279ms, tests 389ms, environment 346ms, prepare 101ms)[22m
+

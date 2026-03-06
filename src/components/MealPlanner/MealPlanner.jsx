@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { computeWeeklyCost } from '../../engines/groceryEngine.js';
 import styles from './MealPlanner.module.css';
@@ -46,9 +47,24 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange }) {
 
 export default function MealPlanner() {
     const [planData, setPlanData] = useState(() => storageService.getPlan());
-    const [recipes] = useState(() => storageService.getRecipes());
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [budget, setBudget] = useState(() => storageService.getSettings().budget ?? 40);
     const [dragging, setDragging] = useState(null);
+
+    useEffect(() => {
+        recipesApi.getAll()
+            .then(data => {
+                setRecipes(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch recipes:', err);
+                setError('Failed to load recipes.');
+                setLoading(false);
+            });
+    }, []);
 
     const recipeMap = Object.fromEntries(recipes.map((r) => [r.id, r]));
 
@@ -97,83 +113,90 @@ export default function MealPlanner() {
             <h1 className="section-title">Weekly Meal Planner</h1>
             <p className="section-subtitle">Assign recipes to meals · drag a planned meal between slots · track your budget</p>
 
-            <BudgetBar plan={planData} recipes={recipes} budget={budget} onBudgetChange={saveBudget} />
+            {loading && <div style={{ textAlign: 'center', padding: '40px' }}><p>Loading planner...</p></div>}
+            {error && <div style={{ textAlign: 'center', padding: '40px', color: 'var(--danger-color)' }}><p>{error}</p></div>}
 
-            <div className={styles.summary}>
-                <span>📅 {totalMeals} / 21 meals planned</span>
-                <span>·</span>
-                <a href="/grocery" className={styles.summaryLink}>View Grocery List →</a>
-            </div>
+            {!loading && !error && (
+                <>
+                    <BudgetBar plan={planData} recipes={recipes} budget={budget} onBudgetChange={saveBudget} />
 
-            <div className={styles.grid}>
-                {/* Header row */}
-                <div className={styles.gridCorner} />
-                {DAYS.map((day) => (
-                    <div key={day} className={styles.dayHeader}>{day}</div>
-                ))}
+                    <div className={styles.summary}>
+                        <span>📅 {totalMeals} / 21 meals planned</span>
+                        <span>·</span>
+                        <a href="/grocery" className={styles.summaryLink}>View Grocery List →</a>
+                    </div>
 
-                {/* Meal rows */}
-                {MEALS.map((meal) => (
-                    <>
-                        <div key={`label-${meal}`} className={styles.mealLabel}>
-                            {MEAL_ICONS[meal]} {meal.charAt(0).toUpperCase() + meal.slice(1)}
-                        </div>
-                        {DAYS.map((day) => {
-                            const recipeId = getSlot(day, meal);
-                            const recipe = recipeId ? recipeMap[recipeId] : null;
-                            return (
-                                <div
-                                    key={`${day}-${meal}`}
-                                    className={`${styles.slot} ${dragging ? styles.slotDraggable : ''}`}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    onDrop={() => handleDrop(day, meal)}
-                                >
-                                    {recipe ? (
-                                        <div
-                                            className={styles.slotCard}
-                                            draggable
-                                            onDragStart={() => handleDragStart(recipe.id)}
-                                        >
-                                            <div className={styles.slotName}>{recipe.name}</div>
-                                            <div className={styles.slotMeta}>
-                                                €{(recipe.estimatedCostPerServing * recipe.servings).toFixed(2)}
-                                            </div>
-                                            <button
-                                                className={styles.slotRemove}
-                                                onClick={() => removeSlot(day, meal)}
-                                                aria-label={`Remove ${recipe.name}`}
-                                                title="Remove"
-                                            >✕</button>
-                                        </div>
-                                    ) : (
-                                        <div className={styles.slotEmpty}>+ Drop recipe</div>
-                                    )}
+                    <div className={styles.grid}>
+                        {/* Header row */}
+                        <div className={styles.gridCorner} />
+                        {DAYS.map((day) => (
+                            <div key={day} className={styles.dayHeader}>{day}</div>
+                        ))}
+
+                        {/* Meal rows */}
+                        {MEALS.map((meal) => (
+                            <div key={meal} style={{ display: 'contents' }}>
+                                <div className={styles.mealLabel}>
+                                    {MEAL_ICONS[meal]} {meal.charAt(0).toUpperCase() + meal.slice(1)}
                                 </div>
-                            );
-                        })}
-                    </>
-                ))}
-            </div>
+                                {DAYS.map((day) => {
+                                    const recipeId = getSlot(day, meal);
+                                    const recipe = recipeId ? recipeMap[recipeId] : null;
+                                    return (
+                                        <div
+                                            key={`${day}-${meal}`}
+                                            className={`${styles.slot} ${dragging ? styles.slotDraggable : ''}`}
+                                            onDragOver={(e) => e.preventDefault()}
+                                            onDrop={() => handleDrop(day, meal)}
+                                        >
+                                            {recipe ? (
+                                                <div
+                                                    className={styles.slotCard}
+                                                    draggable
+                                                    onDragStart={() => handleDragStart(recipe.id)}
+                                                >
+                                                    <div className={styles.slotName}>{recipe.name}</div>
+                                                    <div className={styles.slotMeta}>
+                                                        €{(recipe.estimatedCostPerServing * recipe.servings).toFixed(2)}
+                                                    </div>
+                                                    <button
+                                                        className={styles.slotRemove}
+                                                        onClick={() => removeSlot(day, meal)}
+                                                        aria-label={`Remove ${recipe.name}`}
+                                                        title="Remove"
+                                                    >✕</button>
+                                                </div>
+                                            ) : (
+                                                <div className={styles.slotEmpty}>+ Drop recipe</div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
 
-            {/* Recipe picker sidebar */}
-            <div className={styles.pickerSection}>
-                <h2 className={styles.pickerTitle}>📚 Recipe Quick-Pick</h2>
-                <p className={styles.pickerHint}>Drag a recipe card onto a meal slot above</p>
-                <div className={styles.pickerGrid}>
-                    {recipes.map((r) => (
-                        <div
-                            key={r.id}
-                            className={styles.pickerCard}
-                            draggable
-                            onDragStart={() => handleDragStart(r.id)}
-                            title={r.description}
-                        >
-                            <span className={styles.pickerName}>{r.name}</span>
-                            <span className={styles.pickerCost}>€{r.estimatedCostPerServing.toFixed(2)}/sv</span>
+                    {/* Recipe picker sidebar */}
+                    <div className={styles.pickerSection}>
+                        <h2 className={styles.pickerTitle}>📚 Recipe Quick-Pick</h2>
+                        <p className={styles.pickerHint}>Drag a recipe card onto a meal slot above</p>
+                        <div className={styles.pickerGrid}>
+                            {recipes.map((r) => (
+                                <div
+                                    key={r.id}
+                                    className={styles.pickerCard}
+                                    draggable
+                                    onDragStart={() => handleDragStart(r.id)}
+                                    title={r.description}
+                                >
+                                    <span className={styles.pickerName}>{r.name}</span>
+                                    <span className={styles.pickerCost}>€{r.estimatedCostPerServing.toFixed(2)}/sv</span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

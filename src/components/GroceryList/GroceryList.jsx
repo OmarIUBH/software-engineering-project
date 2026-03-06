@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { recipesApi } from '../../services/recipesApi.js';
+import { pantryApi } from '../../services/pantryApi.js';
 import { storageService } from '../../services/storageService.js';
 import { generateGroceryList, deductPantry, groupByCategory, computeWeeklyCost } from '../../engines/groceryEngine.js';
 import styles from './GroceryList.module.css';
@@ -10,11 +12,27 @@ const CATEGORY_ICONS = {
 
 export default function GroceryList() {
     const [plan] = useState(() => storageService.getPlan());
-    const [recipes] = useState(() => storageService.getRecipes());
-    const [pantry] = useState(() => storageService.getPantry());
+    const [recipes, setRecipes] = useState([]);
+    const [pantry, setPantry] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [grouped, setGrouped] = useState(true);
     const [deductEnabled, setDeductEnabled] = useState(true);
     const [checked, setChecked] = useState({});
+
+    useEffect(() => {
+        Promise.all([recipesApi.getAll(), pantryApi.getAll()])
+            .then(([recipeData, pantryData]) => {
+                setRecipes(recipeData);
+                setPantry(pantryData);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch grocery data:', err);
+                setError('Failed to load data.');
+                setLoading(false);
+            });
+    }, []);
 
     const rawList = useMemo(() => generateGroceryList(plan, recipes), [plan, recipes]);
     const finalList = useMemo(

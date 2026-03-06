@@ -3,6 +3,9 @@ const { db } = require('../src/db');
 const seedData = () => {
     console.log('Seeding database...');
 
+    // Ensure default user exists
+    db.prepare('INSERT OR IGNORE INTO users (id, name) VALUES (?, ?)').run(1, 'Default Student');
+
     const insertIngredient = db.prepare('INSERT OR IGNORE INTO ingredients (name, default_unit) VALUES (?, ?)');
     const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name) VALUES (?)');
     const insertPrice = db.prepare('INSERT OR IGNORE INTO ingredient_prices (ingredient_id, price_per_unit, currency) VALUES (?, ?, ?)');

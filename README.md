@@ -5,7 +5,7 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 ## 🚀 Live Demo
 **[Check out the live application on Cloudflare Pages](https://mealmate-835.pages.dev)**
 
-> **Demo Login Credentials (for tutors & reviewers):**
+> **Demo Login Credentials:**
 > - **Email**: `demo@mealmate.com`
 > - **Password**: `Demo1234!`
 

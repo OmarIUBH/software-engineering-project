@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { filterByTags, ALL_TAGS } from '../../engines/filterEngine.js';
 import { searchRecipes } from '../../engines/searchEngine.js';
@@ -155,12 +156,27 @@ function AddToPlanModal({ recipe, onClose }) {
 }
 
 export default function RecipeLibrary() {
-    const [recipes] = useState(() => storageService.getRecipes());
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [query, setQuery] = useState('');
     const [activeTags, setActiveTags] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [planTarget, setPlanTarget] = useState(null);
     const [toast, setToast] = useState('');
+
+    useEffect(() => {
+        recipesApi.getAll()
+            .then(data => {
+                setRecipes(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch recipes:', err);
+                setError('Failed to load recipes. Please try again later.');
+                setLoading(false);
+            });
+    }, []);
 
     const filtered = useMemo(() => {
         const searched = searchRecipes(recipes, query);
@@ -188,69 +204,85 @@ export default function RecipeLibrary() {
             <h1 className="section-title">Recipe Library</h1>
             <p className="section-subtitle">Browse {recipes.length} recipes · filter by diet · add to your weekly plan</p>
 
-            {/* Search */}
-            <div className={styles.searchRow}>
-                <div className={styles.searchWrap}>
-                    <span className={styles.searchIcon}>🔍</span>
-                    <input
-                        type="search"
-                        placeholder="Search by name or ingredient…"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        aria-label="Search recipes"
-                        className={styles.searchInput}
-                    />
-                </div>
-                {activeTags.length > 0 && (
-                    <button className="btn btn-ghost btn-sm" onClick={() => setActiveTags([])}>
-                        Clear filters
-                    </button>
-                )}
-            </div>
-
-            {/* Diet tag filters */}
-            <div className={styles.filtersBar} role="group" aria-label="Diet tag filters">
-                {ALL_TAGS.map((tag) => (
-                    <button
-                        key={tag}
-                        className={`tag tag-${tag} ${styles.filterBtn} ${activeTags.includes(tag) ? styles.filterActive : ''}`}
-                        onClick={() => toggleTag(tag)}
-                        aria-pressed={activeTags.includes(tag)}
-                    >
-                        {TAG_LABELS[tag]}
-                    </button>
-                ))}
-            </div>
-
-            {/* Results count */}
-            <p className={styles.resultsCount}>
-                {filtered.length} recipe{filtered.length !== 1 ? 's' : ''} found
-            </p>
-
-            {/* Recipe grid */}
-            {filtered.length === 0 ? (
-                <div className="empty-state">
-                    <div className="empty-state__icon">🍽</div>
-                    <p className="empty-state__text">No recipes match your filters.</p>
-                </div>
-            ) : (
-                <div className={styles.grid}>
-                    {filtered.map((r) => (
-                        <RecipeCard
-                            key={r.id}
-                            recipe={r}
-                            onDetail={setSelectedRecipe}
-                            onAddToPlan={setPlanTarget}
-                        />
-                    ))}
+            {loading && (
+                <div style={{ textAlign: 'center', padding: '40px' }}>
+                    <p>Loading recipes...</p>
                 </div>
             )}
 
-            {selectedRecipe && (
-                <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
+            {error && (
+                <div style={{ textAlign: 'center', padding: '40px', color: 'var(--danger-color)' }}>
+                    <p>{error}</p>
+                </div>
             )}
-            {planTarget && (
-                <AddToPlanModal recipe={planTarget} onClose={handlePlanClose} />
+
+            {!loading && !error && (
+                <>
+                    {/* Search */}
+                    <div className={styles.searchRow}>
+                        <div className={styles.searchWrap}>
+                            <span className={styles.searchIcon}>🔍</span>
+                            <input
+                                type="search"
+                                placeholder="Search by name or ingredient…"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                aria-label="Search recipes"
+                                className={styles.searchInput}
+                            />
+                        </div>
+                        {activeTags.length > 0 && (
+                            <button className="btn btn-ghost btn-sm" onClick={() => setActiveTags([])}>
+                                Clear filters
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Diet tag filters */}
+                    <div className={styles.filtersBar} role="group" aria-label="Diet tag filters">
+                        {ALL_TAGS.map((tag) => (
+                            <button
+                                key={tag}
+                                className={`tag tag-${tag} ${styles.filterBtn} ${activeTags.includes(tag) ? styles.filterActive : ''}`}
+                                onClick={() => toggleTag(tag)}
+                                aria-pressed={activeTags.includes(tag)}
+                            >
+                                {TAG_LABELS[tag]}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Results count */}
+                    <p className={styles.resultsCount}>
+                        {filtered.length} recipe{filtered.length !== 1 ? 's' : ''} found
+                    </p>
+
+                    {/* Recipe grid */}
+                    {filtered.length === 0 ? (
+                        <div className="empty-state">
+                            <div className="empty-state__icon">🍽</div>
+                            <p className="empty-state__text">No recipes match your filters.</p>
+                        </div>
+                    ) : (
+                        <div className={styles.grid}>
+                            {filtered.map((r) => (
+                                <RecipeCard
+                                    key={r.id}
+                                    recipe={r}
+                                    onDetail={setSelectedRecipe}
+                                    onAddToPlan={setPlanTarget}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {selectedRecipe && (
+                        <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
+                    )}
+                    {planTarget && (
+                        <AddToPlanModal recipe={planTarget} onClose={handlePlanClose} />
+                    )}
+                </>
             )}
         </div>
     );

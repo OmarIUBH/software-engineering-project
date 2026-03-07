@@ -24,6 +24,7 @@ const SYNONYMS = {
  * @returns {string}
  */
 export function normalise(name) {
+    if (!name) return '';
     const lower = name.toLowerCase().trim();
     return SYNONYMS[lower] ?? lower;
 }

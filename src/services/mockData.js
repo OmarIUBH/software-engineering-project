@@ -30,7 +30,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 20,
         servings: 2,
-        dietTags: ["vegetarian"],
+        dietTags: ["vegetarian", "vegan", "dairy-free"],
         ingredients: [
             { name: "Pasta", qty: 200, unit: "g" },
             { name: "Tomato", qty: 3, unit: "piece" },
@@ -135,7 +135,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 2,
-        dietTags: ["high-protein"],
+        dietTags: ["high-protein", "dairy-free"],
         ingredients: [
             { name: "Beef Steak", qty: 300, unit: "g" },
             { name: "Broccoli", qty: 200, unit: "g" },
@@ -234,7 +234,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 30,
         servings: 4,
-        dietTags: ["vegetarian"],
+        dietTags: ["vegetarian", "dairy-free"],
         ingredients: [
             { name: "Potato", qty: 800, unit: "g" },
             { name: "Onion", qty: 1, unit: "piece" }

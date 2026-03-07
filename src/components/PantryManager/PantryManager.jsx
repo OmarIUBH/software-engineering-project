@@ -43,6 +43,8 @@ export default function PantryManager() {
     const [form, setForm] = useState({ name: '', qty: '', unit: 'g', expiry_date: '' });
     const [formError, setFormError] = useState('');
     const [recipes, setRecipes] = useState([]);
+    const [isAdding, setIsAdding] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     // Autocomplete state
     const [suggestions, setSuggestions] = useState([]);
@@ -139,6 +141,7 @@ export default function PantryManager() {
         // use the 'name' field to either find it in the DB or create it on the fly.
         const finalIngredientId = foundIngredientId || null;
 
+        setIsAdding(true);
         try {
             const newItem = {
                 ingredient_id: finalIngredientId,
@@ -158,8 +161,14 @@ export default function PantryManager() {
             setItems(prev => [...prev, added]);
             setForm({ name: '', qty: '', unit: 'g', expiry_date: '' });
             setShowSuggestions(false);
+
+            // Show success feedback
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 2000);
         } catch (err) {
             setFormError('Failed to add item to pantry.');
+        } finally {
+            setIsAdding(false);
         }
     }
 
@@ -247,9 +256,16 @@ export default function PantryManager() {
                             onChange={(e) => setForm((f) => ({ ...f, expiry_date: e.target.value }))}
                         />
                     </div>
-                    <button type="submit" className={`btn btn-primary ${styles.addBtn}`}>+ Add</button>
+                    <button
+                        type="submit"
+                        className={`btn btn-primary ${styles.addBtn}`}
+                        disabled={isAdding}
+                    >
+                        {isAdding ? 'Adding...' : '+ Add'}
+                    </button>
                 </div>
                 {formError && <p className={styles.error}>{formError}</p>}
+                {showSuccess && <p className={styles.success} style={{ color: 'var(--color-success, #22c55e)', fontWeight: 'bold' }}>✓ Added successfully!</p>}
             </form>
 
             <div className="divider" />

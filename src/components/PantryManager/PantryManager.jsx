@@ -6,6 +6,36 @@ import styles from './PantryManager.module.css';
 
 const UNITS = ['g', 'kg', 'ml', 'L', 'pcs', 'slices', 'tbsp', 'tsp', 'cup'];
 
+function getExpiryInfo(dateString) {
+    if (!dateString) return null;
+
+    const [year, month, day] = dateString.split('-');
+    const expiry = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = expiry - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let color = 'var(--color-text-muted, #666)';
+    let text = `(Expires: ${dateString})`;
+    let fontWeight = 'normal';
+
+    if (diffDays < 0) {
+        color = 'var(--color-danger, #ef4444)';
+        text = `(Expired ${Math.abs(diffDays)} days ago)`;
+        fontWeight = 'bold';
+    } else if (diffDays <= 3) {
+        color = '#f59e0b'; // Orange for warning
+        text = diffDays === 0 ? '(Expires Today!)' : `(Expires in ${diffDays} days)`;
+        fontWeight = 'bold';
+    } else if (diffDays <= 7) {
+        text = `(Expires in ${diffDays} days)`;
+    }
+
+    return { color, text, fontWeight };
+}
+
 export default function PantryManager() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -236,11 +266,15 @@ export default function PantryManager() {
                         <li key={item.id} className={styles.pantryItem}>
                             <div className={styles.itemInfo}>
                                 <span className={styles.itemName}>{item.name}</span>
-                                {item.expiry_date && (
-                                    <span style={{ fontSize: '0.85em', color: '#666', marginLeft: '8px' }}>
-                                        (Expires: {item.expiry_date})
-                                    </span>
-                                )}
+                                {item.expiry_date && (() => {
+                                    const info = getExpiryInfo(item.expiry_date);
+                                    if (!info) return null;
+                                    return (
+                                        <span style={{ fontSize: '0.85em', color: info.color, fontWeight: info.fontWeight, marginLeft: '8px' }}>
+                                            {info.text}
+                                        </span>
+                                    );
+                                })()}
                             </div>
                             <div className={styles.itemControls}>
                                 <input

@@ -24,8 +24,8 @@ async function request(endpoint, options = {}) {
     const response = await fetch(`${BASE_URL}${endpoint}`, config);
 
     if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.message || `API request failed with status ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.message || `API request failed with status ${response.status}`);
     }
 
     // Handle 204 No Content

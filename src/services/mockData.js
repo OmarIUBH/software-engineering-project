@@ -14,10 +14,10 @@ export const MOCK_RECIPES = [
         category: "Breakfast",
         prepTime: 10,
         servings: 1,
-        dietTags: ["vegan"],
+        dietTags: ["vegan", "dairy-free"],
         ingredients: [
             { name: "Oats", qty: 50, unit: "g" },
-            { name: "Milk", qty: 200, unit: "ml" },
+            { name: "Almond Milk", qty: 200, unit: "ml" },
             { name: "Banana", qty: 1, unit: "piece" },
             { name: "Peanut Butter", qty: 15, unit: "g" }
         ],
@@ -48,7 +48,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 25,
         servings: 2,
-        dietTags: ["high-protein"],
+        dietTags: ["high-protein", "dairy-free"],
         ingredients: [
             { name: "Chicken Breast", qty: 300, unit: "g" },
             { name: "Broccoli", qty: 150, unit: "g" },
@@ -66,7 +66,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 3,
-        dietTags: ["high-protein"],
+        dietTags: ["high-protein", "dairy-free"],
         ingredients: [
             { name: "Ground Beef", qty: 400, unit: "g" },
             { name: "Tortilla", qty: 6, unit: "piece" },
@@ -84,7 +84,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 40,
         servings: 4,
-        dietTags: ["vegan"],
+        dietTags: ["vegan", "dairy-free"],
         ingredients: [
             { name: "Lentils", qty: 250, unit: "g" },
             { name: "Onion", qty: 1, unit: "piece" },
@@ -169,7 +169,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 20,
         servings: 2,
-        dietTags: ["vegan", "gluten-free"],
+        dietTags: ["vegan", "gluten-free", "dairy-free"],
         ingredients: [
             { name: "Quinoa", qty: 150, unit: "g" },
             { name: "Beans", qty: 100, unit: "g" },
@@ -186,7 +186,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 2,
-        dietTags: ["gluten-free"],
+        dietTags: ["gluten-free", "dairy-free"],
         ingredients: [
             { name: "Salmon", qty: 300, unit: "g" },
             { name: "Olive Oil", qty: 20, unit: "ml" },
@@ -248,7 +248,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 30,
         servings: 2,
-        dietTags: ["vegan", "gluten-free"],
+        dietTags: ["vegan", "gluten-free", "dairy-free"],
         ingredients: [
             { name: "Tofu", qty: 400, unit: "g" },
             { name: "Coconut Milk", qty: 400, unit: "ml" },

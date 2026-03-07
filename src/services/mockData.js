@@ -14,7 +14,7 @@ export const MOCK_RECIPES = [
         category: "Breakfast",
         prepTime: 10,
         servings: 1,
-        dietTags: ["Breakfast", "Vegan", "Healthy"],
+        dietTags: ["vegan"],
         ingredients: [
             { name: "Oats", qty: 50, unit: "g" },
             { name: "Milk", qty: 200, unit: "ml" },
@@ -30,7 +30,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 20,
         servings: 2,
-        dietTags: ["Lunch", "Dinner", "Italian", "Vegetarian"],
+        dietTags: ["vegetarian"],
         ingredients: [
             { name: "Pasta", qty: 200, unit: "g" },
             { name: "Tomato", qty: 3, unit: "piece" },
@@ -48,7 +48,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 25,
         servings: 2,
-        dietTags: ["Dinner", "High-Protein"],
+        dietTags: ["high-protein"],
         ingredients: [
             { name: "Chicken Breast", qty: 300, unit: "g" },
             { name: "Broccoli", qty: 150, unit: "g" },
@@ -66,7 +66,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 3,
-        dietTags: ["Dinner", "Mexican"],
+        dietTags: [],
         ingredients: [
             { name: "Ground Beef", qty: 400, unit: "g" },
             { name: "Tortilla", qty: 6, unit: "piece" },
@@ -84,7 +84,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 40,
         servings: 4,
-        dietTags: ["Lunch", "Vegan", "Healthy"],
+        dietTags: ["vegan"],
         ingredients: [
             { name: "Lentils", qty: 250, unit: "g" },
             { name: "Onion", qty: 1, unit: "piece" },
@@ -101,7 +101,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 15,
         servings: 2,
-        dietTags: ["Lunch", "Vegetarian", "Gluten-Free"],
+        dietTags: ["vegetarian", "gluten-free"],
         ingredients: [
             { name: "Cucumber", qty: 1, unit: "piece" },
             { name: "Tomato", qty: 2, unit: "piece" },
@@ -118,7 +118,7 @@ export const MOCK_RECIPES = [
         category: "Breakfast",
         prepTime: 10,
         servings: 1,
-        dietTags: ["Breakfast", "Vegetarian", "High-Protein"],
+        dietTags: ["vegetarian", "high-protein"],
         ingredients: [
             { name: "Egg", qty: 3, unit: "piece" },
             { name: "Spinach", qty: 50, unit: "g" },
@@ -135,7 +135,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 2,
-        dietTags: ["Dinner", "High-Protein", "Low-Carb"],
+        dietTags: ["high-protein"],
         ingredients: [
             { name: "Beef Steak", qty: 300, unit: "g" },
             { name: "Broccoli", qty: 200, unit: "g" },
@@ -152,7 +152,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 15,
         servings: 2,
-        dietTags: ["Dinner", "Italian"],
+        dietTags: [],
         ingredients: [
             { name: "Shrimp", qty: 10, unit: "piece" },
             { name: "Pasta", qty: 150, unit: "g" },
@@ -169,7 +169,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 20,
         servings: 2,
-        dietTags: ["Lunch", "Vegan", "Gluten-Free"],
+        dietTags: ["vegan", "gluten-free"],
         ingredients: [
             { name: "Quinoa", qty: 150, unit: "g" },
             { name: "Beans", qty: 100, unit: "g" },
@@ -186,7 +186,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 2,
-        dietTags: ["Dinner", "Healthy", "Gluten-Free"],
+        dietTags: ["gluten-free"],
         ingredients: [
             { name: "Salmon", qty: 300, unit: "g" },
             { name: "Olive Oil", qty: 20, unit: "ml" },
@@ -202,7 +202,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 15,
         servings: 1,
-        dietTags: ["Dinner"],
+        dietTags: [],
         ingredients: [
             { name: "Ground Beef", qty: 200, unit: "g" },
             { name: "Bread", qty: 1, unit: "piece" },
@@ -219,7 +219,7 @@ export const MOCK_RECIPES = [
         category: "Breakfast",
         prepTime: 5,
         servings: 1,
-        dietTags: ["Breakfast", "Healthy"],
+        dietTags: [],
         ingredients: [
             { name: "Yogurt", qty: 200, unit: "g" },
             { name: "Milk", qty: 100, unit: "ml" },
@@ -234,7 +234,7 @@ export const MOCK_RECIPES = [
         category: "Lunch",
         prepTime: 30,
         servings: 4,
-        dietTags: ["Lunch", "Vegetarian"],
+        dietTags: ["vegetarian"],
         ingredients: [
             { name: "Potato", qty: 800, unit: "g" },
             { name: "Onion", qty: 1, unit: "piece" }
@@ -248,7 +248,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 30,
         servings: 2,
-        dietTags: ["Dinner", "Vegan", "Gluten-Free"],
+        dietTags: ["vegan", "gluten-free"],
         ingredients: [
             { name: "Tofu", qty: 400, unit: "g" },
             { name: "Coconut Milk", qty: 400, unit: "ml" },

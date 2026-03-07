@@ -77,7 +77,7 @@ export function generateGroceryList(weeklyPlan, recipes) {
         for (const recipeId of Object.values(day)) {
             if (!recipeId) continue;
             const recipe = recipeMap[recipeId];
-            if (!recipe) continue;
+            if (!recipe || !recipe.ingredients) continue;
             const scaled = scaleIngredients(
                 recipe.ingredients,
                 recipe.servings,

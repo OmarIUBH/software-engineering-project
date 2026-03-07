@@ -6,7 +6,7 @@ const { db } = require('../db');
 router.get('/', (req, res) => {
     try {
         const items = db.prepare(`
-            SELECT pi.*, i.name as ingredient_name 
+            SELECT pi.*, i.name as name 
             FROM pantry_items pi
             JOIN ingredients i ON pi.ingredient_id = i.id
             WHERE pi.user_id = 1

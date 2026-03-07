@@ -8,34 +8,52 @@ export const MOCK_USER = {
 export const MOCK_RECIPES = [
     {
         id: 1,
-        name: "Classic Spaghetti Carbonara",
-        description: "A creamy Italian pasta dish with pancetta and parmesan.",
-        category: "Main Course",
-        prepTime: 20,
-        servings: 4,
-        dietTags: ["high-protein"],
-        estimatedCostPerServing: 2.5,
+        name: "Simple Oatmeal",
+        description: "A quick and healthy breakfast option. Cook oats with milk or water and top with fruits.",
+        category: "Breakfast",
+        prepTime: 10,
+        servings: 1,
+        dietTags: ["vegetarian", "healthy"],
+        estimatedCostPerServing: 1.5,
         ingredients: [
-            { name: "Spaghetti", qty: 400, unit: "g" },
-            { name: "Egg", qty: 4, unit: "pcs" },
-            { name: "Parmesan Cheese", qty: 100, unit: "g" }
+            { name: "Oats", qty: 50, unit: "g" },
+            { name: "Milk", qty: 200, unit: "ml" },
+            { name: "Honey", qty: 1, unit: "tbsp" }
         ],
-        instructions: ["Boil pasta", "Fry pancetta", "Mix eggs and cheese", "Combine all"]
+        instructions: ["Mix oats and milk", "Microwave for 2 mins", "Add honey"]
     },
     {
         id: 2,
-        name: "Vegan Lentil Soup",
-        description: "Hearty and healthy lentil soup with carrots and onions.",
-        category: "Soup",
-        prepTime: 45,
-        servings: 6,
-        dietTags: ["vegan", "vegetarian"],
-        estimatedCostPerServing: 1.2,
+        name: "Lentil Salad",
+        description: "A fresh and protein-packed salad with lentils, tomatoes, and cucumbers.",
+        category: "Lunch",
+        prepTime: 15,
+        servings: 2,
+        dietTags: ["vegan", "vegetarian", "high-protein"],
+        estimatedCostPerServing: 2.0,
         ingredients: [
-            { name: "Red Lentils", qty: 250, unit: "g" },
-            { name: "Carrot", qty: 2, unit: "pcs" },
-            { name: "Vegetable Stock", qty: 1, unit: "L" }
+            { name: "Cooked Lentils", qty: 200, unit: "g" },
+            { name: "Tomato", qty: 1, unit: "piece" },
+            { name: "Cucumber", qty: 0.5, unit: "piece" },
+            { name: "Lemon", qty: 0.5, unit: "piece" }
         ],
-        instructions: ["Sauté veggies", "Add lentils and stock", "Simmer for 30 mins"]
+        instructions: ["Chop veggies", "Mix with lentils", "Squeeze lemon over"]
+    },
+    {
+        id: 3,
+        name: "Beef Stir Fry",
+        description: "Savory beef strips stir-fried with colorful vegetables and soy sauce.",
+        category: "Main Dish",
+        prepTime: 25,
+        servings: 4,
+        dietTags: ["high-protein"],
+        estimatedCostPerServing: 4.5,
+        ingredients: [
+            { name: "Beef Strips", qty: 500, unit: "g" },
+            { name: "Bell Pepper", qty: 2, unit: "pcs" },
+            { name: "Broccoli", qty: 1, unit: "head" },
+            { name: "Soy Sauce", qty: 2, unit: "tbsp" }
+        ],
+        instructions: ["Sear beef", "Add veggies", "Stir in soy sauce", "Cook until tender"]
     }
 ];

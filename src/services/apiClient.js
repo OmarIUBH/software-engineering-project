@@ -8,6 +8,13 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 function handleMockRequest(endpoint, options = {}) {
     console.warn(`[Demo Mode] Intercepted ${options.method} request to ${endpoint}`);
 
+    // Helper for persisting state in Demo Mode
+    const getState = (key, defaultVal = []) => {
+        const stored = localStorage.getItem(`demo_${key}`);
+        return stored ? JSON.parse(stored) : defaultVal;
+    };
+    const saveState = (key, val) => localStorage.setItem(`demo_${key}`, JSON.stringify(val));
+
     // Simulate Login
     if (endpoint.includes('/auth/login')) {
         return Promise.resolve({
@@ -22,9 +29,39 @@ function handleMockRequest(endpoint, options = {}) {
         return Promise.resolve(MOCK_RECIPES);
     }
 
-    // Simulate Pantry/Plan (Empty for fresh demo)
-    if (endpoint.includes('/pantry') || endpoint.includes('/mealplans')) {
-        return Promise.resolve([]);
+    // Handle Pantry Persistence
+    if (endpoint.includes('/pantry')) {
+        const pantry = getState('pantry');
+        if (options.method === 'GET') return Promise.resolve(pantry);
+
+        if (options.method === 'POST') {
+            const newItem = {
+                id: Date.now(),
+                ...JSON.parse(options.body),
+                name: (JSON.parse(options.body).name || 'Unknown Item') // Mock name resolution
+            };
+            const updated = [...pantry, newItem];
+            saveState('pantry', updated);
+            return Promise.resolve(newItem);
+        }
+
+        if (options.method === 'DELETE') {
+            const id = parseInt(endpoint.split('/').pop());
+            const updated = pantry.filter(item => item.id !== id);
+            saveState('pantry', updated);
+            return Promise.resolve({ message: 'Deleted' });
+        }
+    }
+
+    // Handle Meal Plan Persistence (Sync with storageService)
+    if (endpoint.includes('/mealplans')) {
+        const plans = getState('mealplans');
+        if (options.method === 'GET') return Promise.resolve(plans);
+        if (options.method === 'POST') {
+            const newPlan = JSON.parse(options.body);
+            saveState('mealplans', newPlan);
+            return Promise.resolve(newPlan);
+        }
     }
 
     // Default empty success for other POST/PUT/DELETE

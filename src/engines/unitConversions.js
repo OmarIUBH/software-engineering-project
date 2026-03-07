@@ -20,6 +20,7 @@ const TO_BASE = {
 
     // Count (base: pcs)
     pcs: 1,
+    piece: 1,
     slices: 1,
 };
 
@@ -27,7 +28,7 @@ const TO_BASE = {
 const DIMENSION = {
     ml: 'volume', l: 'volume', L: 'volume', tbsp: 'volume', tsp: 'volume', cup: 'volume',
     g: 'mass', kg: 'mass',
-    pcs: 'count', slices: 'count',
+    pcs: 'count', piece: 'count', slices: 'count',
 };
 
 /**

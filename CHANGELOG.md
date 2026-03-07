@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the **MealMate** project will be documented in this file. This project follows professional version and release control standards.
+All notable changes to the **MealMate** project will be documented in this file.
 
 ---
 
@@ -38,5 +38,3 @@ All notable changes to the **MealMate** project will be documented in this file.
 - **User Authentication**: Secure JWT-based registration and login system.
 - **Database Schema**: Established relational SQLite models for persistence.
 
----
-*Generated as part of the MealMate Version & Release Control standard.*

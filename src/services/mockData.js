@@ -66,7 +66,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 20,
         servings: 3,
-        dietTags: [],
+        dietTags: ["high-protein"],
         ingredients: [
             { name: "Ground Beef", qty: 400, unit: "g" },
             { name: "Tortilla", qty: 6, unit: "piece" },
@@ -152,7 +152,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 15,
         servings: 2,
-        dietTags: [],
+        dietTags: ["high-protein"],
         ingredients: [
             { name: "Shrimp", qty: 10, unit: "piece" },
             { name: "Pasta", qty: 150, unit: "g" },
@@ -202,7 +202,7 @@ export const MOCK_RECIPES = [
         category: "Dinner",
         prepTime: 15,
         servings: 1,
-        dietTags: [],
+        dietTags: ["high-protein"],
         ingredients: [
             { name: "Ground Beef", qty: 200, unit: "g" },
             { name: "Bread", qty: 1, unit: "piece" },
@@ -219,7 +219,7 @@ export const MOCK_RECIPES = [
         category: "Breakfast",
         prepTime: 5,
         servings: 1,
-        dietTags: [],
+        dietTags: ["vegetarian"],
         ingredients: [
             { name: "Yogurt", qty: 200, unit: "g" },
             { name: "Milk", qty: 100, unit: "ml" },

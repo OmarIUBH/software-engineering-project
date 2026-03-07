@@ -158,8 +158,17 @@
     margin-bottom: 12px;
 }
 
-.servingControl {
+.servingSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin: 16px 0;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.servingControl {
+    margin: 0;
 }
 
 .servingRow {

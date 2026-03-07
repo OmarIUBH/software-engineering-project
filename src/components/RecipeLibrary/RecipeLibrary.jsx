@@ -6,7 +6,7 @@ import { searchRecipes } from '../../engines/searchEngine.js';
 import { scaleIngredients } from '../../engines/scalingEngine.js';
 import styles from './RecipeLibrary.module.css';
 
-const TAG_LABELS = {
+export const TAG_LABELS = {
     vegetarian: '🌿 Vegetarian',
     vegan: '🌱 Vegan',
     'high-protein': '💪 High-Protein',
@@ -14,12 +14,21 @@ const TAG_LABELS = {
     'gluten-free': '🌾 Gluten-Free',
 };
 
-function RecipeModal({ recipe, onClose }) {
+export function RecipeModal({ recipe, onClose, onSaveServings }) {
     const [servings, setServings] = useState(recipe.servings);
+    const [isSaving, setIsSaving] = useState(false);
+
     const scaled = useMemo(
         () => scaleIngredients(recipe.ingredients, recipe.servings, servings),
         [recipe, servings]
     );
+
+    async function handleSave() {
+        if (!onSaveServings) return;
+        setIsSaving(true);
+        await onSaveServings(recipe.id, servings);
+        setIsSaving(false);
+    }
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -41,21 +50,32 @@ function RecipeModal({ recipe, onClose }) {
                     </div>
                 </div>
 
-                <div className={styles.servingControl}>
-                    <label htmlFor="servings-input">Servings</label>
-                    <div className={styles.servingRow}>
-                        <button className="btn btn-ghost btn-sm" onClick={() => setServings(Math.max(1, servings - 1))}>−</button>
-                        <input
-                            id="servings-input"
-                            type="number"
-                            min="1"
-                            max="12"
-                            value={servings}
-                            onChange={(e) => setServings(Math.max(1, parseInt(e.target.value) || 1))}
-                            style={{ width: 60, textAlign: 'center' }}
-                        />
-                        <button className="btn btn-ghost btn-sm" onClick={() => setServings(Math.min(12, servings + 1))}>+</button>
+                <div className={styles.servingSection}>
+                    <div className={styles.servingControl}>
+                        <label htmlFor="servings-input">Servings</label>
+                        <div className={styles.servingRow}>
+                            <button className="btn btn-ghost btn-sm" onClick={() => setServings(Math.max(1, servings - 1))}>−</button>
+                            <input
+                                id="servings-input"
+                                type="number"
+                                min="1"
+                                max="12"
+                                value={servings}
+                                onChange={(e) => setServings(Math.max(1, parseInt(e.target.value) || 1))}
+                                style={{ width: 60, textAlign: 'center' }}
+                            />
+                            <button className="btn btn-ghost btn-sm" onClick={() => setServings(Math.min(12, servings + 1))}>+</button>
+                        </div>
                     </div>
+                    {servings !== recipe.servings && onSaveServings && (
+                        <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={handleSave}
+                            disabled={isSaving}
+                        >
+                            {isSaving ? 'Saving...' : '💾 Save as Default'}
+                        </button>
+                    )}
                 </div>
 
                 <div className="divider" />
@@ -168,7 +188,13 @@ export default function RecipeLibrary() {
     useEffect(() => {
         recipesApi.getAll()
             .then(data => {
-                setRecipes(data);
+                // Overlay persistent serving preferences from localStorage
+                const savedServings = storageService.getSettings().recipeServings || {};
+                const augmented = data.map(r => ({
+                    ...r,
+                    servings: savedServings[r.id] || r.servings
+                }));
+                setRecipes(augmented);
                 setLoading(false);
             })
             .catch(err => {
@@ -177,6 +203,22 @@ export default function RecipeLibrary() {
                 setLoading(false);
             });
     }, []);
+
+    async function handleSaveServings(recipeId, newServings) {
+        // Update local state
+        setRecipes(prev => prev.map(r =>
+            r.id === recipeId ? { ...r, servings: newServings } : r
+        ));
+
+        // Update localStorage
+        const settings = storageService.getSettings();
+        const recipeServings = settings.recipeServings || {};
+        recipeServings[recipeId] = newServings;
+        storageService.setSettings({ ...settings, recipeServings });
+
+        setToast('Serving preference saved! 💾');
+        setTimeout(() => setToast(''), 3000);
+    }
 
     const filtered = useMemo(() => {
         const searched = searchRecipes(recipes, query);
@@ -277,7 +319,11 @@ export default function RecipeLibrary() {
                     )}
 
                     {selectedRecipe && (
-                        <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
+                        <RecipeModal
+                            recipe={selectedRecipe}
+                            onClose={() => setSelectedRecipe(null)}
+                            onSaveServings={handleSaveServings}
+                        />
                     )}
                     {planTarget && (
                         <AddToPlanModal recipe={planTarget} onClose={handlePlanClose} />

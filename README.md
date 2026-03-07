@@ -150,10 +150,10 @@ The backend is built with **Node.js/Express** and uses **SQLite** for data persi
 - **Frontend**: `npm test` (Vitest)
 - **Backend API**: `cd backend && npm test` (Jest + Supertest)
 
-## Submission & Versioning (Phase 2)
-To tag the release for the Phase 2 submission:
+## Version & Release Control
+Version and release control is established for both the software and the corresponding architecture documentation. To tag a release for version control:
 ```bash
-git tag -a v1.0 -m "Phase 2 submission"
+git tag -a v1.0 -m "Release v1.0"
 git push origin v1.0
 ```
 The project is optimized for **Cloudflare Pages**. It includes a special `_redirects` configuration to handle Single Page Application (SPA) routing seamlessly. Cloudflare Pages is used for static hosting of the Vite build output (dist) because it is lightweight and suitable for an MVP web application.

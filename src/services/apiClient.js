@@ -29,16 +29,23 @@ function handleMockRequest(endpoint, options = {}) {
         return Promise.resolve(MOCK_RECIPES);
     }
 
+    // Helper to safely get body as object
+    const getBody = () => {
+        if (!options.body) return {};
+        return typeof options.body === 'string' ? JSON.parse(options.body) : options.body;
+    };
+
     // Handle Pantry Persistence
     if (endpoint.includes('/pantry')) {
         const pantry = getState('pantry');
         if (options.method === 'GET') return Promise.resolve(pantry);
 
         if (options.method === 'POST') {
+            const body = getBody();
             const newItem = {
                 id: Date.now(),
-                ...JSON.parse(options.body),
-                name: (JSON.parse(options.body).name || 'Unknown Item') // Mock name resolution
+                ...body,
+                name: (body.name || 'Unknown Item')
             };
             const updated = [...pantry, newItem];
             saveState('pantry', updated);
@@ -58,7 +65,7 @@ function handleMockRequest(endpoint, options = {}) {
         const plans = getState('mealplans');
         if (options.method === 'GET') return Promise.resolve(plans);
         if (options.method === 'POST') {
-            const newPlan = JSON.parse(options.body);
+            const newPlan = getBody();
             saveState('mealplans', newPlan);
             return Promise.resolve(newPlan);
         }

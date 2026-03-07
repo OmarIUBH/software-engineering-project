@@ -47,6 +47,12 @@ This project is built to demonstrate **Full-Stack Software Engineering** princip
 - **Search Helper**: Intelligent autocomplete suggests ingredient names from the recipe library as you type.
 - Seamlessly integrates with the grocery list to prevent overbuying.
 
+### ✨ Final Polish & Interactive Enhancements
+- **Serving Memory**: The app remembers your preferred serving sizes for every recipe.
+- **Planner Details**: Click any planned meal to view full recipe details without leaving the planner.
+- **Dynamic Portions**: Adjust servings directly in the planner to see real-time budget and grocery updates.
+- **Premium Aesthetics**: Fully responsive UI with smooth transitions and glassmorphism elements.
+
 ---
 
 ## Architecture

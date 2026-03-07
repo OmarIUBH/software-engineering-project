@@ -7,9 +7,10 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 ### In-Scope (MVP)
 - **User Authentication**: Secure JWT-based backend login and user registration via SQLite.
 - **Recipe Library**: Curated recipes with dietary filters (Vegan, Vegetarian, Gluten-Free, High-Protein).
-- **Weekly Planner**: Drag-and-drop or click-to-assign interface for Breakfast, Lunch, and Dinner.
+- **Weekly Planner**: Drag-and-drop or click-to-assign interface with **independent per-meal serving controls**.
 - **Smart Grocery List**: Automatic aggregation of ingredients with real-time budget tracking.
-- **Pantry Manager**: Inventory tracking with integration into the grocery list (pantry deduction).
+- **Pantry Manager**: Inventory tracking with integration into the grocery list.
+- **Serving Memory**: Persistent user preferences for recipe portions.
 - **Responsive Design**: Optimization for desktop and mobile performance.
 
 ### Out-of-Scope (Future Enhancements)

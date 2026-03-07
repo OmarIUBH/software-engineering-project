@@ -19,9 +19,27 @@ router.get('/', (req, res) => {
 
 // POST /api/pantry
 router.post('/', (req, res) => {
-    const { ingredient_id, quantity, unit, expiry_date } = req.body;
+    let { ingredient_id, name, quantity, unit, expiry_date } = req.body;
 
-    if (!ingredient_id) return res.status(400).json({ error: 'ingredient_id is required' });
+    if (!ingredient_id && !name) {
+        return res.status(400).json({ error: 'ingredient_id or name is required' });
+    }
+
+    // Auto-create missing ingredients so the pantry constraint doesn't fail
+    if (!ingredient_id && name) {
+        try {
+            const existing = db.prepare('SELECT id FROM ingredients WHERE LOWER(name) = LOWER(?)').get(name.trim());
+            if (existing) {
+                ingredient_id = existing.id;
+            } else {
+                const newIng = db.prepare('INSERT INTO ingredients (name, default_unit) VALUES (?, ?)').run(name.trim(), unit);
+                ingredient_id = newIng.lastInsertRowid;
+            }
+        } catch (err) {
+            return res.status(500).json({ error: 'Failed to lookup/create ingredient for pantry item' });
+        }
+    }
+
     if (quantity === undefined || quantity < 0) return res.status(400).json({ error: 'Valid quantity is required' });
     if (!unit) return res.status(400).json({ error: 'Unit is required' });
 

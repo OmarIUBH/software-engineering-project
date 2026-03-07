@@ -123,6 +123,8 @@ export default function MealPlanner() {
                     <div className={styles.summary}>
                         <span>📅 {totalMeals} / 21 meals planned</span>
                         <span>·</span>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--color-success, #22c55e)' }}>✓ Synced to LocalStorage</span>
+                        <span>·</span>
                         <a href="/grocery" className={styles.summaryLink}>View Grocery List →</a>
                     </div>
 

@@ -25,7 +25,7 @@ export default function PantryManager() {
             .then(([pantryData, recipesData]) => {
                 setItems(pantryData.map(item => ({
                     ...item,
-                    name: item.ingredient_name,
+                    name: item.name || item.ingredient_name, // Support both new and old API structures
                     qty: item.quantity,
                     expiry_date: item.expiry_date || ''
                 })));
@@ -93,17 +93,26 @@ export default function PantryManager() {
         setFormError('');
 
         // Find ingredient ID from recipes
-        // This is a simplification; in a real app we'd have an ingredients API
-        const ingredient = recipes.flatMap(r => r.ingredients || []).find(i => i.name.toLowerCase() === name.toLowerCase());
-
-        if (!ingredient) {
-            setFormError('Ingredient not found in recipe database.');
-            return;
+        // Search through all recipes.ingredients for a matching name to find its real ingredient_id
+        let foundIngredientId = null;
+        for (const r of recipes) {
+            if (r.ingredients) {
+                const match = r.ingredients.find(i => i.name.toLowerCase() === name.toLowerCase());
+                if (match && match.ingredient_id) {
+                    foundIngredientId = match.ingredient_id;
+                    break;
+                }
+            }
         }
+
+        // If we still can't find an exact ID map, we set it to null and let the backend 
+        // use the 'name' field to either find it in the DB or create it on the fly.
+        const finalIngredientId = foundIngredientId || null;
 
         try {
             const newItem = {
-                ingredient_id: ingredient.ingredient_id || ingredient.id, // backend might use different fields
+                ingredient_id: finalIngredientId,
+                name: name, // Send the name so the backend can create it if missing
                 quantity: qty,
                 unit: form.unit,
                 expiry_date: form.expiry_date

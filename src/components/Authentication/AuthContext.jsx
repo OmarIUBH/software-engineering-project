@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('mealmate_token', response.token);
         localStorage.setItem('mealmate_user', JSON.stringify(response.user));
         setUser(response.user);
+        return response; // Return to allow components to react
     };
 
     const register = async (name, email, password) => {

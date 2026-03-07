@@ -41,6 +41,24 @@ function ProtectedRoute({ children }) {
     return user ? children : <Navigate to="/login" />;
 }
 
+function DemoBanner() {
+    const { user } = useAuth();
+    if (!user?.isDemo) return null;
+    return (
+        <div style={{
+            backgroundColor: '#f59e0b',
+            color: 'white',
+            textAlign: 'center',
+            padding: '8px',
+            fontSize: '0.9rem',
+            fontWeight: 'bold',
+            zIndex: 1000
+        }}>
+            ⚠️ Running in Offline Demo Mode (Backend Unreachable)
+        </div>
+    );
+}
+
 export default function App() {
     return (
         <AuthProvider>
@@ -51,6 +69,7 @@ export default function App() {
                 }}
             >
                 <div className="app-layout">
+                    <DemoBanner />
                     <Navbar />
                     <main className="main-content">
                         <Routes>

@@ -57,13 +57,13 @@ graph LR
 - **Client Cache**: LocalStorage is utilized primarily for temporary UI state (e.g., active filters) and optimistic UI updates before synchronization with the server.
 
 ## 4. Deployment View
-The application supports two primary deployment and evaluation modes:
+The application supports two primary deployment modes:
 
 ### Cloudflare Pages (Production-style)
 The frontend builds are deployed to Cloudflare Pages for public access and automated CI/CD.
 
-### Docker Compose (Evaluation Setup)
-For local testing and evaluation, a multi-container Docker setup provides a reproducible environment:
+### Docker Compose (Development Setup)
+For local testing and development, a multi-container Docker setup provides a reproducible environment:
 - **Frontend Container**: NGINX serving the production build on port `8080`.
 - **Backend Container**: Node.js/Express server on port `3000`.
 - **Persistent Volume**: Docker volume mapping `backend/data` to ensure SQLite data persists across container restarts.
@@ -72,7 +72,7 @@ For local testing and evaluation, a multi-container Docker setup provides a repr
 graph TD
     UserDevice[User Browser]
     
-    subgraph "Local Evaluation (Docker Compose)"
+    subgraph "Local Development (Docker Compose)"
         NGINX[Frontend Container:8080]
         Express[Backend Container:3000]
         DataVol[(Docker Volume)]

@@ -19,7 +19,7 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 
 ## 3. Target Group
 - Busy professionals looking for quick meal organization.
-- Students managing tight budgets.
+- Individuals managing tight budgets.
 - Individuals with specific dietary requirements.
 - Home cooks wanting to organize their pantry and reduce waste.
 
@@ -34,9 +34,9 @@ MealMate aims to simplify the complex task of weekly meal planning and grocery m
 - **Core Development**: Recipe Library, Planner, and basic application structure.
 - **Testing & Quality**: Enhancement of Grocery/Pantry logic and rigorous QA.
 - **Infrastructure**: Deployment and CI/CD Pipeline configuration.
-- **Final Documentation**: Project reports and evaluation preparation.
+- **Product Documentation**: Technical specifications and deployment guides.
 
 ## 6. Project Organization
 - **Development Model**: Agile (Iterative sprints).
-- **Developer**: Omar (Student Project).
+- **Developer**: Omar
 - **Tools**: GitHub (Version Control), Vitest (Unit Testing), Postman (API Testing), Docker (Containerization).

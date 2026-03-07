@@ -11,15 +11,6 @@ MealMate is a modern, high-performance meal planning and grocery management appl
 
 ---
 
-## 🎓 Note for Tutors (Academic Context)
-
-This project is built to demonstrate **Full-Stack Software Engineering** principles. While the Cloudflare link provides a functional UI demo, the true complexity of the project lies in its **Client-Server Architecture**:
-
-*   **Real Backend & Database**: The project utilizes a **Node.js/Express** server and a relational **SQLite** database (located in `backend/data`).
-*   **Architectural Decision: Hybrid Mock Mode**: To allow for a seamless live preview on Cloudflare (which lacks a persistent server), I implemented **Graceful Degradation**. The `apiClient.js` service detects backend availability; if the real server is unreachable, it falls back to an **offline mock layer** to preserve a professional demo experience.
-*   **Independent API Validation**: All backend routes are JWT-protected and can be validated independently using the provided **[Postman Collection](docs/MealMate_Postman_Collection.json)**.
-*   **Relational Quality**: The database schema includes foreign key constraints and join tables for tags and ingredients, demonstrating a high level of relational integrity.
-
 ---
 
 ## ✨ Key Features
@@ -59,7 +50,7 @@ This project is built to demonstrate **Full-Stack Software Engineering** princip
 MealMate now follows a traditional Client-Server architecture:
 - **Frontend**: React/Vite SPA.
 - **Backend**: Node.js Express REST API.
-- **Database**: SQLite for student-friendly, file-based persistence.
+- **Database**: SQLite for lightweight, file-based persistence.
 
 ## Getting Started
 ### Docker (Recommended)
@@ -172,4 +163,4 @@ Comprehensive project documentation is available in the [`/docs`](docs/) folder:
 ---
 
 ## 📜 Credits
-Developed as part of a software engineering project. See [CREDITS.md](CREDITS.md) for a list of third-party libraries used.
+See [CREDITS.md](CREDITS.md) for a list of third-party libraries used.

@@ -2,7 +2,7 @@
 
 ## ✅ Completed
 - [x] Initial Refinements: UI feedback & Cleanup
-- [x] Update README with Tutor Notes
+- [x] Establish System Architecture Documentation
 - [x] Delete temporary log files
 - [x] Fix Pantry Persistence in Demo Mode (apiClient.js)
 - [x] Fix Unit Consistency for Deduction (unitConversions.js)

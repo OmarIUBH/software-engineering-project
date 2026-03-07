@@ -74,14 +74,21 @@ export function generateGroceryList(weeklyPlan, recipes) {
     const totals = {};
 
     for (const day of Object.values(weeklyPlan.plan)) {
-        for (const recipeId of Object.values(day)) {
-            if (!recipeId) continue;
+        for (const slot of Object.values(day)) {
+            if (!slot) continue;
+
+            // slot can be an ID (legacy) or an object {id, servings} (enhanced)
+            const recipeId = (typeof slot === 'object') ? slot.id : slot;
+            const plannedServings = (typeof slot === 'object') ? slot.servings : null;
+
             const recipe = recipeMap[recipeId];
             if (!recipe || !recipe.ingredients) continue;
+
+            const finalServings = plannedServings || recipe.servings;
             const scaled = scaleIngredients(
                 recipe.ingredients,
                 recipe.servings,
-                recipe.servings // Use default servings for plan aggregate; ensures consistency
+                finalServings
             );
             for (const ing of scaled) {
                 const key = normalise(ing.name); // Normalise (e.g., 'Tomatoes' -> 'tomato') to avoid duplicates
@@ -166,11 +173,16 @@ export function computeWeeklyCost(weeklyPlan, recipes) {
     const recipeMap = Object.fromEntries(recipes.map((r) => [r.id, r]));
     let total = 0;
     for (const day of Object.values(weeklyPlan.plan)) {
-        for (const recipeId of Object.values(day)) {
-            if (!recipeId) continue;
+        for (const slot of Object.values(day)) {
+            if (!slot) continue;
+            const recipeId = (typeof slot === 'object') ? slot.id : slot;
+            const plannedServings = (typeof slot === 'object') ? slot.servings : null;
+
             const recipe = recipeMap[recipeId];
             if (!recipe) continue;
-            total += recipe.estimatedCostPerServing * recipe.servings;
+
+            const finalServings = plannedServings || recipe.servings;
+            total += recipe.estimatedCostPerServing * finalServings;
         }
     }
     return Math.round(total * 100) / 100;

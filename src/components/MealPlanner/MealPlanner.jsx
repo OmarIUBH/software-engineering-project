@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { computeWeeklyCost } from '../../engines/groceryEngine.js';
+import { RecipeModal } from '../RecipeLibrary/RecipeLibrary.jsx';
 import styles from './MealPlanner.module.css';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -52,11 +53,17 @@ export default function MealPlanner() {
     const [error, setError] = useState(null);
     const [budget, setBudget] = useState(() => storageService.getSettings().budget ?? 40);
     const [dragging, setDragging] = useState(null);
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
 
     useEffect(() => {
         recipesApi.getAll()
             .then(data => {
-                setRecipes(data);
+                const savedServings = storageService.getSettings().recipeServings || {};
+                const augmented = data.map(r => ({
+                    ...r,
+                    servings: savedServings[r.id] || r.servings
+                }));
+                setRecipes(augmented);
                 setLoading(false);
             })
             .catch(err => {
@@ -82,7 +89,30 @@ export default function MealPlanner() {
     }, []);
 
     function getSlot(day, meal) {
-        return planData.plan?.[day]?.[meal] ?? null;
+        const slot = planData.plan?.[day]?.[meal] ?? null;
+        if (!slot) return null;
+
+        const id = typeof slot === 'object' ? slot.id : slot;
+        const recipe = recipeMap[id];
+        if (!recipe) return null;
+
+        return {
+            ...recipe,
+            plannedServings: typeof slot === 'object' ? slot.servings : recipe.servings
+        };
+    }
+
+    function updateServings(day, meal, delta) {
+        const updated = JSON.parse(JSON.stringify(planData));
+        const slot = updated.plan[day][meal];
+        const currentId = typeof slot === 'object' ? slot.id : slot;
+        const currentSrv = typeof slot === 'object' ? slot.servings : recipeMap[currentId].servings;
+
+        updated.plan[day][meal] = {
+            id: currentId,
+            servings: Math.max(1, Math.min(12, currentSrv + delta))
+        };
+        savePlan(updated);
     }
 
     function removeSlot(day, meal) {
@@ -99,7 +129,14 @@ export default function MealPlanner() {
         if (!dragging) return;
         const updated = JSON.parse(JSON.stringify(planData));
         if (!updated.plan[day]) updated.plan[day] = {};
-        updated.plan[day][meal] = dragging;
+
+        // Use recipe's current default servings for the new slot
+        const recipe = recipeMap[dragging];
+        updated.plan[day][meal] = {
+            id: dragging,
+            servings: recipe ? recipe.servings : 2
+        };
+
         savePlan(updated);
         setDragging(null);
     }
@@ -142,8 +179,7 @@ export default function MealPlanner() {
                                     {MEAL_ICONS[meal]} {meal.charAt(0).toUpperCase() + meal.slice(1)}
                                 </div>
                                 {DAYS.map((day) => {
-                                    const recipeId = getSlot(day, meal);
-                                    const recipe = recipeId ? recipeMap[recipeId] : null;
+                                    const recipe = getSlot(day, meal);
                                     return (
                                         <div
                                             key={`${day}-${meal}`}
@@ -156,14 +192,28 @@ export default function MealPlanner() {
                                                     className={styles.slotCard}
                                                     draggable
                                                     onDragStart={() => handleDragStart(recipe.id)}
+                                                    onClick={() => setSelectedRecipe(recipe)}
                                                 >
                                                     <div className={styles.slotName}>{recipe.name}</div>
+
+                                                    <div className={styles.servingAdjuster}>
+                                                        <button
+                                                            className={styles.adjustBtn}
+                                                            onClick={(e) => { e.stopPropagation(); updateServings(day, meal, -1); }}
+                                                        >−</button>
+                                                        <span className={styles.srvCount}>{recipe.plannedServings} srv</span>
+                                                        <button
+                                                            className={styles.adjustBtn}
+                                                            onClick={(e) => { e.stopPropagation(); updateServings(day, meal, 1); }}
+                                                        >+</button>
+                                                    </div>
+
                                                     <div className={styles.slotMeta}>
-                                                        €{(recipe.estimatedCostPerServing * recipe.servings).toFixed(2)}
+                                                        €{(recipe.estimatedCostPerServing * recipe.plannedServings).toFixed(2)}
                                                     </div>
                                                     <button
                                                         className={styles.slotRemove}
-                                                        onClick={() => removeSlot(day, meal)}
+                                                        onClick={(e) => { e.stopPropagation(); removeSlot(day, meal); }}
                                                         aria-label={`Remove ${recipe.name}`}
                                                         title="Remove"
                                                     >✕</button>
@@ -197,6 +247,13 @@ export default function MealPlanner() {
                             ))}
                         </div>
                     </div>
+
+                    {selectedRecipe && (
+                        <RecipeModal
+                            recipe={selectedRecipe}
+                            onClose={() => setSelectedRecipe(null)}
+                        />
+                    )}
                 </>
             )}
         </div>

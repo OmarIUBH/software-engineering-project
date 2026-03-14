@@ -18,6 +18,7 @@ This document reports the verification results for the project's Non-Functional 
 
 ### 1. Performance (NFR-1)
 - **Objective**: Ensure low latency for the initial page load.
+- **Basis for Target (< 0.8s)**: Google's Core Web Vitals recommend First Contentful Paint (FCP) under 1.8s. For optimal local development and given the lightweight nature of this application, this strict target enforces that the architecture and rendering are highly optimized without any artificial bottlenecks. (Note: For cloud deployments like Cloudflare, a target of `< 1.2s` is recommended to account for network latency).
 - **Test Command**:
   ```powershell
   Measure-Command { (New-Object System.Net.WebClient).DownloadString("http://localhost:8080") }
@@ -26,6 +27,7 @@ This document reports the verification results for the project's Non-Functional 
 
 ### 2. Reliability (NFR-2)
 - **Objective**: Confirm that user data (meal plans) is physically persisted in the database.
+- **Basis for Target (100%)**: For a CRUD utility application, data loss is unacceptable. The system must guarantee reliable data persistence to ensure a trustworthy user experience.
 - **Test Script**:
   ```javascript
   const Database = require('better-sqlite3');
@@ -38,6 +40,7 @@ This document reports the verification results for the project's Non-Functional 
 
 ### 3. Usability & Accessibility (NFR-3)
 - **Objective**: Ensure the application is usable by everyone, including screen reader users.
+- **Basis for Target (≥ 95)**: Based on Web Content Accessibility Guidelines (WCAG) and automated auditing tools. While 100 is ideal, ≥ 95 is an industry gold standard that ensures critical accessibility elements (Semantic HTML, ARIA) are present while allowing a small margin for automated false-positives.
 - **Findings**:
   - **Semantic HTML**: Proper use of `<h1>` through `<h3>`, `<ul>`, and `<li>`.
   - **ARIA**: Icon-only buttons include `aria-label` (e.g., `aria-label="Close"`).
@@ -45,6 +48,7 @@ This document reports the verification results for the project's Non-Functional 
 
 ### 4. Portability (NFR-4)
 - **Objective**: Keep the deployment package small for rapid scaling and environment portability.
+- **Basis for Target (< 200MB)**: Unoptimized Docker images can bloat over 1GB, slowing down deployments. A strict `< 200MB` limit enforces containerization best practices (e.g., using alpine/slim bases and omitting dev dependencies), keeping hosting costs low and scaling fast.
 - **Test Command**:
   ```bash
   docker image ls project-web:latest --format "{{.Size}}"
@@ -53,6 +57,7 @@ This document reports the verification results for the project's Non-Functional 
 
 ### 5. Security: Authentication (NFR-5)
 - **Objective**: Ensure that user data is protected by a JWT-based authentication system with proper registration and login flows.
+- **Basis for Target (JWT required)**: JSON Web Tokens (JWT) are the modern, stateless standard for securing APIs, preventing cross-origin issues associated with traditional cookies and ensuring data is protected by verified cryptographic tokens.
 - **Test Command**:
   ```powershell
   cd backend && npm test

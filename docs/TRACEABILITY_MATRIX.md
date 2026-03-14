@@ -2,6 +2,8 @@
 
 The following matrix maps the Functional Requirements (FR) to the implementing modules/components and the corresponding test cases for project validation.
 
+> 💡 **Reference**: Detailed execution steps, specific input values, and expected behaviors for all Functional Test Case IDs (e.g., `test-filter-diet`) are fully documented in **[Testing.md](./Testing.md)** under the _Functional Requirement Verification_ section.
+
 | FR ID | Requirement Name | Component / Module | Test Case ID |
 | :--- | :--- | :--- | :--- |
 | FR-1 | Recipe Filtering | `RecipeLibrary.jsx` | `test-filter-diet` |

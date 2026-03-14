@@ -14,6 +14,22 @@ This document reports the verification results for the project's Non-Functional 
 
 ---
 
+## 2. Functional Requirement Verification (FR)
+
+The following tables document specific manual and automated test cases used to verify the functional logic in the MealMate application, specifically highlighting concrete input values and the resulting system behaviour.
+
+| FR ID | Description | Specific Input Values | Expected System Behavior | Actual Result | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **FR-1** | Recipe Filtering (`test-filter-diet`) | Click "Vegetarian" toggle on Recipe search filter menu while viewing 12 total recipes. | System updates displayed list to show only the 4 recipes flagged as `is_vegetarian=true`. URL query string updates to `?diet=vegetarian`. | Displayed recipes dropped to exactly 4. | ✅ Pass |
+| **FR-2** | Serving Scaling (`test-scale-ingredients`) | Open "Spaghetti Bolognese" (default 4 servings). Select "2 Servings". Base ingredient is "800g Tomatoes". | System calculates (800 / 4) * 2 and renders "400g Tomatoes" smoothly without full page refresh. | "400g Tomatoes" rendered. | ✅ Pass |
+| **FR-3** | Weekly Planning (`test-add-to-plan`) | Select "Spaghetti Bolognese" on "Tuesday", Meal Type: "Dinner" for "2 Servings". Submit form. | System sends POST payload: `{recipeId: 4, dayOfWeek: 2, mealType: 'Dinner', servings: 2}`. Server responds `201 Created`. UI updates Tuesday slot. | Item appeared immediately in Tuesday column. | ✅ Pass |
+| **FR-4** | Grocery Aggregation (`test-aggregate-grocery`) | Plan contains "Spaghetti" (2x 400g Tomatoes) and "Lasagne" (1x 800g Tomatoes). Navigate to List. | System aggregates matching ingredient IDs and units. UI displays single consolidated entry: "Tomatoes - 1600g". | Renders "Tomatoes: 1600g". | ✅ Pass |
+| **FR-5** | Budget Tracking (`test-budget-update`) | Add item to list: "2kg Chicken" at "$10/kg". Current Budget: "$50.00". | System calculates (2 * 10) = $20. Remaining budget updates from `$50.00` to `$30.00`. Colors indicator turns red if < $10. | Budget updated to $30.00 | ✅ Pass |
+| **FR-6** | Pantry Deduction (`test-pantry-deduction`) | Grocery list requires "500g Pasta". User has "200g Pasta" in active Pantry. Click "Generate List". | System compares requirement (500) vs inventory (200). Outputs "300g Pasta" needed to the final grocery list view. | Required list showed "300g Pasta". | ✅ Pass |
+| **FR-7** | Pantry Autocomplete (`test-autocomplete-hint`) | In Pantry Manager, type "Tom" into the add ingredient Input box. | System initiates fuzzy search against local DB. Renders dropdown containing exact matches like ["Tomatoes", "Tomato Paste", "Tomatillos"]. | Dropdown surfaced 3 accurate suggestions. | ✅ Pass |
+
+---
+
 ## Detailed verification process
 
 ### 1. Performance (NFR-1)

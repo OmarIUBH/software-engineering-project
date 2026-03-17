@@ -1,4 +1,4 @@
-# MealMate — UML Diagrams
+﻿# MealMate — UML Diagrams
 
 Visual representation of the MealMate system using standard UML notation, rendered with Mermaid.js.
 
@@ -8,38 +8,52 @@ Visual representation of the MealMate system using standard UML notation, render
 
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
-```mermaid
-graph LR
-    User(["👤 User"])
+> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML standards. Use cases are drawn as ovals, the actor is a stick figure, and `<<include>>`/`<<extend>>` stereotypes follow the UML specification. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) or any PlantUML-compatible tool.
 
-    subgraph MealMate["🍽️ MealMate System"]
-        direction TB
-        UC0["Create Account / Login"]
-        UC1["Browse & Search Recipes"]
-        UC2["Filter by Diet Tags"]
-        UC3["Adjust Serving Sizes"]
-        UC4["Manage Weekly Meal Plan"]
-        UC5["Generate Grocery List"]
-        UC6["Manage Pantry Inventory"]
-        UC7["Monitor Weekly Budget"]
-    end
+```plantuml
+@startuml MealMate_UseCaseDiagram
+left to right direction
+skinparam usecase {
+  BackgroundColor LightYellow
+  BorderColor DarkOliveGreen
+  ArrowColor DarkSlateGray
+}
+skinparam actorStyle awesome
 
-    User --- UC0
-    User --- UC1
-    User --- UC3
-    User --- UC4
-    User --- UC6
+actor "User" as U
 
-    UC1 -.->|requires auth| UC0
-    UC4 -.->|requires auth| UC0
-    UC1 -.->|«extend»| UC2
-    UC3 -.->|«extend»| UC1
-    UC4 -.->|«include»| UC5
-    UC5 -.->|«include»| UC6
-    UC4 -.->|«include»| UC7
+rectangle "MealMate System" {
+  usecase "Create Account / Login"       as UC0
+  usecase "Browse & Search Recipes"      as UC1
+  usecase "Filter by Dietary Tags"       as UC2
+  usecase "Adjust Serving Sizes"         as UC3
+  usecase "Manage Weekly Meal Plan"      as UC4
+  usecase "Generate Grocery List"        as UC5
+  usecase "Manage Pantry Inventory"      as UC6
+  usecase "Monitor Weekly Budget"        as UC7
+}
+
+U --> UC0
+U --> UC1
+U --> UC3
+U --> UC4
+U --> UC6
+
+UC1 ..> UC0 : <<include>>
+UC4 ..> UC0 : <<include>>
+UC1 ..> UC2 : <<extend>>
+UC3 ..> UC1 : <<extend>>
+UC4 ..> UC5 : <<include>>
+UC5 ..> UC6 : <<include>>
+UC4 ..> UC7 : <<include>>
+
+note bottom of UC5
+  Auto-generated from
+  the Weekly Meal Plan
+end note
+@enduml
 ```
 
-> 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.
 
 ---
 
@@ -47,45 +61,74 @@ graph LR
 
 Shows the **Client-Server architecture**. The React frontend communicates with the Express backend via JWT-authenticated REST API calls, persisting data in SQLite.
 
-```mermaid
-graph TD
-    subgraph Browser["🌐 Client Browser"]
-        direction TB
-        FE["⚛️ Frontend Application\n(React + Vite)"]
-        Auth["🔐 AuthContext\n(JWT → localStorage)"]
-        RecipeUI["🍳 Recipe Browser\n& Search"]
-        MealPlanUI["📅 Meal Planner UI"]
-        PantryUI["🧺 Pantry Manager UI"]
-        BudgetUI["💰 Budget Tracker UI"]
-        FE <--> Auth
-        FE --> RecipeUI
-        FE --> MealPlanUI
-        FE --> PantryUI
-        FE --> BudgetUI
-    end
+> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML Component Diagram standards. Components use the `[ComponentName]` notation (rectangle with the component symbol), provided interfaces are shown as `()` circles, and dependencies use `<<use>>` stereotypes. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/).
 
-    subgraph Server["🖥️ Backend Server (Node.js + Express)"]
-        direction TB
-        BE["🔀 API Gateway\n& Controllers"]
-        AuthAPI["POST /api/auth/*\nLogin & Register"]
-        RecipeAPI["GET/POST /api/recipes\nRecipe CRUD"]
-        MealAPI["GET/POST /api/mealplans\nMeal Plan CRUD"]
-        PantryAPI["GET/POST /api/pantry\nPantry CRUD"]
-        DB[("💾 SQLite\nDatabase")]
-        BE --> AuthAPI
-        BE --> RecipeAPI
-        BE --> MealAPI
-        BE --> PantryAPI
-        AuthAPI <--> DB
-        RecipeAPI <--> DB
-        MealAPI <--> DB
-        PantryAPI <--> DB
-    end
+```plantuml
+@startuml MealMate_ComponentDiagram
+skinparam component {
+  BackgroundColor LightBlue
+  BorderColor SteelBlue
+}
+skinparam database {
+  BackgroundColor LightYellow
+  BorderColor DarkOliveGreen
+}
 
-    FE <-->|"REST API · JSON\nAuthorization: Bearer Token"| BE
+package "Client Browser" {
+  [React SPA (Vite)]         as FE
+  [AuthContext (JWT Store)]  as Auth
+  [Recipe Browser UI]        as RecipeUI
+  [Meal Planner UI]          as PlannerUI
+  [Pantry Manager UI]        as PantryUI
+  [Budget Tracker UI]        as BudgetUI
+
+  FE --> Auth
+  FE --> RecipeUI
+  FE --> PlannerUI
+  FE --> PantryUI
+  FE --> BudgetUI
+}
+
+package "Backend Server (Node.js + Express)" {
+  [API Gateway / Router]     as Gateway
+  [Auth Route Handler]       as AuthRoute
+  [Recipes Route Handler]    as RecipesRoute
+  [MealPlans Route Handler]  as PlansRoute
+  [Pantry Route Handler]     as PantryRoute
+  [JWT Middleware]           as JWTMid
+
+  () "POST /api/auth/*"        as IAuth
+  () "GET+POST /api/recipes"   as IRecipes
+  () "GET+POST /api/mealplans" as IPlans
+  () "GET+POST /api/pantry"    as IPantry
+
+  Gateway --> JWTMid
+  Gateway --> AuthRoute
+  Gateway --> RecipesRoute
+  Gateway --> PlansRoute
+  Gateway --> PantryRoute
+
+  AuthRoute    - IAuth
+  RecipesRoute - IRecipes
+  PlansRoute   - IPlans
+  PantryRoute  - IPantry
+}
+
+database "SQLite\n(mealmate.db)" as DB
+
+RecipesRoute --> DB
+PlansRoute   --> DB
+PantryRoute  --> DB
+AuthRoute    --> DB
+
+FE ..> IAuth     : <<use>> REST/JSON
+FE ..> IRecipes  : <<use>> REST/JSON
+FE ..> IPlans    : <<use>> REST/JSON
+FE ..> IPantry   : <<use>> REST/JSON
+@enduml
 ```
 
-> 💡 MealMate follows a classic **Client-Server** pattern. The **React + Vite** frontend runs entirely in the browser, managing state through an `AuthContext` that persists the JWT in `localStorage`. Every protected API call attaches the token as a `Bearer` header. The **Node.js / Express** backend exposes four REST route groups (`/auth`, `/recipes`, `/mealplans`, `/pantry`), all backed by a single **SQLite** file.
+> 💡 MealMate follows a classic **Client-Server** pattern. The **React + Vite** frontend runs entirely in the browser, managing state through an `AuthContext` that persists the JWT in `localStorage`. Every protected API call attaches the token as a `Bearer` header. The **Node.js / Express** backend exposes four REST route groups (`/auth`, `/recipes`, `/mealplans`, `/pantry`), all backed by a single **SQLite** file. A dedicated **JWT Middleware** component intercepts all protected requests at the gateway level.
 
 ---
 

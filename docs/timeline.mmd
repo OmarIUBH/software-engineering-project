@@ -1,0 +1,30 @@
+gantt
+    title MealMate Development Plan (Feb 22 – Mar 11, 2026)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+
+    section Phase 1 — Requirements & Architecture
+    Define Functional & Non-Functional Requirements   : done, p1a, 2026-02-22, 2d
+    Design Data Model & System Architecture           : done, p1b, after p1a, 2d
+    Produce Initial UML Diagrams                      : done, p1c, after p1b, 1d
+    Architecture Baseline                             : milestone, m1, after p1c, 0d
+
+    section Phase 2 — Feature Implementation
+    User Authentication (Register / Login / JWT)      : done, p2a, after m1, 2d
+    Recipe Library & Dietary Tag Filtering            : done, p2b, after p2a, 2d
+    Weekly Meal Planner (Serving Controls)            : done, p2c, after p2b, 2d
+    Grocery Aggregation & Pantry Deduction Engine     : done, p2d, after p2c, 2d
+    Budget Tracker & Pantry Manager                   : done, p2e, after p2d, 1d
+    Feature Complete                                  : milestone, m2, after p2e, 0d
+
+    section Phase 3 — Quality Assurance
+    Backend Unit Tests (Jest — 11 tests)              : done, p3a, 2026-03-05, 3d
+    Frontend Integration Test (Vitest)                : done, p3b, after p3a, 1d
+    Manual Functional Verification (FR-0 to FR-7)     : done, p3c, after p3b, 1d
+    Postman NFR Audit (Performance / Reliability)     : done, p3d, after p3c, 1d
+    QA Complete                                       : milestone, m3, after p3d, 0d
+
+    section Phase 4 — Documentation & Finalisation
+    Finalise Testing.md & Traceability Matrix         : done, p4a, 2026-03-08, 2d
+    Finalise UML Diagrams & Architecture Doc          : done, p4b, after p4a, 1d
+    Final README, CHANGELOG, & Release Tag            : done, p4c, after p4b, 1d

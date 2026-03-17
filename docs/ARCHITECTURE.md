@@ -93,6 +93,10 @@ graph TD
 - **API Endpoints**: The backend provides functional REST endpoints, such as `GET /api/recipes`, which serves the seeded recipe database.
 - **Data Integrity**: Foreign key constraints and unique indexes are enforced at the database level to ensure relational integrity.
 
-## 6. Detailed UML Diagrams
+## 6. Architecture Documentation Maintenance
+
+Architecture documentation was treated as a living artefact throughout the project. The `docs/ARCHITECTURE.md` file was updated whenever a structural decision changed — for example, when the persistence strategy was clarified to distinguish between the SQLite primary store and the `localStorage` UI cache, and when the Docker deployment topology was finalised. The UML diagrams in `docs/UML_DIAGRAMS.md` were regenerated to reflect the final component structure after each significant implementation change. This practice of co-evolving documentation with implementation ensures that the architecture document remains an accurate description of the deployed system rather than an aspirational design that diverges from reality. Any future structural changes to the system (e.g., introducing a new API route group or a new database entity) must be reflected in both this document and the corresponding UML diagram before the change is considered complete.
+
+## 7. Detailed UML Diagrams
 For class-level abstractions and sequence diagrams, please refer to the **[UML Diagrams](UML_DIAGRAMS.md)** document.
 

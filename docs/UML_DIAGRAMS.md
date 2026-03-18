@@ -20,36 +20,40 @@ skinparam usecase {
 }
 skinparam actorStyle awesome
 
-actor "User" as U
+actor "Guest User" as Guest
+actor "Authenticated User" as AuthUser
+
+AuthUser -up-|> Guest : <<generalize>>
 
 rectangle "MealMate System" {
-  usecase "Create Account / Login"       as UC0
-  usecase "Browse & Search Recipes"      as UC1
-  usecase "Filter by Dietary Tags"       as UC2
-  usecase "Adjust Serving Sizes"         as UC3
-  usecase "Manage Weekly Meal Plan"      as UC4
-  usecase "Generate Grocery List"        as UC5
-  usecase "Manage Pantry Inventory"      as UC6
-  usecase "Monitor Weekly Budget"        as UC7
+  usecase "Register Account"             as UC_Reg
+  usecase "Authenticate (Login)"         as UC_Login
+  usecase "Browse & Search Recipes"      as UC_Browse
+  usecase "Filter by Dietary Tags"       as UC_Filter
+  usecase "Adjust Serving Sizes"         as UC_Scale
+
+  usecase "Manage Weekly Meal Plan"      as UC_Plan
+  usecase "Generate Grocery List"        as UC_List
+  usecase "Manage Pantry Inventory"      as UC_Pantry
+  usecase "Monitor Weekly Budget"        as UC_Budget
 }
 
-U --> UC0
-U --> UC1
-U --> UC3
-U --> UC4
-U --> UC6
+Guest --> UC_Reg
+Guest --> UC_Login
+Guest --> UC_Browse
 
-UC1 ..> UC0 : <<include>>
-UC4 ..> UC0 : <<include>>
-UC1 ..> UC2 : <<extend>>
-UC3 ..> UC1 : <<extend>>
-UC4 ..> UC5 : <<include>>
-UC5 ..> UC6 : <<include>>
-UC4 ..> UC7 : <<include>>
+UC_Filter .up.> UC_Browse : <<extend>>
+UC_Scale .up.> UC_Browse : <<extend>>
 
-note bottom of UC5
-  Auto-generated from
-  the Weekly Meal Plan
+AuthUser --> UC_Plan
+AuthUser --> UC_List
+AuthUser --> UC_Pantry
+AuthUser --> UC_Budget
+
+note bottom of UC_List
+  Auto-generated from the 
+  Weekly Meal Plan and deducts 
+  Pantry Inventory
 end note
 @enduml
 ```

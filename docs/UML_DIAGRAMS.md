@@ -66,8 +66,8 @@ Shows the **Client-Server architecture**. The React frontend communicates with t
 ```plantuml
 @startuml MealMate_ComponentDiagram
 skinparam componentStyle uml2
-skinparam nodesep 60
-skinparam ranksep 60
+skinparam nodesep 70
+skinparam ranksep 70
 skinparam component {
   BackgroundColor LightBlue
   BorderColor SteelBlue
@@ -86,9 +86,9 @@ node "Client Environment" <<execution environment>> {
 }
 
 node "Server Environment" <<execution environment>> {
-  interface "Auth API" as IAuth
+  interface "Authentication API" as IAuth
   interface "Recipe API" as IRecipes
-  interface "Plan API" as IPlans
+  interface "Meal Planning API" as IPlans
   interface "Pantry API" as IPantry
 
   component "Authentication Service" as AuthService <<component>>
@@ -103,7 +103,7 @@ node "Server Environment" <<execution environment>> {
 }
 
 node "Database Host" <<execution environment>> {
-  database "SQLite File (mealmate.db)" as DB
+  database "SQLite Database" as DB
 }
 
 Client ..> IAuth : <<use>> REST/JSON

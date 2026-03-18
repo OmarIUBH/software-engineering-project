@@ -1,4 +1,4 @@
-﻿# MealMate — UML Diagrams
+# MealMate — UML Diagrams
 
 Visual representation of the MealMate system using standard UML notation, rendered with Mermaid.js.
 
@@ -65,66 +65,58 @@ Shows the **Client-Server architecture**. The React frontend communicates with t
 
 ```plantuml
 @startuml MealMate_ComponentDiagram
+skinparam componentStyle uml2
 skinparam component {
   BackgroundColor LightBlue
   BorderColor SteelBlue
+}
+skinparam interface {
+  BackgroundColor LightYellow
+  BorderColor DarkGoldenRod
 }
 skinparam database {
   BackgroundColor LightYellow
   BorderColor DarkOliveGreen
 }
 
-package "Client Browser" {
-  [React SPA (Vite)]         as FE
-  [AuthContext (JWT Store)]  as Auth
-  [Recipe Browser UI]        as RecipeUI
-  [Meal Planner UI]          as PlannerUI
-  [Pantry Manager UI]        as PantryUI
-  [Budget Tracker UI]        as BudgetUI
-
-  FE --> Auth
-  FE --> RecipeUI
-  FE --> PlannerUI
-  FE --> PantryUI
-  FE --> BudgetUI
+node "Client Environment (Browser)" <<execution environment>> {
+  component "MealMate SPA (React.js)" as Client <<component>>
 }
 
-package "Backend Server (Node.js + Express)" {
-  [API Gateway / Router]     as Gateway
-  [Auth Route Handler]       as AuthRoute
-  [Recipes Route Handler]    as RecipesRoute
-  [MealPlans Route Handler]  as PlansRoute
-  [Pantry Route Handler]     as PantryRoute
-  [JWT Middleware]           as JWTMid
+node "Server Environment (Node.js)" <<execution environment>> {
+  component "Authentication Service" as AuthService <<component>>
+  component "Recipe Management Service" as RecipeService <<component>>
+  component "Meal Planner Service" as PlannerService <<component>>
+  component "Pantry & Budget Service" as PantryService <<component>>
 
-  () "POST /api/auth/*"        as IAuth
-  () "GET+POST /api/recipes"   as IRecipes
-  () "GET+POST /api/mealplans" as IPlans
-  () "GET+POST /api/pantry"    as IPantry
+  interface "Auth API (/api/auth)" as IAuth
+  interface "Recipe API (/api/recipes)" as IRecipes
+  interface "Meal Plan API (/api/mealplans)" as IPlans
+  interface "Pantry API (/api/pantry)" as IPantry
 
-  Gateway --> JWTMid
-  Gateway --> AuthRoute
-  Gateway --> RecipesRoute
-  Gateway --> PlansRoute
-  Gateway --> PantryRoute
-
-  AuthRoute    - IAuth
-  RecipesRoute - IRecipes
-  PlansRoute   - IPlans
-  PantryRoute  - IPantry
+  AuthService -up- IAuth
+  RecipeService -up- IRecipes
+  PlannerService -up- IPlans
+  PantryService -up- IPantry
 }
 
-database "SQLite\n(mealmate.db)" as DB
+node "Database Host" <<execution environment>> {
+  database "SQLite File (mealmate.db)" as DB
+  interface "SQL Dialect" as ISQL
+  
+  DB -up- ISQL
+}
 
-RecipesRoute --> DB
-PlansRoute   --> DB
-PantryRoute  --> DB
-AuthRoute    --> DB
+AuthService -( ISQL
+RecipeService -( ISQL
+PlannerService -( ISQL
+PantryService -( ISQL
 
-FE ..> IAuth     : <<use>> REST/JSON
-FE ..> IRecipes  : <<use>> REST/JSON
-FE ..> IPlans    : <<use>> REST/JSON
-FE ..> IPantry   : <<use>> REST/JSON
+Client -( IAuth : <<use>> REST/JSON
+Client -( IRecipes : <<use>> REST/JSON
+Client -( IPlans : <<use>> REST/JSON
+Client -( IPantry : <<use>> REST/JSON
+
 @enduml
 ```
 

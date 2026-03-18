@@ -24,8 +24,8 @@ actor "User" as U
 actor "Guest User" as Guest
 actor "Authenticated User" as AuthUser
 
-Guest -up-|> U
-AuthUser -up-|> U
+U <|-- Guest
+U <|-- AuthUser
 
 rectangle "MealMate System" {
   usecase "Register Account"             as UC_Reg
@@ -53,11 +53,9 @@ AuthUser --> UC_List
 AuthUser --> UC_Pantry
 AuthUser --> UC_Budget
 
-note bottom of UC_List
-  Grocery list is derived from the
-  weekly meal plan and existing
-  pantry inventory.
-end note
+note "Grocery list is derived from the\nweekly meal plan and existing\npantry inventory." as N_List
+UC_List .. N_List
+
 @enduml
 ```
 

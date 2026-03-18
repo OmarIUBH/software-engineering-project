@@ -6,9 +6,11 @@ Visual representation of the MealMate system using standard UML notation, render
 
 ## 1. Use Case Diagram
 
+![Use Case Diagram](../diagrams/use_case_diagram.png)
+
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
-> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML standards. Use cases are drawn as ovals, the actor is a stick figure, and `<<include>>`/`<<extend>>` stereotypes follow the UML specification. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) or any PlantUML-compatible tool.
+> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML standards. Use cases are drawn as ovals, and formal Actor Generalization is utilized. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) or any PlantUML-compatible tool.
 
 ```plantuml
 @startuml MealMate_UseCaseDiagram
@@ -59,14 +61,17 @@ UC_List .. N_List
 @enduml
 ```
 
+> 💡 **Explanation:** This diagram models the functional requirements and primary user interactions across the MealMate system boundary. A formal UML actor generalization hierarchy is employed to clearly demarcate unauthenticated privileges (**Guest User**) from protected system capabilities (**Authenticated User**), flawlessly adhering to the Principle of Least Privilege. Furthermore, formal extensibility mechanisms (`<<extend>>` dependencies) map optional sub-flows like dietary filtering and dynamic serving size scaling strictly to the primary recipe browsing module, guaranteeing high architectural modularity in the requirements specification structure.
 
 ---
 
 ## 2. Component Diagram
 
+![Component Diagram](../diagrams/component_diagram.png)
+
 Shows the **Client-Server architecture**. The React frontend communicates with the Express backend via JWT-authenticated REST API calls, persisting data in SQLite.
 
-> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML Component Diagram standards. Components use the `[ComponentName]` notation (rectangle with the component symbol), provided interfaces are shown as `()` circles, and dependencies use `<<use>>` stereotypes. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/).
+> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** utilizing the explicit `skinparam componentStyle uml2` configuration to comply rigidly with modern UML 2.0 component diagram standards, guaranteeing formal component icon rendering.
 
 ```plantuml
 @startuml MealMate_ComponentDiagram
@@ -124,7 +129,8 @@ PantryService ..> DB : <<use>> SQL Dialect
 @enduml
 ```
 
-> 💡 MealMate follows a classic **Client-Server** pattern. The **React + Vite** frontend runs entirely in the browser, managing state through an `AuthContext` that persists the JWT in `localStorage`. Every protected API call attaches the token as a `Bearer` header. The **Node.js / Express** backend exposes four REST route groups (`/auth`, `/recipes`, `/mealplans`, `/pantry`), all backed by a single **SQLite** file. A dedicated **JWT Middleware** component intercepts all protected requests at the gateway level.
+> 💡 **Explanation:** The component diagram illustrates the high-level structural decomposition of the MealMate system based on a strict multi-tier client-server pattern. The architectural computing load is distributed across discrete execution environments: the client environment hosts the compiled React.js SPA, the server environment hosts separated backend micro-services, and the database host manages local persistent storage via SQLite. To ensure modular cohesion, interrelated lifecycle operations such as inventory tracking and cost analysis are purposefully encapsulated within a unified Pantry & Budget Service. Furthermore, the frontend acts as a strict consumer, resolving dependencies globally via tightly coupled but deeply abstracted JWT-authenticated RESTful interfaces (**Authentication, Recipe, Meal Planning, and Pantry APIs**).
+
 
 ---
 

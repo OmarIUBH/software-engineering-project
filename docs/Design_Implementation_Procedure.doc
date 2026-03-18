@@ -1,0 +1,15 @@
+### Design and Implementation Procedure
+
+The development of the MealMate application followed a structured, iterative procedure divided into two core phases: System Design and Feature Implementation. The primary goal was to construct a lightweight, high-performance web application capable of managing recipes, weekly meal plans, and pantry inventories while maintaining a portable footprint.
+
+**1. System Architecture and Design Phase**
+The design procedure began with establishing a clear Client-Server architecture. To ensure portability and speed (as dictated by the Non-Functional Requirements), we selected a React frontend (scaffolded via Vite) paired with a Node.js/Express backend. 
+Rather than relying on a heavy external database cluster, we designed the data layer around a localized SQLite database (`better-sqlite3`). This decision was pivotal; it guaranteed 100% data persistence while keeping the entire application self-contained. During this phase, the database schema was designed centrally around the `Ingredient` entity, allowing `Recipes`, `MealPlans`, and `PantryItems` to all reference a single source of truth for calculations like grocery aggregation and budget tracking. Security was designed from the ground up using JSON Web Tokens (JWT) stored in `localStorage`, statelessly securing the REST API endpoints.
+
+**2. Iterative Implementation Phase**
+Implementation followed a bottom-up approach, transitioning from core logic to user-facing features. 
+First, the backend framework and SQLite tables were established, followed immediately by the automated authentication flows (`/auth/register` and `/login`) to secure the API. With the foundation set, we implemented the core data validation and transformation engines. For example, the `unitConversions.js` module was built to standardize metrics (e.g., converting kilograms to grams) before any mathematical operations occurred.
+Next, the React frontend was developed component-by-component. We utilized custom hooks (like `useScaling.js`) to decouple business logic from UI rendering, allowing features like "Recipe Serving Scaling" to recalculate ingredient requirements instantly on the client side without unnecessary network calls. 
+
+**3. Integration and Refinement**
+The final implementation steps involved integrating the complex cross-component features, such as the `groceryEngine.js`. This engine was programmed to automatically aggregate planned meals, query the user's current pantry stock, and deduct available quantities to generate a precise, consolidated grocery list and budget projection. Finally, UI refinements were applied, and automated tests (Jest/Vitest) were written against the core mathematical engines to verify functional requirements before packaging the entire system into a lightweight, sub-100MB Docker container for deployment.

@@ -37,7 +37,7 @@ All test cases follow the format: **`TC-[Layer]-[Sequence]`**
 ### NFR Test Cases
 
 | TC-ID | NFR | Objective | Method | Command / Script | Expected | Actual | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **TC-MAN-NFR-01** | NFR-1 | Verify API response time is below the 0.8s latency target | PowerShell `Measure-Command` measuring HTTP download time from local server | `Measure-Command { (New-Object System.Net.WebClient).DownloadString("http://localhost:8080") }` | < 0.8s | ~70ms | ✅ Pass |
 | **TC-MAN-NFR-02** | NFR-2 | Confirm that planned meal data is physically persisted in SQLite after application restarts | `better-sqlite3` direct DB query across multiple container restarts | `db.prepare('SELECT COUNT(*) as count FROM meal_plan_items').get()` | 100% of written records returned | 14/14 items confirmed | ✅ Pass |
 | **TC-MAN-NFR-03** | NFR-3 | Verify the UI is accessible to screen reader users and meets WCAG semantic requirements | Manual source code inspection for semantic HTML, ARIA attributes, and form label associations | Review `src/components/**/*.jsx` for `<h1>`–`<h3>`, `aria-label`, `htmlFor` | Score ≥ 95 | 98 — all critical ARIA and semantic checks passed | ✅ Pass |

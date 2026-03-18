@@ -65,8 +65,9 @@ Shows the **Client-Server architecture**. The React frontend communicates with t
 
 ```plantuml
 @startuml MealMate_ComponentDiagram
-left to right direction
 skinparam componentStyle uml2
+skinparam nodesep 60
+skinparam ranksep 60
 skinparam component {
   BackgroundColor LightBlue
   BorderColor SteelBlue
@@ -80,43 +81,40 @@ skinparam database {
   BorderColor DarkOliveGreen
 }
 
-node "Client Environment (Browser)" <<execution environment>> {
+node "Client Environment" <<execution environment>> {
   component "MealMate SPA (React.js)" as Client <<component>>
 }
 
-node "Server Environment (Node.js)" <<execution environment>> {
-  interface "Auth API (/api/auth)" as IAuth
-  interface "Recipe API (/api/recipes)" as IRecipes
-  interface "Meal Plan API (/api/mealplans)" as IPlans
-  interface "Pantry API (/api/pantry)" as IPantry
+node "Server Environment" <<execution environment>> {
+  interface "Auth API" as IAuth
+  interface "Recipe API" as IRecipes
+  interface "Plan API" as IPlans
+  interface "Pantry API" as IPantry
 
   component "Authentication Service" as AuthService <<component>>
   component "Recipe Management Service" as RecipeService <<component>>
   component "Meal Planner Service" as PlannerService <<component>>
   component "Pantry & Budget Service" as PantryService <<component>>
 
-  IAuth - AuthService
-  IRecipes - RecipeService
-  IPlans - PlannerService
-  IPantry - PantryService
+  IAuth -down- AuthService
+  IRecipes -down- RecipeService
+  IPlans -down- PlannerService
+  IPantry -down- PantryService
 }
 
 node "Database Host" <<execution environment>> {
-  interface "SQL Dialect" as ISQL
   database "SQLite File (mealmate.db)" as DB
-  
-  ISQL - DB
 }
 
-Client -( IAuth : <<use>>\nREST/JSON
-Client -( IRecipes : <<use>>\nREST/JSON
-Client -( IPlans : <<use>>\nREST/JSON
-Client -( IPantry : <<use>>\nREST/JSON
+Client ..> IAuth : <<use>> REST/JSON
+Client ..> IRecipes : <<use>> REST/JSON
+Client ..> IPlans : <<use>> REST/JSON
+Client ..> IPantry : <<use>> REST/JSON
 
-AuthService -( ISQL
-RecipeService -( ISQL
-PlannerService -( ISQL
-PantryService -( ISQL
+AuthService ..> DB : <<use>> SQL Dialect
+RecipeService ..> DB : <<use>> SQL Dialect
+PlannerService ..> DB : <<use>> SQL Dialect
+PantryService ..> DB : <<use>> SQL Dialect
 
 @enduml
 ```

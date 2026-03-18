@@ -20,14 +20,16 @@ skinparam usecase {
 }
 skinparam actorStyle awesome
 
+actor "User" as U
 actor "Guest User" as Guest
 actor "Authenticated User" as AuthUser
 
-AuthUser -up-|> Guest : <<generalize>>
+Guest -up-|> U
+AuthUser -up-|> U
 
 rectangle "MealMate System" {
   usecase "Register Account"             as UC_Reg
-  usecase "Authenticate (Login)"         as UC_Login
+  usecase "Log In"                       as UC_Login
   usecase "Browse & Search Recipes"      as UC_Browse
   usecase "Filter by Dietary Tags"       as UC_Filter
   usecase "Adjust Serving Sizes"         as UC_Scale
@@ -38,9 +40,10 @@ rectangle "MealMate System" {
   usecase "Monitor Weekly Budget"        as UC_Budget
 }
 
+U --> UC_Browse
+
 Guest --> UC_Reg
 Guest --> UC_Login
-Guest --> UC_Browse
 
 UC_Filter .up.> UC_Browse : <<extend>>
 UC_Scale .up.> UC_Browse : <<extend>>
@@ -51,9 +54,9 @@ AuthUser --> UC_Pantry
 AuthUser --> UC_Budget
 
 note bottom of UC_List
-  Auto-generated from the 
-  Weekly Meal Plan and deducts 
-  Pantry Inventory
+  Grocery list is derived from the
+  weekly meal plan and existing
+  pantry inventory.
 end note
 @enduml
 ```

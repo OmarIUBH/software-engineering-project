@@ -65,6 +65,7 @@ Shows the **Client-Server architecture**. The React frontend communicates with t
 
 ```plantuml
 @startuml MealMate_ComponentDiagram
+left to right direction
 skinparam componentStyle uml2
 skinparam component {
   BackgroundColor LightBlue
@@ -84,38 +85,38 @@ node "Client Environment (Browser)" <<execution environment>> {
 }
 
 node "Server Environment (Node.js)" <<execution environment>> {
-  component "Authentication Service" as AuthService <<component>>
-  component "Recipe Management Service" as RecipeService <<component>>
-  component "Meal Planner Service" as PlannerService <<component>>
-  component "Pantry & Budget Service" as PantryService <<component>>
-
   interface "Auth API (/api/auth)" as IAuth
   interface "Recipe API (/api/recipes)" as IRecipes
   interface "Meal Plan API (/api/mealplans)" as IPlans
   interface "Pantry API (/api/pantry)" as IPantry
 
-  AuthService -up- IAuth
-  RecipeService -up- IRecipes
-  PlannerService -up- IPlans
-  PantryService -up- IPantry
+  component "Authentication Service" as AuthService <<component>>
+  component "Recipe Management Service" as RecipeService <<component>>
+  component "Meal Planner Service" as PlannerService <<component>>
+  component "Pantry & Budget Service" as PantryService <<component>>
+
+  IAuth - AuthService
+  IRecipes - RecipeService
+  IPlans - PlannerService
+  IPantry - PantryService
 }
 
 node "Database Host" <<execution environment>> {
-  database "SQLite File (mealmate.db)" as DB
   interface "SQL Dialect" as ISQL
+  database "SQLite File (mealmate.db)" as DB
   
-  DB -up- ISQL
+  ISQL - DB
 }
+
+Client -( IAuth : <<use>>\nREST/JSON
+Client -( IRecipes : <<use>>\nREST/JSON
+Client -( IPlans : <<use>>\nREST/JSON
+Client -( IPantry : <<use>>\nREST/JSON
 
 AuthService -( ISQL
 RecipeService -( ISQL
 PlannerService -( ISQL
 PantryService -( ISQL
-
-Client -( IAuth : <<use>> REST/JSON
-Client -( IRecipes : <<use>> REST/JSON
-Client -( IPlans : <<use>> REST/JSON
-Client -( IPantry : <<use>> REST/JSON
 
 @enduml
 ```

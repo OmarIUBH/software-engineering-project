@@ -24,8 +24,8 @@ actor "User" as U
 actor "Guest User" as Guest
 actor "Authenticated User" as AuthUser
 
-U <|-- Guest
-U <|-- AuthUser
+Guest --|> U
+AuthUser --|> U
 
 rectangle "MealMate System" {
   usecase "Register Account"             as UC_Reg

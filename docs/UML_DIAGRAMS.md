@@ -129,7 +129,7 @@ PantryService ..> DB : <<use>> SQL Dialect
 @enduml
 ```
 
-> 💡 **Explanation:** The component diagram illustrates the high-level structural decomposition of the MealMate system based on a strict multi-tier client-server pattern. The architectural computing load is distributed across discrete execution environments: the client environment hosts the compiled React.js SPA, the server environment hosts separated backend micro-services, and the database host manages local persistent storage via SQLite. To ensure modular cohesion, interrelated lifecycle operations such as inventory tracking and cost analysis are purposefully encapsulated within a unified Pantry & Budget Service. Furthermore, the frontend acts as a strict consumer, resolving dependencies globally via tightly coupled but deeply abstracted JWT-authenticated RESTful interfaces (**Authentication, Recipe, Meal Planning, and Pantry APIs**).
+> 💡 **Explanation:** The component diagram illustrates the high-level structural decomposition of the MealMate system based on a strict multi-tier client-server pattern. The architectural computing load is distributed across discrete execution environments: the client environment hosts the compiled React.js SPA, the server environment hosts a modular monolithic backend, and the database host manages local persistent storage via SQLite. To ensure modular cohesion, interrelated lifecycle operations such as inventory tracking and cost analysis are purposefully encapsulated within a unified Pantry & Budget Service. Furthermore, the frontend acts as a strict consumer, resolving dependencies globally via tightly coupled but deeply abstracted JWT-authenticated RESTful interfaces (**Authentication, Recipe, Meal Planning, and Pantry APIs**).
 
 
 ---

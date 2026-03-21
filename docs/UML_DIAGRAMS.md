@@ -6,62 +6,69 @@ Visual representation of the MealMate system using standard UML notation, render
 
 ## 1. Use Case Diagram
 
-![Use Case Diagram](../diagrams/use_case_diagram.png)
+Illustrates the core interactions between the **User** and the MealMate system. A two-actor hierarchy separates **Guest User** (unauthenticated) from **Authenticated User** (logged in), with `<<include>>` and `<<extend>>` relationships shown on the relevant use cases.
 
-Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
+```mermaid
+flowchart LR
+    %% ── Actors ─────────────────────────────────────────────
+    Guest([👤 Guest User])
+    Auth([👤 Authenticated User])
 
-> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** to comply with UML standards. Use cases are drawn as ovals, and formal Actor Generalization is utilized. Render at [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) or any PlantUML-compatible tool.
+    %% ── System Boundary ─────────────────────────────────────
+    subgraph MealMate [" 🍽️  MealMate System "]
+        direction TB
 
-```plantuml
-@startuml MealMate_UseCaseDiagram
-left to right direction
-skinparam usecase {
-  BackgroundColor LightYellow
-  BorderColor DarkOliveGreen
-  ArrowColor DarkSlateGray
-}
-skinparam actorStyle awesome
+        subgraph Public ["── Public Access ──"]
+            UC_Reg(["Register Account"])
+            UC_Login(["Log In"])
+            UC_Browse(["Browse & Search Recipes"])
+        end
 
-actor "User" as U
-actor "Guest User" as Guest
-actor "Authenticated User" as AuthUser
+        subgraph Auth_Features ["── Authenticated Features ──"]
+            UC_Plan(["Manage Weekly Meal Plan"])
+            UC_List(["Generate Grocery List"])
+            UC_Pantry(["Manage Pantry Inventory"])
+            UC_Budget(["Monitor Weekly Budget"])
+        end
 
-Guest --|> U
-AuthUser --|> U
+        subgraph Extensions ["── Extensions ──"]
+            UC_Filter(["Filter by Dietary Tags"])
+            UC_Scale(["Adjust Serving Sizes"])
+        end
+    end
 
-rectangle "MealMate System" {
-  usecase "Register Account"             as UC_Reg
-  usecase "Log In"                       as UC_Login
-  usecase "Browse & Search Recipes"      as UC_Browse
-  usecase "Filter by Dietary Tags"       as UC_Filter
-  usecase "Adjust Serving Sizes"         as UC_Scale
+    %% ── Guest associations ──────────────────────────────────
+    Guest --> UC_Reg
+    Guest --> UC_Login
+    Guest --> UC_Browse
 
-  usecase "Manage Weekly Meal Plan"      as UC_Plan
-  usecase "Generate Grocery List"        as UC_List
-  usecase "Manage Pantry Inventory"      as UC_Pantry
-  usecase "Monitor Weekly Budget"        as UC_Budget
-}
+    %% ── Authenticated associations ──────────────────────────
+    Auth --> UC_Browse
+    Auth --> UC_Plan
+    Auth --> UC_List
+    Auth --> UC_Pantry
+    Auth --> UC_Budget
 
-U --> UC_Browse
+    %% ── extend relationships ────────────────────────────────
+    UC_Browse -. "<<extend>>" .-> UC_Filter
+    UC_Browse -. "<<extend>>" .-> UC_Scale
 
-Guest --> UC_Reg
-Guest --> UC_Login
+    %% ── include relationships ───────────────────────────────
+    UC_List -. "<<include>>" .-> UC_Plan
+    UC_List -. "<<include>>" .-> UC_Pantry
 
-UC_Filter .up.> UC_Browse : <<extend>>
-UC_Scale .up.> UC_Browse : <<extend>>
+    %% ── Styling ─────────────────────────────────────────────
+    classDef actor        fill:#2d6a4f,color:#fff,stroke:#1b4332,rx:50
+    classDef usecase      fill:#d8f3dc,color:#1b4332,stroke:#74c69d
+    classDef ext          fill:#fff9c4,color:#5c4a00,stroke:#f0c040
+    classDef boundary     fill:#f0faf4,stroke:#74c69d
 
-AuthUser --> UC_Plan
-AuthUser --> UC_List
-AuthUser --> UC_Pantry
-AuthUser --> UC_Budget
-
-note "Grocery list is derived from the\nweekly meal plan and existing\npantry inventory." as N_List
-UC_List .. N_List
-
-@enduml
+    class Guest,Auth        actor
+    class UC_Reg,UC_Login,UC_Browse,UC_Plan,UC_List,UC_Pantry,UC_Budget usecase
+    class UC_Filter,UC_Scale ext
 ```
 
-> 💡 **Explanation:** This diagram models the functional requirements and primary user interactions across the MealMate system boundary. A formal UML actor generalization hierarchy is employed to clearly demarcate unauthenticated privileges (**Guest User**) from protected system capabilities (**Authenticated User**), flawlessly adhering to the Principle of Least Privilege. Furthermore, formal extensibility mechanisms (`<<extend>>` dependencies) map optional sub-flows like dietary filtering and dynamic serving size scaling strictly to the primary recipe browsing module, guaranteeing high architectural modularity in the requirements specification structure.
+> 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.
 
 ---
 
@@ -136,43 +143,81 @@ PantryService ..> DB : <<use>> SQL Dialect
 
 ## 3. Sequence Diagram
 
-Traces the complete flow from **User Login** (JWT acquisition) through to **adding a recipe** to the weekly meal plan using the authenticated session.
+Traces three end-to-end flows: **Authentication**, **Meal Planning**, and **Grocery / Pantry / Budget Resolution**. Together these flows cover the full critical path of the MealMate application.
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor User
-    participant UI as Frontend (React)
-    participant Auth as AuthContext (State / Storage)
-    participant API as API Server (Node / Express)
-    participant DB as SQLite DB
+    participant UI  as Frontend (React)
+    participant Auth as AuthContext
+    participant API  as API Server (Express)
+    participant DB   as SQLite DB
 
-    Note over User,DB: 🔐 Authentication Phase
+    %% ══════════════════════════════════════════════
+    Note over User,DB: 🔐 Phase 1 — Authentication
+    %% ══════════════════════════════════════════════
 
-    User->>UI: Enter Email & Password
+    User->>UI: Submit email & password
     UI->>API: POST /api/auth/login
     API->>DB: SELECT user WHERE email = ?
-    DB-->>API: Return password_hash & record
+    DB-->>API: { id, password_hash, name }
     API->>API: bcrypt.compare(password, hash)
-    API-->>UI: 200 OK { token, user }
-    UI->>Auth: Store JWT in localStorage
 
-    Note over User,DB: 🍽️ Application Execution Phase
+    alt Credentials valid
+        API-->>UI: 200 OK { token, user }
+        UI->>Auth: Store JWT in localStorage
+        UI-->>User: ✅ Redirect to Dashboard
+    else Credentials invalid
+        API-->>UI: 401 Unauthorized
+        UI-->>User: ❌ "Invalid email or password"
+    end
 
-    User->>UI: Select Recipe for Meal Plan
-    Auth-->>UI: Provide JWT Token
-    UI->>API: POST /api/mealplans/items [Authorization: Bearer {token}]
+    %% ══════════════════════════════════════════════
+    Note over User,DB: 🍽️ Phase 2 — Meal Planning
+    %% ══════════════════════════════════════════════
+
+    User->>UI: Browse recipes, apply dietary filter
+    UI->>API: GET /api/recipes?tag=Vegan
+    API->>DB: SELECT recipes WHERE tag = 'Vegan'
+    DB-->>API: [ Recipe[] ]
+    API-->>UI: 200 OK { recipes }
+    UI-->>User: Render filtered recipe cards
+
+    User->>UI: Assign recipe to day slot (with servings)
+    Auth-->>UI: Attach JWT to request
+    UI->>API: POST /api/mealplans/:id/items  [Bearer token]
     API->>API: jwt.verify(token, secret)
-    API->>DB: CHECK Recipe & Plan exist
-    DB-->>API: Validated ✓
-    API->>DB: INSERT INTO meal_plan_items
-    DB-->>API: 201 { id, ... }
-    API-->>UI: 201 Created { item data }
-    UI->>UI: Update local state
-    UI-->>User: ✅ Visual success feedback
+    API->>DB: INSERT INTO meal_plan_items (recipe_id, day, servings)
+    DB-->>API: { id, recipe_id, day_of_week, servings }
+    API-->>UI: 201 Created { item }
+    UI->>UI: Update planner state
+    UI-->>User: ✅ Slot updated with recipe card
+
+    %% ══════════════════════════════════════════════
+    Note over User,DB: 🛒 Phase 3 — Grocery / Pantry / Budget
+    %% ══════════════════════════════════════════════
+
+    User->>UI: Open Grocery List
+    Auth-->>UI: Attach JWT
+    UI->>API: GET /api/grocery  [Bearer token]
+    API->>DB: SELECT meal_plan_items JOIN recipe_ingredients (scaled by servings)
+    DB-->>API: Raw ingredient rows
+    API->>API: Aggregate & merge identical ingredients (case-insensitive)
+    API->>DB: SELECT pantry_items WHERE user_id = ?
+    DB-->>API: Pantry stock rows
+    API->>API: Apply pantry deduction algorithm\n(Full → mark Owned, Partial → subtract qty)
+    API-->>UI: 200 OK { groceryList, budgetSummary }
+    UI-->>User: Render aggregated list + budget bar
+
+    alt Plan cost > weekly_budget
+        UI-->>User: ⚠️ "Over Budget" warning (red bar)
+    else Plan cost ≤ weekly_budget
+        UI-->>User: ✅ Budget bar green
+    end
 ```
 
-> 💡 The flow is split into two phases. In the **Authentication Phase** the frontend POSTs credentials, the server verifies the password hash with `bcrypt`, and returns a signed JWT that is stored in `localStorage`. In the **Application Execution Phase** the stored token is attached to subsequent requests; the server validates the signature with `jwt.verify()` before writing to the database, ensuring only authenticated users can modify meal plan data.
+> 💡 **Phase 1** shows the full login flow including the server-side bcrypt check and the JWT storage in `localStorage`, plus the error branch for invalid credentials. **Phase 2** covers recipe filtering and the authenticated meal-plan write — showing the JWT verification guard before any DB write. **Phase 3** models the full grocery resolution pipeline: ingredient aggregation from the planner, pantry deduction, and the budget-alert conditional that drives the visual warning in the UI.
 
 ---
 

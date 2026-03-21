@@ -19,21 +19,21 @@ flowchart LR
         direction TB
 
         subgraph Public ["── Public Access ──"]
-            UC_Reg(["Register Account"])
-            UC_Login(["Log In"])
-            UC_Browse(["Browse & Search Recipes"])
+            UC_Reg(["&nbsp;&nbsp;&nbsp; Register Account &nbsp;&nbsp;&nbsp;"])
+            UC_Login(["&nbsp;&nbsp;&nbsp; Log In &nbsp;&nbsp;&nbsp;"])
+            UC_Browse(["&nbsp;&nbsp; Browse & Search Recipes &nbsp;&nbsp;"])
         end
 
         subgraph Auth_Features ["── Authenticated Features ──"]
-            UC_Plan(["Manage Weekly Meal Plan"])
-            UC_List(["Generate Grocery List"])
-            UC_Pantry(["Manage Pantry Inventory"])
-            UC_Budget(["Monitor Weekly Budget"])
+            UC_Plan(["&nbsp;&nbsp; Manage Weekly Meal Plan &nbsp;&nbsp;"])
+            UC_List(["&nbsp;&nbsp; Generate Grocery List &nbsp;&nbsp;"])
+            UC_Pantry(["&nbsp;&nbsp; Manage Pantry Inventory &nbsp;&nbsp;"])
+            UC_Budget(["&nbsp;&nbsp; Monitor Weekly Budget &nbsp;&nbsp;"])
         end
 
         subgraph Extensions ["── Extensions ──"]
-            UC_Filter(["Filter by Dietary Tags"])
-            UC_Scale(["Adjust Serving Sizes"])
+            UC_Filter(["&nbsp;&nbsp; Filter by Dietary Tags &nbsp;&nbsp;"])
+            UC_Scale(["&nbsp;&nbsp; Adjust Serving Sizes &nbsp;&nbsp;"])
         end
     end
 

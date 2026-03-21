@@ -6,77 +6,12 @@ Visual representation of the MealMate system using standard UML notation, render
 
 ## 1. Use Case Diagram
 
-Illustrates the core interactions between the **User** and the MealMate system. A two-actor hierarchy separates **Guest User** (unauthenticated) from **Authenticated User** (logged in), with `<<include>>` and `<<extend>>` relationships shown on the relevant use cases.
+Illustrates core interactions between the **User** and the MealMate system.
 
-```mermaid
-flowchart LR
-    %% ── Actors ─────────────────────────────────────────────
-    Guest([👤 Guest User])
-    Auth([👤 Authenticated User])
+> [!IMPORTANT]
+> **UML Standard Compliance**: This diagram is rendered using **PlantUML** to ensure perfect mathematical ovals (ellipses) for all use cases, as strictly required by the project tutor.
 
-    %% ── System Boundary ─────────────────────────────────────
-    subgraph MealMate [" 🍽️  MealMate System "]
-        direction TB
-
-        subgraph Public ["── Public Access ──"]
-            UC_Reg(["&nbsp;&nbsp;&nbsp; Register Account &nbsp;&nbsp;&nbsp;"])
-            UC_Login(["&nbsp;&nbsp;&nbsp; Log In &nbsp;&nbsp;&nbsp;"])
-            UC_Browse(["&nbsp;&nbsp; Browse & Search Recipes &nbsp;&nbsp;"])
-        end
-
-        subgraph Auth_Features ["── Authenticated Features ──"]
-            UC_Plan(["&nbsp;&nbsp; Manage Weekly Meal Plan &nbsp;&nbsp;"])
-            UC_List(["&nbsp;&nbsp; Generate Grocery List &nbsp;&nbsp;"])
-            UC_Pantry(["&nbsp;&nbsp; Manage Pantry Inventory &nbsp;&nbsp;"])
-            UC_Budget(["&nbsp;&nbsp; Monitor Weekly Budget &nbsp;&nbsp;"])
-        end
-
-        subgraph Extensions ["── Extensions ──"]
-            UC_Filter(["&nbsp;&nbsp; Filter by Dietary Tags &nbsp;&nbsp;"])
-            UC_Scale(["&nbsp;&nbsp; Adjust Serving Sizes &nbsp;&nbsp;"])
-        end
-    end
-
-    %% ── Guest associations ──────────────────────────────────
-    Guest --> UC_Reg
-    Guest --> UC_Login
-    Guest --> UC_Browse
-
-    %% ── Authenticated associations ──────────────────────────
-    Auth --> UC_Browse
-    Auth --> UC_Plan
-    Auth --> UC_List
-    Auth --> UC_Pantry
-    Auth --> UC_Budget
-
-    %% ── extend relationships ────────────────────────────────
-    UC_Browse -. "<<extend>>" .-> UC_Filter
-    UC_Browse -. "<<extend>>" .-> UC_Scale
-
-    %% ── include relationships ───────────────────────────────
-    UC_List -. "<<include>>" .-> UC_Plan
-    UC_List -. "<<include>>" .-> UC_Pantry
-
-    %% ── Styling ─────────────────────────────────────────────
-    classDef actor fill:#2d6a4f,color:#fff,stroke:#1b4332
-    classDef usecase fill:#d8f3dc,color:#1b4332,stroke:#74c69d
-    classDef ext fill:#fff9c4,color:#5c4a00,stroke:#f0c040
-
-    class Guest actor
-    class Auth actor
-    class UC_Reg usecase
-    class UC_Login usecase
-    class UC_Browse usecase
-    class UC_Plan usecase
-    class UC_List usecase
-    class UC_Pantry usecase
-    class UC_Budget usecase
-    class UC_Filter ext
-    class UC_Scale ext
-```
-
-> [!NOTE]
-> **UML Standard Compliance**: In accordance with tutor feedback for the final submission, all use cases are rendered using **Stadium/Pill shapes** (`([])`). In Mermaid.js flowchart notation, this is the standard symbol for UML ovals, strictly differentiating them from rectangular process nodes or square actors.
+![UML Use Case Diagram](https://www.plantuml.com/plantuml/svg/~h735232702a5108422108c45455928d2d652d502d622d652d2b512b502d28512dd4c6888b1d3d651d622d645163f5726266e2e2a2a29282b2b1154483034d23348b13034d633324c4a3130d4334fca4c01ca4ac8cc4d2c4905f252084b2c4e2e29e6aa8da9b97a206b0b2b8b9313ea5a62f2730ca78ca9746c19a9504a4e4d4c4a5554303434b23232aa05721111002303030230d12591299c51239c51379c5c93999e525a585711200021a8a29a0029a1a9212002160912061616116122111116161a121516109151121121092520211111112211911110a2606a666e6ea16a6a1aa6616a61a6a66a1a6a61a1154ab1702f32f1ea30c3132cc4b494d4ecb2c0192e2124b4b2c4cd273010b9308cc4c4ed12bef4a520d2972740d1271120a11d27771761611d273771376161a02100)
 
 > 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.
 

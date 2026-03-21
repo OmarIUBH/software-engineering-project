@@ -156,6 +156,7 @@ The project is optimized for **Cloudflare Pages**. It includes a special `_redir
 Comprehensive project documentation is available in the [`/docs`](docs/) folder:
 
 - **[Application Screenshots](docs/SCREENSHOTS.md)**: Visual walkthrough of the final implementation.
+- **[Future Work & Roadmap](docs/FUTURE_WORK.md)**: Critical reflection and scalability plan.
 - **[Project Profile](docs/PROJECT_PROFILE.md)**: Objectives, scope, and project organization.
 - **[Requirements Specification](docs/REQUIREMENTS.md)**: Detailed functional and non-functional requirements.
 - **[Architecture Documentation](docs/ARCHITECTURE.md)**: System design and deployment view (includes Mermaid diagrams).

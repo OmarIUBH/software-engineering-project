@@ -65,3 +65,4 @@ The MealMate project was executed over a focused three-week development period (
 - **Developer**: Omar
 - **Tools**: GitHub (Version Control), Vitest (Unit Testing), Postman (API Testing), Docker (Containerization).
 - **Implementation Proof**: [Application Screenshots](SCREENSHOTS.md)
+- **Roadmap & Reflection**: [Future Work & Scalability](FUTURE_WORK.md)

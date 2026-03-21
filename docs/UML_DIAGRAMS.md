@@ -58,14 +58,21 @@ flowchart LR
     UC_List -. "<<include>>" .-> UC_Pantry
 
     %% ── Styling ─────────────────────────────────────────────
-    classDef actor        fill:#2d6a4f,color:#fff,stroke:#1b4332,rx:50
-    classDef usecase      fill:#d8f3dc,color:#1b4332,stroke:#74c69d
-    classDef ext          fill:#fff9c4,color:#5c4a00,stroke:#f0c040
-    classDef boundary     fill:#f0faf4,stroke:#74c69d
+    classDef actor fill:#2d6a4f,color:#fff,stroke:#1b4332
+    classDef usecase fill:#d8f3dc,color:#1b4332,stroke:#74c69d
+    classDef ext fill:#fff9c4,color:#5c4a00,stroke:#f0c040
 
-    class Guest,Auth        actor
-    class UC_Reg,UC_Login,UC_Browse,UC_Plan,UC_List,UC_Pantry,UC_Budget usecase
-    class UC_Filter,UC_Scale ext
+    class Guest actor
+    class Auth actor
+    class UC_Reg usecase
+    class UC_Login usecase
+    class UC_Browse usecase
+    class UC_Plan usecase
+    class UC_List usecase
+    class UC_Pantry usecase
+    class UC_Budget usecase
+    class UC_Filter ext
+    class UC_Scale ext
 ```
 
 > 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.

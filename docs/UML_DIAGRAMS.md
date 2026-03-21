@@ -11,7 +11,7 @@ Illustrates core interactions between the **User** and the MealMate system.
 > [!IMPORTANT]
 > **UML Standard Compliance**: This diagram is rendered using **PlantUML** to ensure perfect mathematical ovals (ellipses) for all use cases, as strictly required by the project tutor.
 
-![UML Use Case Diagram](https://www.plantuml.com/plantuml/svg/~h735232702a5108422108c45455928d2d652d502d622d652d2b512b502d28512dd4c6888b1d3d651d622d645163f5726266e2e2a2a29282b2b1154483034d23348b13034d633324c4a3130d4334fca4c01ca4ac8cc4d2c4905f252084b2c4e2e29e6aa8da9b97a206b0b2b8b9313ea5a62f2730ca78ca9746c19a9504a4e4d4c4a5554303434b23232aa05721111002303030230d12591299c51239c51379c5c93999e525a585711200021a8a29a0029a1a9212002160912061616116122111116161a121516109151121121092520211111112211911110a2606a666e6ea16a6a1aa6616a61a6a66a1a6a61a1154ab1702f32f1ea30c3132cc4b494d4ecb2c0192e2124b4b2c4cd273010b9308cc4c4ed12bef4a520d2972740d1271120a11d27771761611d273771376161a02100)
+![UML Use Case Diagram](assets/use_case.png)
 
 > 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.
 

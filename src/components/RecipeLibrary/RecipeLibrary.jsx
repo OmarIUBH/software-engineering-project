@@ -1,9 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { filterByTags, ALL_TAGS } from '../../engines/filterEngine.js';
 import { searchRecipes } from '../../engines/searchEngine.js';
 import { scaleIngredients } from '../../engines/scalingEngine.js';
+import { useAuth } from '../Authentication/AuthContext.jsx';
 import styles from './RecipeLibrary.module.css';
 
 export const TAG_LABELS = {
@@ -104,6 +106,9 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
 }
 
 function RecipeCard({ recipe, onDetail, onAddToPlan }) {
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
     return (
         <div className={`card ${styles.recipeCard}`} onClick={() => onDetail(recipe)}>
             <div className={styles.cardHeader}>
@@ -121,13 +126,23 @@ function RecipeCard({ recipe, onDetail, onAddToPlan }) {
                     <span key={t} className={`tag tag-${t}`}>{TAG_LABELS[t]}</span>
                 ))}
             </div>
-            <button
-                className={`btn btn-primary btn-sm ${styles.addBtn}`}
-                onClick={(e) => { e.stopPropagation(); onAddToPlan(recipe); }}
-                aria-label={`Add ${recipe.name} to plan`}
-            >
-                + Add to Plan
-            </button>
+            {user ? (
+                <button
+                    className={`btn btn-primary btn-sm ${styles.addBtn}`}
+                    onClick={(e) => { e.stopPropagation(); onAddToPlan(recipe); }}
+                    aria-label={`Add ${recipe.name} to plan`}
+                >
+                    + Add to Plan
+                </button>
+            ) : (
+                <button
+                    className={`btn btn-ghost btn-sm ${styles.addBtn}`}
+                    onClick={(e) => { e.stopPropagation(); navigate('/login'); }}
+                    aria-label="Login to add to plan"
+                >
+                    🔒 Login to plan
+                </button>
+            )}
         </div>
     );
 }

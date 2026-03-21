@@ -75,78 +75,81 @@ flowchart LR
     class UC_Scale ext
 ```
 
+> [!NOTE]
+> **UML Standard Compliance**: In accordance with tutor feedback for the final submission, all use cases are rendered using **Stadium/Pill shapes** (`([])`). In Mermaid.js flowchart notation, this is the standard symbol for UML ovals, strictly differentiating them from rectangular process nodes or square actors.
+
 > 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.
 
 ---
 
-## 2. Component Diagram
 
-![Component Diagram](../diagrams/component_diagram.png)
+## 2. Component Diagram
 
 Shows the **Client-Server architecture**. The React frontend communicates with the Express backend via JWT-authenticated REST API calls, persisting data in SQLite.
 
-> ⚠️ **UML Notation**: This diagram is specified in **PlantUML** utilizing the explicit `skinparam componentStyle uml2` configuration to comply rigidly with modern UML 2.0 component diagram standards, guaranteeing formal component icon rendering.
+```mermaid
+flowchart TB
+    %% ── Client Environment ──────────────────────────────────
+    subgraph CE["🖥️  Client Environment"]
+        direction TB
+        SPA[["&lt;&lt;component&gt;&gt;\nMealMate SPA\n(React.js)"]]
+    end
 
-```plantuml
-@startuml MealMate_ComponentDiagram
-skinparam componentStyle uml2
-skinparam nodesep 70
-skinparam ranksep 70
-skinparam component {
-  BackgroundColor LightBlue
-  BorderColor SteelBlue
-}
-skinparam interface {
-  BackgroundColor LightYellow
-  BorderColor DarkGoldenRod
-}
-skinparam database {
-  BackgroundColor LightYellow
-  BorderColor DarkOliveGreen
-}
+    %% ── Server Environment ──────────────────────────────────
+    subgraph SE["⚙️  Server Environment  ·  Node.js / Express"]
+        direction TB
 
-node "Client Environment" <<execution environment>> {
-  component "MealMate SPA (React.js)" as Client <<component>>
-}
+        subgraph APIs["Provided Interfaces"]
+            direction LR
+            IAuth(["🔌 Authentication API"])
+            IRecipes(["🔌 Recipe API"])
+            IPlans(["🔌 Meal Planning API"])
+            IPantry(["🔌 Pantry API"])
+        end
 
-node "Server Environment" <<execution environment>> {
-  interface "Authentication API" as IAuth
-  interface "Recipe API" as IRecipes
-  interface "Meal Planning API" as IPlans
-  interface "Pantry API" as IPantry
+        AuthSvc[["&lt;&lt;component&gt;&gt;\nAuthentication\nService"]]
+        RecipeSvc[["&lt;&lt;component&gt;&gt;\nRecipe Management\nService"]]
+        PlanSvc[["&lt;&lt;component&gt;&gt;\nMeal Planner\nService"]]
+        PantrySvc[["&lt;&lt;component&gt;&gt;\nPantry & Budget\nService"]]
 
-  component "Authentication Service" as AuthService <<component>>
-  component "Recipe Management Service" as RecipeService <<component>>
-  component "Meal Planner Service" as PlannerService <<component>>
-  component "Pantry & Budget Service" as PantryService <<component>>
+        IAuth --- AuthSvc
+        IRecipes --- RecipeSvc
+        IPlans --- PlanSvc
+        IPantry --- PantrySvc
+    end
 
-  IAuth -down- AuthService
-  IRecipes -down- RecipeService
-  IPlans -down- PlannerService
-  IPantry -down- PantryService
-}
+    %% ── Database Host ───────────────────────────────────────
+    subgraph DB_ENV["🗃️  Database Host"]
+        DB[("SQLite\nDatabase")]
+    end
 
-node "Database Host" <<execution environment>> {
-  database "SQLite Database" as DB
-}
+    %% ── Client → Interface connections (REST/JSON) ──────────
+    SPA -. "REST/JSON" .-> IAuth
+    SPA -. "REST/JSON" .-> IRecipes
+    SPA -. "REST/JSON" .-> IPlans
+    SPA -. "REST/JSON" .-> IPantry
 
-Client ..> IAuth : <<use>> REST/JSON
-Client ..> IRecipes : <<use>> REST/JSON
-Client ..> IPlans : <<use>> REST/JSON
-Client ..> IPantry : <<use>> REST/JSON
+    %% ── Services → Database (SQL) ───────────────────────────
+    AuthSvc -. "SQL" .-> DB
+    RecipeSvc -. "SQL" .-> DB
+    PlanSvc -. "SQL" .-> DB
+    PantrySvc -. "SQL" .-> DB
 
-AuthService ..> DB : <<use>> SQL Dialect
-RecipeService ..> DB : <<use>> SQL Dialect
-PlannerService ..> DB : <<use>> SQL Dialect
-PantryService ..> DB : <<use>> SQL Dialect
+    %% ── Styling ─────────────────────────────────────────────
+    classDef component fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+    classDef iface fill:#fef9c3,stroke:#ca8a04,color:#713f12
+    classDef db fill:#dcfce7,stroke:#16a34a,color:#14532d
 
-@enduml
+    class SPA,AuthSvc,RecipeSvc,PlanSvc,PantrySvc component
+    class IAuth,IRecipes,IPlans,IPantry iface
+    class DB db
 ```
 
-> 💡 **Explanation:** The component diagram illustrates the high-level structural decomposition of the MealMate system based on a strict multi-tier client-server pattern. The architectural computing load is distributed across discrete execution environments: the client environment hosts the compiled React.js SPA, the server environment hosts a modular monolithic backend, and the database host manages local persistent storage via SQLite. To ensure modular cohesion, interrelated lifecycle operations such as inventory tracking and cost analysis are purposefully encapsulated within a unified Pantry & Budget Service. Furthermore, the frontend acts as a strict consumer, resolving dependencies globally via tightly coupled but deeply abstracted JWT-authenticated RESTful interfaces (**Authentication, Recipe, Meal Planning, and Pantry APIs**).
+> 💡 **Explanation:** The diagram models a three-tier client-server architecture across distinct execution environments. The **Client Environment** hosts the compiled React SPA. The **Server Environment** exposes four provided interfaces (shown as oval nodes) — each fulfilled by a dedicated `<<component>>` (shown with double-bordered subroutine boxes). The **Database Host** holds the SQLite database accessed by the server-side components via SQL. All client-to-server communication uses JWT-authenticated REST/JSON; server-to-database communication uses parameterised SQL queries via `better-sqlite3`. The **Pantry & Budget Service** is intentionally unified because pantry stock deduction and budget cost calculation share the same ingredient pricing data.
 
 
 ---
+
 
 ## 3. Sequence Diagram
 

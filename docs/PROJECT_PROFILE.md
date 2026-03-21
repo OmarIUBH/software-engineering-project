@@ -42,7 +42,12 @@ Software projects face a range of risks across schedule, technical, integration,
 
 ## 5. Project Plan
 
-The MealMate project was executed over a focused three-week development period (22 February – 11 March 2026), organised into four sequential engineering phases: **Requirements & Architecture**, **Feature Implementation**, **Quality Assurance**, and **Documentation & Finalisation**. Each phase produced a defined deliverable that fed forward into the next phase. The project timeline, milestones, and inter-task dependencies are captured in the Gantt chart in `docs/timeline.mmd` in the repository. The project was further decomposed into six work packages (WP-01 through WP-06), each with a defined objective, activities, and a concrete deliverable, ensuring all functional and non-functional requirements were implemented and verified.
+The MealMate project was executed over a focused three-week development period (22 February – 11 March 2026), organised into four sequential engineering phases: **Requirements & Architecture**, **Feature Implementation**, **Quality Assurance**, and **Documentation & Finalisation**. Each phase produced a defined deliverable that fed forward into the next phase. The project was further decomposed into six work packages (WP-01 through WP-06), each with a defined objective, activities, and a concrete deliverable, ensuring all functional and non-functional requirements were implemented and verified.
+
+### Project Timeline (Gantt Chart)
+
+![MealMate Development Gantt Chart](./timeline.png)
+
 
 ### Work Package Breakdown
 
@@ -59,3 +64,4 @@ The MealMate project was executed over a focused three-week development period (
 - **Development Model**: Agile (Iterative sprints).
 - **Developer**: Omar
 - **Tools**: GitHub (Version Control), Vitest (Unit Testing), Postman (API Testing), Docker (Containerization).
+- **Implementation Proof**: [Application Screenshots](SCREENSHOTS.md)

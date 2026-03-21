@@ -8,10 +8,65 @@ Visual representation of the MealMate system using standard UML notation, render
 
 Illustrates core interactions between the **User** and the MealMate system.
 
-> [!IMPORTANT]
-> **UML Standard Compliance**: This diagram is rendered using **PlantUML** to ensure perfect mathematical ovals (ellipses) for all use cases, as strictly required by the project tutor.
+```mermaid
+flowchart LR
+    %% ── Actors ─────────────────────────────────────────────
+    Guest([👤 Guest User])
+    Auth([👤 Authenticated User])
 
-![UML Use Case Diagram](assets/use_case.png)
+    %% ── System Boundary ─────────────────────────────────────
+    subgraph MealMate ["  🍽️  MealMate System  "]
+        direction TB
+
+        subgraph Public ["── Public Access ──"]
+            UC_Reg["&nbsp;&nbsp;&nbsp; Register Account &nbsp;&nbsp;&nbsp;"]
+            UC_Login["&nbsp;&nbsp;&nbsp; Log In &nbsp;&nbsp;&nbsp;"]
+            UC_Browse["&nbsp; Browse & Search Recipes &nbsp;"]
+        end
+
+        subgraph Auth_Features ["── Authenticated Features ──"]
+            UC_Plan["&nbsp; Manage Weekly Meal Plan &nbsp;"]
+            UC_List["&nbsp; Generate Grocery List &nbsp;"]
+            UC_Pantry["&nbsp; Manage Pantry Inventory &nbsp;"]
+            UC_Budget["&nbsp; Monitor Weekly Budget &nbsp;"]
+        end
+
+        subgraph Extensions ["── Extensions ──"]
+            UC_Filter["&nbsp; Filter by Dietary Tags &nbsp;"]
+            UC_Scale["&nbsp; Adjust Serving Sizes &nbsp;"]
+        end
+    end
+
+    %% ── Guest associations ──────────────────────────────────
+    Guest --> UC_Reg
+    Guest --> UC_Login
+    Guest --> UC_Browse
+
+    %% ── Authenticated associations ──────────────────────────
+    Auth --> UC_Browse
+    Auth --> UC_Plan
+    Auth --> UC_List
+    Auth --> UC_Pantry
+    Auth --> UC_Budget
+
+    %% ── extend relationships ────────────────────────────────
+    UC_Browse -. "<<extend>>" .-> UC_Filter
+    UC_Browse -. "<<extend>>" .-> UC_Scale
+
+    %% ── include relationships ───────────────────────────────
+    UC_List -. "<<include>>" .-> UC_Plan
+    UC_List -. "<<include>>" .-> UC_Pantry
+
+    %% ── Styling (OVAL FORCING) ──────────────────────────────
+    %% High rx/ry values force rectangles into perfect ovals
+    classDef usecase fill:#d8f3dc,color:#1b4332,stroke:#74c69d,rx:100,ry:100
+    classDef ext fill:#fff9c4,color:#5c4a00,stroke:#f0c040,rx:100,ry:100
+    classDef actor fill:#2d6a4f,color:#fff,stroke:#1b4332
+
+    class Guest,Auth actor
+    class UC_Reg,UC_Login,UC_Browse,UC_Plan,UC_List,UC_Pantry,UC_Budget usecase
+    class UC_Filter,UC_Scale ext
+```
 
 > 💡 **Explanation:** Two actors model the privilege split: **Guest User** can register, log in, and freely browse recipes; **Authenticated User** gains access to all protected features. `<<extend>>` relationships show that dietary filtering and serving-size scaling are optional extensions to browsing. `<<include>>` relationships on **Generate Grocery List** express that it *always* depends on the Meal Plan and Pantry Inventory data — these are mandatory sub-flows, not optional ones.
 

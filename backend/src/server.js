@@ -26,13 +26,13 @@ const mealplansRouter = require('./routes/mealplans');
 const pantryRouter = require('./routes/pantry');
 const tagsRouter = require('./routes/tags');
 const pricesRouter = require('./routes/prices');
-const { router: authRouter } = require('./routes/auth');
+const { router: authRouter, authenticateToken } = require('./routes/auth');
 
-app.use('/api/recipes', recipesRouter);
-app.use('/api/mealplans', mealplansRouter);
-app.use('/api/pantry', pantryRouter);
-app.use('/api/tags', tagsRouter);
-app.use('/api/prices', pricesRouter);
+app.use('/api/recipes', authenticateToken, recipesRouter);
+app.use('/api/mealplans', authenticateToken, mealplansRouter);
+app.use('/api/pantry', authenticateToken, pantryRouter);
+app.use('/api/tags', authenticateToken, tagsRouter);
+app.use('/api/prices', authenticateToken, pricesRouter);
 app.use('/api/auth', authRouter);
 
 // Health check

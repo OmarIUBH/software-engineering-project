@@ -1,0 +1,4 @@
+{
+  "pyre.enabled": false,
+  "python.linting.pyreEnabled": false
+}

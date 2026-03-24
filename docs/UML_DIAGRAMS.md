@@ -54,6 +54,8 @@ flowchart TD
     classDef compNode fill:#ffffff,stroke:#2563eb,stroke-width:2px;
     classDef dbNode fill:#ffffff,stroke:#16a34a,stroke-width:2px;
 
+    Client(("👤 Client\n«actor»"))
+
     subgraph ClientLayer ["🖥️ Client Tier"]
         SPA[["«component»\nMealMate SPA"]]:::compNode
     end
@@ -77,7 +79,8 @@ flowchart TD
     end
 
     %% Interactions
-    SPA <===>|"REST API\n(JSON + JWT)"| Gateway
+    Client -.->|"Uses"| SPA
+    SPA <======>|"REST API\n(JSON + JWT)"| Gateway
     
     %% Data Operations
     AuthService -.-> DB

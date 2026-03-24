@@ -9,72 +9,7 @@ Visual representation of the MealMate system using standard UML notation, render
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
 ```mermaid
-flowchart LR
-    %% Custom Styling to match the provided image
-    classDef guestActor fill:#388e3c,color:#fff,stroke:#2e7d32,stroke-width:2px;
-    classDef authActor fill:#2e7d32,color:#fff,stroke:#1b5e20,stroke-width:2px;
-    classDef usecase fill:#e8f5e9,stroke:#81c784,stroke-width:1px;
-    classDef extension fill:#fffde7,stroke:#ffd54f,stroke-width:1px;
-    classDef systemBox fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
-    classDef subBox fill:#ffffff,stroke:#d1d5db,stroke-width:1px,stroke-dasharray: 5 5;
-
-    %% Actors
-    Guest["👤<br/>Guest User"]:::guestActor
-    Auth["👤<br/>Authenticated User"]:::authActor
-
-    subgraph MealMate["MealMate System"]
-        direction TB
-        
-        subgraph PublicArea["— Public Access —"]
-            direction TB
-            UC_Reg@{ shape: ellipse, label: "Register Account" }
-            UC_Log@{ shape: ellipse, label: "Log In" }
-            UC_Browse@{ shape: ellipse, label: "Browse & Search Recipes" }
-        end
-
-        subgraph ExtensionArea["— Extensions —"]
-            direction TB
-            UC_Filter@{ shape: ellipse, label: "Filter by Dietary Tags" }
-            UC_Scale@{ shape: ellipse, label: "Adjust Serving Sizes" }
-        end
-
-        subgraph AuthArea["— Authenticated Features —"]
-            direction TB
-            UC_Plan@{ shape: ellipse, label: "Manage Weekly Meal Plan" }
-            UC_List@{ shape: ellipse, label: "Generate Grocery List" }
-            UC_Pantry@{ shape: ellipse, label: "Manage Pantry Inventory" }
-            UC_Budget@{ shape: ellipse, label: "Monitor Weekly Budget" }
-        end
-    end
-
-    %% Class Assignments
-    class UC_Reg,UC_Log,UC_Browse,UC_Plan,UC_List,UC_Pantry,UC_Budget usecase
-    class UC_Filter,UC_Scale extension
-
-    %% Guest Connections
-    Guest --- UC_Reg
-    Guest --- UC_Log
-    Guest --- UC_Browse
-
-    %% Authenticated Connections
-    Auth --- UC_Browse
-    Auth --- UC_Plan
-    Auth --- UC_List
-    Auth --- UC_Pantry
-    Auth --- UC_Budget
-
-    %% Relationships
-    UC_Browse -.->|«extend»| UC_Filter
-    UC_Browse -.->|«extend»| UC_Scale
-    UC_List -.->|«include»| UC_Plan
-    UC_List -.->|«include»| UC_Pantry
-
-    %% Layout and Shape Refinements
-    style MealMate fill:#fffef0,stroke:#fbc02d
-    style PublicArea fill:none,stroke:#cfd8dc
-    style ExtensionArea fill:none,stroke:#cfd8dc
-    style AuthArea fill:none,stroke:#cfd8dc
-```
+![Use Case Diagram](https://www.plantuml.com/plantuml/svg/SyfBBl9B249N4hDDZqXJdJ7iEjZ5l_uhfqg4Ca9N4hDDnqwnSYYuG_Z78FpcNEnAifMHDrPR)
 
 > 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.
 

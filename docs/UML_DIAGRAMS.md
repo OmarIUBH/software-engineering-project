@@ -12,11 +12,11 @@ Illustrates the core interactions between the **User** and the MealMate system, 
 
 ```mermaid
 flowchart LR
-    %% Perfect Oval Trick using HTML divs
+    %% True Elliptical Ovals using rx/ry styling on rectangular nodes
     %% Green Style for Use Cases
-    classDef usecase fill:none,stroke:none;
+    classDef usecase fill:#e8f5e9,stroke:#81c784,stroke-width:1px;
     %% Yellow Style for Extensions
-    classDef extension fill:none,stroke:none;
+    classDef extension fill:#fffde7,stroke:#ffd54f,stroke-width:1px;
     %% Actor Styles
     classDef guestActor fill:#388e3c,color:#fff,stroke:#2e7d32,stroke-width:2px;
     classDef authActor fill:#2e7d32,color:#fff,stroke:#1b5e20,stroke-width:2px;
@@ -30,23 +30,23 @@ flowchart LR
         
         subgraph PublicArea["— Public Access —"]
             direction TB
-            UC_Reg(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Register Account</div>"]):::usecase
-            UC_Log(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Log In</div>"]):::usecase
-            UC_Browse(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Browse & Search Recipes</div>"]):::usecase
+            UC_Reg[Register Account]:::usecase
+            UC_Log[Log In]:::usecase
+            UC_Browse[Browse & Search Recipes]:::usecase
         end
 
         subgraph ExtensionArea["— Extensions —"]
             direction TB
-            UC_Filter(["<div style='background:#fffde7; border:1px solid #ffd54f; border-radius:100%; padding:8px 25px; display:inline-block;'>Filter by Dietary Tags</div>"]):::extension
-            UC_Scale(["<div style='background:#fffde7; border:1px solid #ffd54f; border-radius:100%; padding:8px 25px; display:inline-block;'>Adjust Serving Sizes</div>"]):::extension
+            UC_Filter[Filter by Dietary Tags]:::extension
+            UC_Scale[Adjust Serving Sizes]:::extension
         end
 
         subgraph AuthArea["— Authenticated Features —"]
             direction TB
-            UC_Plan(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Manage Weekly Meal Plan</div>"]):::usecase
-            UC_List(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Generate Grocery List</div>"]):::usecase
-            UC_Pantry(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Manage Pantry Inventory</div>"]):::usecase
-            UC_Budget(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Monitor Weekly Budget</div>"]):::usecase
+            UC_Plan[Manage Weekly Meal Plan]:::usecase
+            UC_List[Generate Grocery List]:::usecase
+            UC_Pantry[Manage Pantry Inventory]:::usecase
+            UC_Budget[Monitor Weekly Budget]:::usecase
         end
     end
 
@@ -73,6 +73,17 @@ flowchart LR
     style PublicArea fill:none,stroke:#cfd8dc
     style ExtensionArea fill:none,stroke:#cfd8dc
     style AuthArea fill:none,stroke:#cfd8dc
+
+    %% Global Oval Overrides
+    style UC_Reg rx:50,ry:30
+    style UC_Log rx:50,ry:30
+    style UC_Browse rx:50,ry:30
+    style UC_Plan rx:50,ry:30
+    style UC_List rx:50,ry:30
+    style UC_Pantry rx:50,ry:30
+    style UC_Budget rx:50,ry:30
+    style UC_Filter rx:50,ry:30
+    style UC_Scale rx:50,ry:30
 ```
 
 > 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.

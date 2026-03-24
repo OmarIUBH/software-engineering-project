@@ -77,13 +77,13 @@ flowchart TD
     end
 
     %% Interactions
-    SPA <==>|"REST API\n(JSON + JWT)"| Gateway
+    SPA <===>|"REST API\n(JSON + JWT)"| Gateway
     
     %% Data Operations
-    AuthService -.->|"SQL Query"| DB
-    RecipeService -.->|"SQL Query"| DB
-    MealPlanService -.->|"SQL Query"| DB
-    PantryService -.->|"SQL Query"| DB
+    AuthService -.-> DB
+    RecipeService -.-> DB
+    MealPlanService -.-> DB
+    PantryService -.-> DB
 
     %% Apply structural styling
     class ClientLayer,ServerLayer,DataLayer layerBox

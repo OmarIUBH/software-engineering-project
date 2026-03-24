@@ -19,31 +19,31 @@ graph LR
     classDef subBox fill:#ffffff,stroke:#d1d5db,stroke-width:1px,stroke-dasharray: 5 5;
 
     %% Actors
-    Guest["🧍<br/>Guest User"]:::guestActor
-    Auth["🧍<br/>Authenticated User"]:::authActor
+    Guest["👤<br/>Guest User"]:::guestActor
+    Auth["👤<br/>Authenticated User"]:::authActor
 
     subgraph MealMate["MealMate System"]
         direction TB
         
         subgraph PublicArea["— Public Access —"]
             direction TB
-            UC_Reg(["Register Account"]):::usecase
-            UC_Log(["Log In"]):::usecase
-            UC_Browse(["Browse & Search Recipes"]):::usecase
+            UC_Reg(["&nbsp;&nbsp;Register Account&nbsp;&nbsp;"]):::usecase
+            UC_Log(["&nbsp;&nbsp;Log In&nbsp;&nbsp;"]):::usecase
+            UC_Browse(["&nbsp;&nbsp;Browse & Search Recipes&nbsp;&nbsp;"]):::usecase
         end
 
         subgraph ExtensionArea["— Extensions —"]
             direction TB
-            UC_Filter(["Filter by Dietary Tags"]):::extension
-            UC_Scale(["Adjust Serving Sizes"]):::extension
+            UC_Filter(["&nbsp;&nbsp;Filter by Dietary Tags&nbsp;&nbsp;"]):::extension
+            UC_Scale(["&nbsp;&nbsp;Adjust Serving Sizes&nbsp;&nbsp;"]):::extension
         end
 
         subgraph AuthArea["— Authenticated Features —"]
             direction TB
-            UC_Plan(["Manage Weekly Meal Plan"]):::usecase
-            UC_List(["Generate Grocery List"]):::usecase
-            UC_Pantry(["Manage Pantry Inventory"]):::usecase
-            UC_Budget(["Monitor Weekly Budget"]):::usecase
+            UC_Plan(["&nbsp;&nbsp;Manage Weekly Meal Plan&nbsp;&nbsp;"]):::usecase
+            UC_List(["&nbsp;&nbsp;Generate Grocery List&nbsp;&nbsp;"]):::usecase
+            UC_Pantry(["&nbsp;&nbsp;Manage Pantry Inventory&nbsp;&nbsp;"]):::usecase
+            UC_Budget(["&nbsp;&nbsp;Monitor Weekly Budget&nbsp;&nbsp;"]):::usecase
         end
     end
 
@@ -71,16 +71,16 @@ graph LR
     style ExtensionArea fill:none,stroke:#cfd8dc
     style AuthArea fill:none,stroke:#cfd8dc
     
-    %% Perfect Oval Overrides
-    style UC_Reg rx:30,ry:30
-    style UC_Log rx:30,ry:30
-    style UC_Browse rx:30,ry:30
-    style UC_Filter rx:30,ry:30
-    style UC_Scale rx:30,ry:30
-    style UC_Plan rx:30,ry:30
-    style UC_List rx:30,ry:30
-    style UC_Pantry rx:30,ry:30
-    style UC_Budget rx:30,ry:30
+    %% True Oval Styling via SVG Attributes
+    style UC_Reg rx:100,ry:100
+    style UC_Log rx:100,ry:100
+    style UC_Browse rx:100,ry:100
+    style UC_Filter rx:100,ry:100
+    style UC_Scale rx:100,ry:100
+    style UC_Plan rx:100,ry:100
+    style UC_List rx:100,ry:100
+    style UC_Pantry rx:100,ry:100
+    style UC_Budget rx:100,ry:100
 ```
 
 > 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.

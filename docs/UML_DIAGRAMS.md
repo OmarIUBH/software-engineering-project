@@ -10,47 +10,77 @@ Illustrates the core interactions between the **User** and the MealMate system, 
 
 ```mermaid
 graph LR
-    %% Custom Styling for UML Use Case
-    classDef actor fill:#f9fafb,stroke:#374151,stroke-width:2px;
-    classDef usecase fill:#ffffff,stroke:#2563eb,stroke-width:2px;
+    %% Custom Styling to match the provided image
+    classDef guestActor fill:#388e3c,color:#fff,stroke:#2e7d32,stroke-width:2px;
+    classDef authActor fill:#2e7d32,color:#fff,stroke:#1b5e20,stroke-width:2px;
+    classDef usecase fill:#e8f5e9,stroke:#81c784,stroke-width:1px;
+    classDef extension fill:#fffde7,stroke:#ffd54f,stroke-width:1px;
+    classDef systemBox fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
+    classDef subBox fill:#ffffff,stroke:#d1d5db,stroke-width:1px,stroke-dasharray: 5 5;
 
-    User["👤 User"]:::actor
+    %% Actors
+    Guest(("👤 Guest User")):::guestActor
+    Auth(("👤 Authenticated User")):::authActor
 
-    subgraph MealMate["🍽️ MealMate System"]
+    subgraph MealMate["MealMate System"]
         direction TB
-        UC0(["Create Account / Login"]):::usecase
-        UC1(["Browse & Search Recipes"]):::usecase
-        UC2(["Filter by Diet Tags"]):::usecase
-        UC3(["Adjust Serving Sizes"]):::usecase
-        UC4(["Manage Weekly Meal Plan"]):::usecase
-        UC5(["Generate Grocery List"]):::usecase
-        UC6(["Manage Pantry Inventory"]):::usecase
-        UC7(["Monitor Weekly Budget"]):::usecase
+        
+        subgraph PublicArea["— Public Access —"]
+            direction TB
+            UC_Reg(["Register Account"]):::usecase
+            UC_Log(["Log In"]):::usecase
+            UC_Browse(["Browse & Search Recipes"]):::usecase
+        end
+
+        subgraph ExtensionArea["— Extensions —"]
+            direction TB
+            UC_Filter(["Filter by Dietary Tags"]):::extension
+            UC_Scale(["Adjust Serving Sizes"]):::extension
+        end
+
+        subgraph AuthArea["— Authenticated Features —"]
+            direction TB
+            UC_Plan(["Manage Weekly Meal Plan"]):::usecase
+            UC_List(["Generate Grocery List"]):::usecase
+            UC_Pantry(["Manage Pantry Inventory"]):::usecase
+            UC_Budget(["Monitor Weekly Budget"]):::usecase
+        end
     end
 
-    User --- UC0
-    User --- UC1
-    User --- UC3
-    User --- UC4
-    User --- UC6
+    %% Guest Connections
+    Guest --- UC_Reg
+    Guest --- UC_Log
+    Guest --- UC_Browse
 
-    UC1 -.->|«include»| UC0
-    UC4 -.->|«include»| UC0
-    UC1 -.->|«extend»| UC2
-    UC3 -.->|«extend»| UC1
-    UC4 -.->|«include»| UC5
-    UC5 -.->|«include»| UC6
-    UC4 -.->|«include»| UC7
+    %% Authenticated Connections
+    Auth --- UC_Browse
+    Auth --- UC_Plan
+    Auth --- UC_List
+    Auth --- UC_Pantry
+    Auth --- UC_Budget
 
-    %% Perfect Oval Overrides for Use Cases
-    style UC0 rx:20,ry:20
-    style UC1 rx:20,ry:20
-    style UC2 rx:20,ry:20
-    style UC3 rx:20,ry:20
-    style UC4 rx:20,ry:20
-    style UC5 rx:20,ry:20
-    style UC6 rx:20,ry:20
-    style UC7 rx:20,ry:20
+    %% Relationships
+    UC_Browse -.->|«extend»| UC_Filter
+    UC_Browse -.->|«extend»| UC_Scale
+    UC_List -.->|«include»| UC_Plan
+    UC_List -.->|«include»| UC_Pantry
+
+    %% Layout and Shape Refinements
+    style MealMate fill:#fffef0,stroke:#fbc02d
+    style PublicArea fill:none,stroke:#cfd8dc
+    style ExtensionArea fill:none,stroke:#cfd8dc
+    style AuthArea fill:none,stroke:#cfd8dc
+    
+    %% Perfect Oval Overrides
+    style UC_Reg rx:30,ry:30
+    style UC_Log rx:30,ry:30
+    style UC_Browse rx:30,ry:30
+    style UC_Filter rx:30,ry:30
+    style UC_Scale rx:30,ry:30
+    style UC_Plan rx:30,ry:30
+    style UC_List rx:30,ry:30
+    style UC_Pantry rx:30,ry:30
+    style UC_Budget rx:30,ry:30
 ```
 
 > 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.

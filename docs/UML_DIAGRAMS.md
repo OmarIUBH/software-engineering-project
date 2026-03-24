@@ -53,6 +53,7 @@ flowchart TD
     classDef layerBox fill:#f9fafb,stroke:#d1d5db,stroke-width:2px,stroke-dasharray: 5 5;
     classDef compNode fill:#ffffff,stroke:#2563eb,stroke-width:2px;
     classDef dbNode fill:#ffffff,stroke:#16a34a,stroke-width:2px;
+    classDef plainNode fill:none,stroke:none,color:#1f2937,font-weight:bold;
 
     Client(("👤 Client\n«actor»"))
 
@@ -78,9 +79,12 @@ flowchart TD
         DB[("«database»\nSQLite")]:::dbNode
     end
 
+    %% Central API Interface (creates spacing to prevent border overlap)
+    RestAPI[("REST API\n(JSON + JWT)")]:::plainNode
+
     %% Interactions
     Client -.->|"Uses"| SPA
-    SPA <======>|"REST API\n(JSON + JWT)"| Gateway
+    SPA <===> RestAPI <===> Gateway
     
     %% Data Operations
     AuthService -.-> DB

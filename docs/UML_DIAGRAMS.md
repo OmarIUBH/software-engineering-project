@@ -9,7 +9,7 @@ Visual representation of the MealMate system using standard UML notation, render
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
 ```mermaid
-graph LR
+flowchart LR
     %% Custom Styling to match the provided image
     classDef guestActor fill:#388e3c,color:#fff,stroke:#2e7d32,stroke-width:2px;
     classDef authActor fill:#2e7d32,color:#fff,stroke:#1b5e20,stroke-width:2px;
@@ -27,25 +27,29 @@ graph LR
         
         subgraph PublicArea["— Public Access —"]
             direction TB
-            UC_Reg@{ shape: ellipse, label: "Register Account" }:::usecase
-            UC_Log@{ shape: ellipse, label: "Log In" }:::usecase
-            UC_Browse@{ shape: ellipse, label: "Browse & Search Recipes" }:::usecase
+            UC_Reg@{ shape: ellipse, label: "Register Account" }
+            UC_Log@{ shape: ellipse, label: "Log In" }
+            UC_Browse@{ shape: ellipse, label: "Browse & Search Recipes" }
         end
 
         subgraph ExtensionArea["— Extensions —"]
             direction TB
-            UC_Filter@{ shape: ellipse, label: "Filter by Dietary Tags" }:::extension
-            UC_Scale@{ shape: ellipse, label: "Adjust Serving Sizes" }:::extension
+            UC_Filter@{ shape: ellipse, label: "Filter by Dietary Tags" }
+            UC_Scale@{ shape: ellipse, label: "Adjust Serving Sizes" }
         end
 
         subgraph AuthArea["— Authenticated Features —"]
             direction TB
-            UC_Plan@{ shape: ellipse, label: "Manage Weekly Meal Plan" }:::usecase
-            UC_List@{ shape: ellipse, label: "Generate Grocery List" }:::usecase
-            UC_Pantry@{ shape: ellipse, label: "Manage Pantry Inventory" }:::usecase
-            UC_Budget@{ shape: ellipse, label: "Monitor Weekly Budget" }:::usecase
+            UC_Plan@{ shape: ellipse, label: "Manage Weekly Meal Plan" }
+            UC_List@{ shape: ellipse, label: "Generate Grocery List" }
+            UC_Pantry@{ shape: ellipse, label: "Manage Pantry Inventory" }
+            UC_Budget@{ shape: ellipse, label: "Monitor Weekly Budget" }
         end
     end
+
+    %% Class Assignments
+    class UC_Reg,UC_Log,UC_Browse,UC_Plan,UC_List,UC_Pantry,UC_Budget usecase
+    class UC_Filter,UC_Scale extension
 
     %% Guest Connections
     Guest --- UC_Reg

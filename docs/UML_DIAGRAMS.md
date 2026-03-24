@@ -8,8 +8,6 @@ Visual representation of the MealMate system using standard UML notation, render
 
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
-Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
-
 ```mermaid
 flowchart LR
     %% True Elliptical Ovals using rx/ry styling on rectangular nodes

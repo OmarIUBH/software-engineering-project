@@ -10,7 +10,70 @@ Illustrates the core interactions between the **User** and the MealMate system, 
 
 Illustrates the core interactions between the **User** and the MealMate system, including Authentication, Meal Planning, and Pantry management flows.
 
-![Use Case Diagram](https://g.gravizo.com/svg?%40startuml%0Askinparam%20actorStyle%20awesome%0Askinparam%20usecase%20%7B%0A%20%20%20%20BackgroundColor%20%23d8f3dc%0A%20%20%20%20BorderColor%20%231b4332%0A%20%20%20%20ArrowColor%20%231b4332%0A%20%20%20%20ActorBorderColor%20%232d6a4f%0A%20%20%20%20ActorBackgroundColor%20%232d6a4f%0A%7D%0Aleft%20to%20right%20direction%0A%0Aactor%20%22Guest%20User%22%20as%20Guest%0Aactor%20%22Authenticated%20User%22%20as%20Auth%0A%0Arectangle%20%22%20%20MealMate%20Application%20%20%22%20%7B%0A%20%20%20%20%28Register%20Account%29%20as%20UC_Reg%0A%20%20%20%20%28Log%20In%29%20as%20UC_Login%0A%20%20%20%20%28Browse%20%26%20Search%5CnRecipes%29%20as%20UC_Browse%0A%20%20%20%20%0A%20%20%20%20%28Manage%20Weekly%5CnMeal%20Plan%29%20as%20UC_Plan%0A%20%20%20%20%28Generate%5CnGrocery%20List%29%20as%20UC_List%0A%20%20%20%20%28Manage%20Pantry%5CnInventory%29%20as%20UC_Pantry%0A%20%20%20%20%28Monitor%20Weekly%5CnBudget%29%20as%20UC_Budget%0A%20%20%20%20%0A%20%20%20%20%28Filter%20by%5CnDietary%20Tags%29%20as%20UC_Filter%0A%20%20%20%20%28Adjust%5CnServing%20Sizes%29%20as%20UC_Scale%0A%7D%0A%0AGuest%20--%3E%20UC_Reg%0AGuest%20--%3E%20UC_Login%0AGuest%20--%3E%20UC_Browse%0A%0AAuth%20--%3E%20UC_Browse%0AAuth%20--%3E%20UC_Plan%0AAuth%20--%3E%20UC_List%0AAuth%20--%3E%20UC_Pantry%0AAuth%20--%3E%20UC_Budget%0A%0AUC_Browse%20%3C..%20UC_Filter%20%3A%20%3C%3Cextend%3E%3E%0AUC_Browse%20%3C..%20UC_Scale%20%3A%20%3C%3Cextend%3E%3E%0A%0AUC_List%20..%3E%20UC_Plan%20%3A%20%3C%3Cinclude%3E%3E%0AUC_List%20..%3E%20UC_Pantry%20%3A%20%3C%3Cinclude%3E%3E%0A%0A%40enduml)
+```mermaid
+flowchart LR
+    %% Perfect Oval Trick using HTML divs
+    %% Green Style for Use Cases
+    classDef usecase fill:none,stroke:none;
+    %% Yellow Style for Extensions
+    classDef extension fill:none,stroke:none;
+    %% Actor Styles
+    classDef guestActor fill:#388e3c,color:#fff,stroke:#2e7d32,stroke-width:2px;
+    classDef authActor fill:#2e7d32,color:#fff,stroke:#1b5e20,stroke-width:2px;
+
+    %% Actors
+    Guest["👤<br/>Guest User"]:::guestActor
+    Auth["👤<br/>Authenticated User"]:::authActor
+
+    subgraph MealMate["MealMate System"]
+        direction TB
+        
+        subgraph PublicArea["— Public Access —"]
+            direction TB
+            UC_Reg(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Register Account</div>"]):::usecase
+            UC_Log(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Log In</div>"]):::usecase
+            UC_Browse(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Browse & Search Recipes</div>"]):::usecase
+        end
+
+        subgraph ExtensionArea["— Extensions —"]
+            direction TB
+            UC_Filter(["<div style='background:#fffde7; border:1px solid #ffd54f; border-radius:100%; padding:8px 25px; display:inline-block;'>Filter by Dietary Tags</div>"]):::extension
+            UC_Scale(["<div style='background:#fffde7; border:1px solid #ffd54f; border-radius:100%; padding:8px 25px; display:inline-block;'>Adjust Serving Sizes</div>"]):::extension
+        end
+
+        subgraph AuthArea["— Authenticated Features —"]
+            direction TB
+            UC_Plan(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Manage Weekly Meal Plan</div>"]):::usecase
+            UC_List(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Generate Grocery List</div>"]):::usecase
+            UC_Pantry(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Manage Pantry Inventory</div>"]):::usecase
+            UC_Budget(["<div style='background:#e8f5e9; border:1px solid #81c784; border-radius:100%; padding:8px 25px; display:inline-block;'>Monitor Weekly Budget</div>"]):::usecase
+        end
+    end
+
+    %% Guest Connections
+    Guest --- UC_Reg
+    Guest --- UC_Log
+    Guest --- UC_Browse
+
+    %% Authenticated Connections
+    Auth --- UC_Browse
+    Auth --- UC_Plan
+    Auth --- UC_List
+    Auth --- UC_Pantry
+    Auth --- UC_Budget
+
+    %% Relationships
+    UC_Browse -.->|«extend»| UC_Filter
+    UC_Browse -.->|«extend»| UC_Scale
+    UC_List -.->|«include»| UC_Plan
+    UC_List -.->|«include»| UC_Pantry
+
+    %% Layout and Shape Refinements
+    style MealMate fill:#fffef0,stroke:#fbc02d
+    style PublicArea fill:none,stroke:#cfd8dc
+    style ExtensionArea fill:none,stroke:#cfd8dc
+    style AuthArea fill:none,stroke:#cfd8dc
+```
 
 > 💡 The **User** is the single actor who drives all interactions. **«include»** arrows show mandatory sub-flows (e.g. a Meal Plan always generates a Grocery List), while **«extend»** arrows show optional behaviour (e.g. Browse Recipes can be extended with Diet Tag filtering). All core features require the user to be authenticated via **Create Account / Login**.
 

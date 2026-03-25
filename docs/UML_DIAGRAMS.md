@@ -122,9 +122,9 @@ flowchart TD
     end
 
     %% Interactions (split to avoid label overlapping subgraph title)
-    SPA <==>|"REST API (JSON & JWT)"| _mid[ ]
-    _mid <==> Gateway
-    style _mid fill:none,stroke:none,width:0,height:0
+    SPA <==>|"REST API (JSON & JWT)"| _mid[" "]
+    _mid --- Gateway
+    style _mid fill:none,stroke:none,color:transparent
     
     %% Data Operations
     AuthService -.-> DB

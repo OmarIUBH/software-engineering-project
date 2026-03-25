@@ -26,6 +26,7 @@ function Navbar() {
                     </>
                 ) : (
                     <>
+                        <li><NavLink to="/">Recipes</NavLink></li>
                         <li><NavLink to="/login">Login</NavLink></li>
                         <li><NavLink to="/signup">Signup</NavLink></li>
                     </>
@@ -75,7 +76,7 @@ export default function App() {
                         <Routes>
                             <Route path="/login" element={<Login />} />
                             <Route path="/signup" element={<Signup />} />
-                            <Route path="/" element={<ProtectedRoute><RecipeLibrary /></ProtectedRoute>} />
+                            <Route path="/" element={<RecipeLibrary />} />
                             <Route path="/planner" element={<ProtectedRoute><MealPlanner /></ProtectedRoute>} />
                             <Route path="/grocery" element={<ProtectedRoute><GroceryList /></ProtectedRoute>} />
                             <Route path="/pantry" element={<ProtectedRoute><PantryManager /></ProtectedRoute>} />

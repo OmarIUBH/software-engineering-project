@@ -121,8 +121,10 @@ flowchart TD
         DB[("«database»<br/><b>SQLite</b>")]:::dbNode
     end
 
-    %% Interactions
-    SPA <====>|"REST API (JSON & JWT)"| Gateway
+    %% Interactions (split to avoid label overlapping subgraph title)
+    SPA <==>|"REST API (JSON & JWT)"| _mid[ ]
+    _mid <==> Gateway
+    style _mid fill:none,stroke:none,width:0,height:0
     
     %% Data Operations
     AuthService -.-> DB

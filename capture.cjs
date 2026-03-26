@@ -101,25 +101,23 @@ if (!fs.existsSync(OUT_DIR)) {
             await page.screenshot({ path: path.join(OUT_DIR, '04_meal_planner.png') });
             console.log("Captured 04_meal_planner.png (1 meal dragged)");
 
-            // Drag multiple meals to trigger overbudget
-            // Let's just drag the same recipe into 5 more slots, or manually increase servings which is faster
-            const srvBtns = await page.$$('button');
-            for (let btn of srvBtns) {
-                const text = await page.evaluate(el => el.textContent, btn);
-                if (text === '+') {
-                    for(let i=0; i<10; i++) {
-                        await btn.click();
-                        await wait(200);
-                    }
-                    break;
-                }
-            }
-            
-            // To guarantee overbudget, set the budget input to 1
+            // Drag multiple meals to trigger overbudget naturally at budget 40
+            // Set the budget input to 40
             await page.waitForSelector('input[type="number"]');
             await page.click('input[type="number"]', { clickCount: 3 });
             await page.keyboard.press('Backspace');
-            await page.type('input[type="number"]', '1');
+            await page.type('input[type="number"]', '40');
+            await wait(1000);
+
+            // Loop and drag the picker card to empty slots 15 times
+            for(let i=0; i<15; i++) {
+                try {
+                    await dragAndDrop(pickerCard, emptySlot);
+                    await wait(500); // Wait for drop animation and state update
+                } catch(e) {
+                    break; // stop if no more empty slots or error
+                }
+            }
             await wait(1500);
             
             await page.screenshot({ path: path.join(OUT_DIR, '08_meal_planner_overbudget.png') });

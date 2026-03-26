@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS pantry_items (
     ingredient_id INTEGER NOT NULL,
     quantity REAL NOT NULL CHECK(quantity >= 0),
     unit TEXT NOT NULL,
+    expiry_date TEXT,
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE

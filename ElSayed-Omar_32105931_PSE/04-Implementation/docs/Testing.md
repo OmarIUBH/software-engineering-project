@@ -71,7 +71,7 @@ The following tables document specific manual and automated test cases used to v
   ```
 - **Result**: **92.9MB**, well under the 200MB maximum limit.
 
-### 5. Security: Authentication (NFR-5)
+### 5. Supplementary Security Verification: Authentication
 - **Objective**: Ensure that user data is protected by a JWT-based authentication system with proper registration and login flows.
 - **Basis for Target (JWT required)**: JSON Web Tokens (JWT) are the modern, stateless standard for securing APIs, preventing cross-origin issues associated with traditional cookies and ensuring data is protected by verified cryptographic tokens.
 - **Test Command**:
@@ -89,7 +89,7 @@ The following tables document specific manual and automated test cases used to v
 
 ---
 
-## Backend Unit Tests (Jest)
+## Backend API Integration Tests (Jest + Supertest)
 
 All tests run with `npm test` in the `backend/` directory (Jest + Supertest). Source: [`backend/src/__tests__/api.test.js`](../backend/src/__tests__/api.test.js)
 
@@ -123,7 +123,7 @@ All tests run with `npm test` in the `backend/` directory (Jest + Supertest). So
 
 ---
 
-## Frontend Integration Tests (Vitest)
+## Frontend Integration Test (Vitest + JSDOM)
 
 All tests run with `npm run test` in the root project directory (Vitest + JSDOM). Source: [`src/__tests__/integration.test.jsx`](../src/__tests__/integration.test.jsx)
 

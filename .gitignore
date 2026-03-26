@@ -10,3 +10,9 @@ dist/
 
 # Local Netlify folder
 .netlify
+
+# Submission folder (local only)
+ElSayed-Omar_32105931_PSE/
+
+# Exported PDFs (local only)
+*.pdf

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mealmate-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && node seed/seed.js
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GEMINI_API_KEY
+        sync: false # You MUST add this secret API key manually in the Render Dashboard

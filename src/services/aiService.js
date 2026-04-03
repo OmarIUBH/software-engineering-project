@@ -1,7 +1,7 @@
 export const aiService = {
     /**
-     * Sends a message to the MealMate Cloud AI (Grok).
-     * Now uses a secure Cloudflare Function proxy to hide the API KEY.
+     * Sends a message to MealMate AI (powered by Cloudflare Workers AI).
+     * Uses a Cloudflare Pages Function as a secure proxy to the AI binding.
      */
     chat: async (message, history = []) => {
         try {

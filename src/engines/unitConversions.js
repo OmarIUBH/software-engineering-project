@@ -13,22 +13,33 @@ const TO_BASE = {
     tbsp: 15,
     tsp: 5,
     cup: 240,
+    'fl oz': 29.57,
 
     // Mass (base: g)
     g: 1,
     kg: 1000,
+    oz: 28.35,
+    lb: 453.6,
+    pound: 453.6,
+    pounds: 453.6,
 
     // Count (base: pcs)
     pcs: 1,
     piece: 1,
+    pieces: 1,
     slices: 1,
+    slice: 1,
+    cloves: 1,
+    clove: 1,
+    whole: 1,
 };
 
 /** Dimension classification */
 const DIMENSION = {
-    ml: 'volume', l: 'volume', L: 'volume', tbsp: 'volume', tsp: 'volume', cup: 'volume',
-    g: 'mass', kg: 'mass',
-    pcs: 'count', piece: 'count', slices: 'count',
+    ml: 'volume', l: 'volume', L: 'volume', tbsp: 'volume', tsp: 'volume', cup: 'volume', 'fl oz': 'volume',
+    g: 'mass', kg: 'mass', oz: 'mass', lb: 'mass', pound: 'mass', pounds: 'mass',
+    pcs: 'count', piece: 'count', pieces: 'count', slices: 'count', slice: 'count',
+    cloves: 'count', clove: 'count', whole: 'count',
 };
 
 /**

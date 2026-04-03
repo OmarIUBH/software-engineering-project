@@ -13,43 +13,79 @@ const CATEGORY_MAP = {
     // Produce
     avocado: 'Produce', banana: 'Produce', broccoli: 'Produce',
     carrot: 'Produce', 'cherry tomato': 'Produce', cucumber: 'Produce',
-    lemon: 'Produce', mushrooms: 'Produce', onion: 'Produce',
-    'red onion': 'Produce', 'baby spinach': 'Produce',
+    lemon: 'Produce', lime: 'Produce', mushroom: 'Produce', mushrooms: 'Produce',
+    onion: 'Produce', 'green onion': 'Produce', 'spring onion': 'Produce',
+    'red onion': 'Produce', 'baby spinach': 'Produce', spinach: 'Produce',
     'sweet potato': 'Produce', tomato: 'Produce', 'bell pepper': 'Produce',
-    'fresh basil': 'Produce', 'mixed berries': 'Produce',
-    'shredded lettuce': 'Produce', 'black olives': 'Produce',
+    'red bell pepper': 'Produce', 'green bell pepper': 'Produce',
+    'fresh basil': 'Produce', basil: 'Produce', parsley: 'Produce',
+    cilantro: 'Produce', 'mixed berries': 'Produce', blueberries: 'Produce',
+    strawberries: 'Produce', 'shredded lettuce': 'Produce', lettuce: 'Produce',
+    'black olives': 'Produce', garlic: 'Produce', 'garlic cloves': 'Produce',
+    zucchini: 'Produce', eggplant: 'Produce', celery: 'Produce',
+    potato: 'Produce', kale: 'Produce', asparagus: 'Produce',
+    'cherry tomatoes': 'Produce', 'sun-dried tomatoes': 'Produce',
+    jalapeño: 'Produce', ginger: 'Produce', 'fresh ginger': 'Produce',
 
     // Meat
-    'minced beef': 'Meat', 'chicken breast': 'Meat',
+    'minced beef': 'Meat', 'ground beef': 'Meat', 'chicken breast': 'Meat',
+    'boneless skinless chicken breast': 'Meat', 'chicken thigh': 'Meat',
+    'chicken thighs': 'Meat', bacon: 'Meat', 'ground turkey': 'Meat',
+    'pork chop': 'Meat', 'italian sausage': 'Meat', 'beef steak': 'Meat',
+    'lamb chop': 'Meat', ham: 'Meat', pancetta: 'Meat',
 
-    // Fish
-    'salmon fillet': 'Fish', 'tuna (canned)': 'Fish',
+    // Fish & Seafood
+    'salmon fillet': 'Fish', 'tuna (canned)': 'Fish', tuna: 'Fish',
+    shrimp: 'Fish', cod: 'Fish', tilapia: 'Fish', salmon: 'Fish',
 
     // Dairy & Eggs
     egg: 'Dairy & Eggs', butter: 'Dairy & Eggs', milk: 'Dairy & Eggs',
-    'parmesan cheese': 'Dairy & Eggs', mozzarella: 'Dairy & Eggs',
+    'heavy cream': 'Dairy & Eggs', 'heavy whipping cream': 'Dairy & Eggs',
+    'sour cream': 'Dairy & Eggs', cream: 'Dairy & Eggs',
+    'parmesan cheese': 'Dairy & Eggs', 'grated parmesan': 'Dairy & Eggs',
+    'shredded mozzarella': 'Dairy & Eggs', mozzarella: 'Dairy & Eggs',
     'feta cheese': 'Dairy & Eggs', 'cheddar cheese': 'Dairy & Eggs',
-    'sour cream': 'Dairy & Eggs',
+    'cream cheese': 'Dairy & Eggs', 'ricotta cheese': 'Dairy & Eggs',
+    'greek yogurt': 'Dairy & Eggs', yogurt: 'Dairy & Eggs',
 
     // Dry Goods
-    spaghetti: 'Dry Goods', 'penne pasta': 'Dry Goods',
-    'jasmine rice': 'Dry Goods', 'rolled oats': 'Dry Goods',
-    'red lentils': 'Dry Goods', 'chickpeas (canned)': 'Dry Goods',
-    'black beans (canned)': 'Dry Goods', 'sweetcorn (canned)': 'Dry Goods',
+    spaghetti: 'Dry Goods', 'penne pasta': 'Dry Goods', pasta: 'Dry Goods',
+    'jumbo pasta shells': 'Dry Goods', 'lasagna noodles': 'Dry Goods',
+    'jasmine rice': 'Dry Goods', 'white rice': 'Dry Goods', rice: 'Dry Goods',
+    'rolled oats': 'Dry Goods', oats: 'Dry Goods',
+    'red lentils': 'Dry Goods', lentils: 'Dry Goods',
+    'chickpeas (canned)': 'Dry Goods', chickpeas: 'Dry Goods',
+    'black beans (canned)': 'Dry Goods', 'black beans': 'Dry Goods',
+    'kidney beans': 'Dry Goods', 'sweetcorn (canned)': 'Dry Goods',
     'diced tomatoes (canned)': 'Dry Goods', 'tomato passata': 'Dry Goods',
     'coconut milk': 'Dry Goods', 'vegetable stock': 'Dry Goods',
-    'chia seeds': 'Dry Goods',
+    'chicken stock': 'Dry Goods', 'beef stock': 'Dry Goods',
+    'chia seeds': 'Dry Goods', 'all-purpose flour': 'Dry Goods', flour: 'Dry Goods',
+    'bread crumbs': 'Dry Goods', 'panko breadcrumbs': 'Dry Goods',
+    'tomato sauce': 'Dry Goods', 'canned tomatoes': 'Dry Goods',
 
     // Bakery
     'wholegrain bread': 'Bakery', 'corn tortillas': 'Bakery',
+    bread: 'Bakery', tortilla: 'Bakery', bun: 'Bakery', roll: 'Bakery',
 
-    // Condiments & Spices
+    // Condiments
     'olive oil': 'Condiments', 'sesame oil': 'Condiments',
     'vegetable oil': 'Condiments', 'soy sauce': 'Condiments',
     salsa: 'Condiments', honey: 'Condiments', mayonnaise: 'Condiments',
-    'chilli flakes': 'Spices', 'chilli powder': 'Spices',
-    cumin: 'Spices', 'curry powder': 'Spices',
-    'dried oregano': 'Spices', 'italian herbs': 'Spices',
+    'tomato paste': 'Condiments', 'worcestershire sauce': 'Condiments',
+    'hot sauce': 'Condiments', mustard: 'Condiments', vinegar: 'Condiments',
+    'balsamic vinegar': 'Condiments', ketchup: 'Condiments',
+
+    // Spices
+    salt: 'Spices', pepper: 'Spices', 'black pepper': 'Spices',
+    paprika: 'Spices', 'smoked paprika': 'Spices',
+    'garlic powder': 'Spices', 'onion powder': 'Spices',
+    'chilli flakes': 'Spices', 'red pepper flakes': 'Spices',
+    'chilli powder': 'Spices', cumin: 'Spices', 'curry powder': 'Spices',
+    'dried oregano': 'Spices', oregano: 'Spices', thyme: 'Spices',
+    'italian herbs': 'Spices', 'italian seasoning': 'Spices',
+    cinnamon: 'Spices', nutmeg: 'Spices', turmeric: 'Spices',
+    'bay leaf': 'Spices', 'bay leaves': 'Spices', rosemary: 'Spices',
 };
 
 const CATEGORY_ORDER = [
@@ -70,14 +106,13 @@ function getCategory(canonicalName) {
  */
 export function generateGroceryList(weeklyPlan, recipes) {
     const recipeMap = Object.fromEntries(recipes.map((r) => [r.id, r]));
-    /** @type {Record<string, {qty:number,unit:string,displayName:string}>} */
+    /** @type {Record<string, {qty:number,unit:string,displayName:string,baseQty:number}>} */
     const totals = {};
 
     for (const day of Object.values(weeklyPlan.plan)) {
         for (const slot of Object.values(day)) {
             if (!slot) continue;
 
-            // slot can be an ID (legacy) or an object {id, servings} (enhanced)
             const recipeId = (typeof slot === 'object') ? slot.id : slot;
             const plannedServings = (typeof slot === 'object') ? slot.servings : null;
 
@@ -91,23 +126,31 @@ export function generateGroceryList(weeklyPlan, recipes) {
                 finalServings
             );
             for (const ing of scaled) {
-                const key = normalise(ing.name); // Normalise (e.g., 'Tomatoes' -> 'tomato') to avoid duplicates
-                const { qty: baseQty, unit: bUnit } = toBase(ing.qty, ing.unit); // Convert to base unit for summation
+                const key = normalise(ing.name);
+                const { qty: baseQty } = toBase(ing.qty, ing.unit);
                 if (totals[key]) {
-                    totals[key].qty += baseQty;
+                    totals[key].baseQty += baseQty;
+                    totals[key].qty += ing.qty; // accumulate original qty too
                 } else {
-                    totals[key] = { qty: baseQty, unit: bUnit, displayName: ing.name };
+                    // Keep original unit for display; use baseQty only for pantry deduction
+                    totals[key] = {
+                        qty: ing.qty,
+                        unit: ing.unit || 'pcs',
+                        displayName: ing.name,
+                        baseQty,
+                    };
                 }
             }
         }
     }
 
-    return Object.entries(totals).map(([key, { qty, unit, displayName }]) => ({
+    return Object.entries(totals).map(([key, { qty, unit, displayName, baseQty }]) => ({
         id: key,
         name: displayName,
         canonicalName: key,
         qty: Math.round(qty * 100) / 100,
         unit,
+        baseQty, // used by deductPantry
         category: getCategory(key),
         checked: false,
     }));
@@ -136,13 +179,17 @@ export function deductPantry(groceryList, pantryItems) {
             const pantry = pantryMap[item.canonicalName];
             if (!pantry) return item;
 
-            // Only deduct if units are in the same base dimension (volumetric vs weight)
+            // Use baseQty for comparison (both in same base unit dimension)
             const { unit: groceryBase } = toBase(0, item.unit);
             if (pantry.unit !== groceryBase && pantry.unit !== item.unit) return item;
 
-            // Subtract pantry quantity from needed quantity, floor at 0
-            const remaining = Math.max(0, item.qty - pantry.qty);
-            return { ...item, qty: Math.round(remaining * 100) / 100 };
+            // Deduct proportionally from original qty
+            const base = item.baseQty ?? item.qty;
+            const remainingBase = Math.max(0, base - pantry.qty);
+            if (remainingBase === 0) return { ...item, qty: 0 };
+            // Scale original qty proportionally
+            const ratio = base > 0 ? remainingBase / base : 0;
+            return { ...item, qty: Math.round(item.qty * ratio * 100) / 100 };
         })
         .filter((item) => item.qty > 0);
 }

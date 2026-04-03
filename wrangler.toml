@@ -5,6 +5,3 @@ pages_build_output_dir = "dist"
 [ai]
 binding = "AI"
 
-[vars]
-VITE_SUPABASE_URL = "https://afecffbqyemceqnhxgvd.supabase.co"
-VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmZWNmZmJxeWVtY2Vxbmh4Z3ZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMDM1NDEsImV4cCI6MjA5MDc3OTU0MX0.gFSfdmZHHhQKE66awXvYEHDkktUz3uYtqXDGTr4_LNQ"

@@ -150,10 +150,6 @@ export const recipesApi = {
             .insert({
                 user_id: user.id,
                 title: recipe.name || recipe.title || 'Untitled Recipe',
-                description: recipe.description || '',
-                category: recipe.category || 'Main Course',
-                prep_time: recipe.prepTime || 20,
-                estimated_cost_per_serving: recipe.estimatedCostPerServing || 5.0,
                 instructions: Array.isArray(recipe.instructions)
                     ? JSON.stringify(recipe.instructions)
                     : recipe.instructions,
@@ -239,10 +235,6 @@ export const recipesApi = {
             .insert({
                 user_id: user.id,
                 title: `${fullRecipe.name || fullRecipe.title} (Copy)`,
-                description: fullRecipe.description || '',
-                category: fullRecipe.category || 'Main Course',
-                prep_time: fullRecipe.prepTime || 20,
-                estimated_cost_per_serving: fullRecipe.estimatedCostPerServing || 5.0,
                 instructions: JSON.stringify(fullRecipe.instructions),
                 default_servings: fullRecipe.servings || 1,
                 is_public: false, // Personal copy

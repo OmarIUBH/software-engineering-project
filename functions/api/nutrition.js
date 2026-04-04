@@ -54,7 +54,7 @@ Rules:
 - Only include diet tags that clearly apply to this recipe
 - Return ONLY the JSON, no explanation text`;
 
-        const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+        const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
             messages: [
                 {
                     role: 'system',

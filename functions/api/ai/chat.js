@@ -39,8 +39,8 @@ export async function onRequest(context) {
             { role: 'user', content: message }
         ];
 
-        // 3. Run the AI Model (using Llama 3.1 8B for better quality)
-        const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+        // 3. Run the AI Model (using Llama 3 8B instead of 3.1 to avoid 3046 timeout errors)
+        const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
             messages: messages,
             stream: false,
             max_tokens: 250,

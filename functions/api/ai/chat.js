@@ -42,7 +42,9 @@ export async function onRequest(context) {
         // 3. Run the AI Model (using Llama 3.1 8B for better quality)
         const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
             messages: messages,
-            stream: false
+            stream: false,
+            max_tokens: 250,
+            temperature: 0.7
         });
 
         // 4. Return the result in the format the frontend expects

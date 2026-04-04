@@ -21,6 +21,53 @@
         "ingredients": "Zutaten",
         "instructions": "Zubereitung (Eine pro Zeile)"
     },
+    "library": {
+        "title": "Rezeptbibliothek",
+        "subtitle": "Rezepte durchsuchen · nach Diät filtern · zu Ihrem Wochenplan hinzufügen",
+        "loading": "Rezepte laden...",
+        "found": "Rezept(e) gefunden",
+        "empty": "Keine Rezepte entsprechen Ihren Filtern.",
+        "serving": "Portion",
+        "add_to_plan": "Zum Plan hinzufügen",
+        "add_recipe_to_plan": "\"{{recipe}}\" zum Plan hinzufügen",
+        "add_to": "Hinzufügen zu"
+    },
+    "community": {
+        "title": "Community-Rezepte",
+        "subtitle": "Entdecken Sie Gerichte, die von anderen MealMate-Nutzern weltweit geteilt wurden!",
+        "loading": "Community-Rezepte laden...",
+        "empty": "Noch keine Community-Rezepte. Teilen Sie als Erster eines!",
+        "shared_by": "Geteilt von",
+        "anonymous": "Anonym"
+    },
+    "recipe_modal": {
+        "servings": "Portionen",
+        "saving": "Speichern...",
+        "save_default": "💾 Als Standard speichern",
+        "deleting": "Löschen...",
+        "delete": "🗑️ Rezept löschen",
+        "save_community": "⭐ Zu meinen Rezepten speichern",
+        "ingredients": "Zutaten",
+        "nutrition": "Nährwerte & Makros",
+        "analyzing": "Analysieren...",
+        "recalculate": "🔄 Neu berechnen",
+        "calculate": "🔬 Berechnen",
+        "instructions": "Zubereitung"
+    },
+    "nutrition": {
+        "protein": "Protein",
+        "carbs": "Kohlenhydrate",
+        "fat": "Fett",
+        "fiber": "Ballaststoffe"
+    },
+    "ai": {
+        "placeholder": "Fragen Sie mich nach Rezepten...",
+        "send": "Senden"
+    },
+    "planner": {
+        "day": "Tag",
+        "meal": "Mahlzeit"
+    },
     "settings": {
         "title": "Einstellungen",
         "language": "Sprache",

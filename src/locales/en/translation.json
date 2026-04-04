@@ -21,6 +21,53 @@
         "ingredients": "Ingredients",
         "instructions": "Instructions (One per line)"
     },
+    "library": {
+        "title": "Recipe Library",
+        "subtitle": "Browse recipes · filter by diet · add to your weekly plan",
+        "loading": "Loading recipes...",
+        "found": "recipe(s) found",
+        "empty": "No recipes match your filters.",
+        "serving": "serving",
+        "add_to_plan": "Add to Plan",
+        "add_recipe_to_plan": "Add \"{{recipe}}\" to Plan",
+        "add_to": "Add to"
+    },
+    "community": {
+        "title": "Community Recipes",
+        "subtitle": "Discover meals shared by other MealMate users globally!",
+        "loading": "Loading Community Recipes...",
+        "empty": "No community recipes yet. Be the first to share one!",
+        "shared_by": "Shared by",
+        "anonymous": "Anonymous"
+    },
+    "recipe_modal": {
+        "servings": "Servings",
+        "saving": "Saving...",
+        "save_default": "💾 Save as Default",
+        "deleting": "Deleting...",
+        "delete": "🗑️ Delete Recipe",
+        "save_community": "⭐ Save to My Recipes",
+        "ingredients": "Ingredients",
+        "nutrition": "Nutrition & Macros",
+        "analyzing": "Analyzing...",
+        "recalculate": "🔄 Recalculate",
+        "calculate": "🔬 Calculate",
+        "instructions": "Instructions"
+    },
+    "nutrition": {
+        "protein": "Protein",
+        "carbs": "Carbs",
+        "fat": "Fat",
+        "fiber": "Fiber"
+    },
+    "ai": {
+        "placeholder": "Ask me for recipes...",
+        "send": "Send"
+    },
+    "planner": {
+        "day": "Day",
+        "meal": "Meal"
+    },
     "settings": {
         "title": "Settings",
         "language": "Language",

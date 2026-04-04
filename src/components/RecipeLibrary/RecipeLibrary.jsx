@@ -92,7 +92,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
             setActionMessage({ type: 'success', text: 'Recipe saved to your personal library! 🎉' });
             setTimeout(() => onClose('RELOAD'), 1500);
         } catch (error) {
-            setActionMessage({ type: 'error', text: 'Failed to save recipe. Please log in first.' });
+            setActionMessage({ type: 'error', text: 'Failed to save: ' + (error.message || 'Please log in first.') });
         } finally {
             setIsDuplicating(false);
         }

@@ -23,7 +23,7 @@ export default function CreateRecipeForm() {
 
     useEffect(() => {
         apiClient.get('/ingredients')
-            .then(data => setAvailableIngredients(data || []))
+            .then(data => setAvailableIngredients(Array.isArray(data) ? data : []))
             .catch(err => console.error('Failed to load ingredients', err));
     }, []);
 

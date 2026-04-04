@@ -99,6 +99,11 @@ function handleMockRequest(endpoint, options = {}) {
         });
     }
 
+    // Handle ingredients fallback payload to prevent JS map crashes
+    if (endpoint.includes('/ingredients')) {
+        return Promise.resolve([]);
+    }
+
     // Default empty success for other POST/PUT/DELETE
     return Promise.resolve({ message: 'Success (Demo Mode)', isDemo: true });
 }

@@ -20,11 +20,18 @@ export async function onRequest(context) {
     }
 
     try {
-        const { message, history } = await request.json();
+        const { message, history, language, dialect } = await request.json();
+
+        let dialectInstruction = '';
+        if (dialect) {
+            dialectInstruction = ` You MUST speak in the ${dialect} dialect/accent.`;
+        } else if (language && language !== 'en') {
+            dialectInstruction = ` You MUST speak in ${language} language.`;
+        }
 
         // 2. Prepare messages for Workers AI
         const messages = [
-            { role: 'system', content: 'You are MealMate AI, a helpful and slightly fun cooking assistant. You help users with recipes, ingredient substitutions, and meal planning. Keep your answers concise and helpful.' },
+            { role: 'system', content: `You are MealMate AI, a helpful and slightly fun cooking assistant. You help users with recipes, ingredient substitutions, and meal planning. Keep your answers concise and helpful.${dialectInstruction}` },
             ...history.map(m => ({
                 role: m.role === 'ai' ? 'assistant' : 'user',
                 content: m.text

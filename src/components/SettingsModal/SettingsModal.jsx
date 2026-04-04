@@ -47,6 +47,17 @@ export default function SettingsModal({ isOpen, onClose }) {
                     </div>
 
                     <div className={styles.formGroup}>
+                        <label>{t('settings.dialect', 'AI Dialect / Regional Accent (Optional)')}</label>
+                        <input 
+                            type="text" 
+                            placeholder={t('settings.dialect_placeholder', 'e.g., Egyptian, Scottish, Bavarian')}
+                            value={settings.dialect || ''} 
+                            onChange={(e) => setSettings({...settings, dialect: e.target.value})}
+                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #2e3347', background: '#222637', color: '#e8eaf6' }}
+                        />
+                    </div>
+
+                    <div className={styles.formGroup}>
                         <label>{t('settings.measurement_system', 'Measurement System')}</label>
                         <select 
                             value={settings.measurementSystem} 

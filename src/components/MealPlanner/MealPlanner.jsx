@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { computeWeeklyCost } from '../../engines/groceryEngine.js';
@@ -12,6 +13,7 @@ const MEALS = ['breakfast', 'lunch', 'dinner'];
 const MEAL_ICONS = { breakfast: '🌅', lunch: '☀️', dinner: '🌙' };
 
 function BudgetBar({ plan, recipes, budget, onBudgetChange, currency, onCurrencyChange }) {
+    const { t } = useTranslation();
     const cost = computeWeeklyCost(plan, recipes);
     const pct = Math.min(100, Math.round((cost / (budget || 1)) * 100));
     const over = cost > budget;
@@ -19,7 +21,7 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange, currency, onCurrency
     return (
         <div className={styles.budgetBar}>
             <div className={styles.budgetLeft}>
-                <span className={styles.budgetLabel}>Weekly Budget</span>
+                <span className={styles.budgetLabel}>{t('planner.budget_title', 'Weekly Budget')}</span>
                 <div className={styles.budgetInputRow}>
                     <input
                         type="number"
@@ -43,7 +45,7 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange, currency, onCurrency
             </div>
             <div className={styles.budgetRight}>
                 <span className={over ? styles.costOver : styles.costOk}>
-                    {formatCurrency(cost, currency)} estimated
+                    {formatCurrency(cost, currency)} {t('planner.estimated_cost', 'estimated')}
                 </span>
                 <div className={styles.progressTrack}>
                     <div
@@ -51,13 +53,14 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange, currency, onCurrency
                         style={{ width: `${pct}%` }}
                     />
                 </div>
-                {over && <span className={styles.overAlert}>⚠ Over budget by {formatCurrency(cost - budget, currency)}</span>}
+                {over && <span className={styles.overAlert}>⚠ {t('planner.over_budget', 'Over budget by')} {formatCurrency(cost - budget, currency)}</span>}
             </div>
         </div>
     );
 }
 
 export default function MealPlanner() {
+    const { t } = useTranslation();
     const [planData, setPlanData] = useState(() => storageService.getPlan());
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -80,7 +83,7 @@ export default function MealPlanner() {
             })
             .catch(err => {
                 console.error('Failed to fetch recipes:', err);
-                setError('Failed to load recipes.');
+                setError(t('planner.error', 'Failed to load recipes.'));
                 setLoading(false);
             });
     }, []);
@@ -167,8 +170,8 @@ export default function MealPlanner() {
 
     return (
         <div>
-            <h1 className="section-title">Weekly Meal Planner</h1>
-            <p className="section-subtitle">Assign recipes to meals · drag a planned meal between slots · track your budget</p>
+            <h1 className="section-title">{t('planner.title', 'Weekly Meal Planner')}</h1>
+            <p className="section-subtitle">{t('planner.subtitle', 'Assign recipes to meals · drag a planned meal between slots · track your budget')}</p>
 
             {loading && <div style={{ textAlign: 'center', padding: '40px' }}><p>Loading planner...</p></div>}
             {error && <div style={{ textAlign: 'center', padding: '40px', color: 'var(--danger-color)' }}><p>{error}</p></div>}
@@ -185,11 +188,11 @@ export default function MealPlanner() {
                     />
 
                     <div className={styles.summary}>
-                        <span>📅 {totalMeals} / 21 meals planned</span>
+                        <span>📅 {totalMeals} / 21 {t('planner.meals_planned', 'meals planned')}</span>
                         <span>·</span>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--color-success, #22c55e)' }}>✓ Synced to LocalStorage</span>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--color-success, #22c55e)' }}>✓ {t('planner.synced', 'Synced to LocalStorage')}</span>
                         <span>·</span>
-                        <a href="/grocery" className={styles.summaryLink}>View Grocery List →</a>
+                        <a href="/grocery" className={styles.summaryLink}>{t('planner.view_grocery', 'View Grocery List')} →</a>
                     </div>
 
                     <div className={styles.grid}>
@@ -257,8 +260,8 @@ export default function MealPlanner() {
 
                     {/* Recipe picker sidebar */}
                     <div className={styles.pickerSection}>
-                        <h2 className={styles.pickerTitle}>📚 Recipe Quick-Pick</h2>
-                        <p className={styles.pickerHint}>Drag a recipe card onto a meal slot above</p>
+                        <h2 className={styles.pickerTitle}>📚 {t('planner.quick_pick', 'Recipe Quick-Pick')}</h2>
+                        <p className={styles.pickerHint}>{t('planner.quick_pick_hint', 'Drag a recipe card onto a meal slot above')}</p>
                         <div className={styles.pickerGrid}>
                             {recipes.filter(r => !r.is_community).map((r) => (
                                 <div

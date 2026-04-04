@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../../services/recipesApi.js';
 import { apiClient } from '../../services/apiClient.js';
 import { storageService } from '../../services/storageService.js';
@@ -18,6 +19,7 @@ export const TAG_LABELS = {
 };
 
 export function RecipeModal({ recipe, onClose, onSaveServings }) {
+    const { t } = useTranslation();
     const [servings, setServings] = useState(recipe.servings);
     const [isSaving, setIsSaving] = useState(false);
     const [macros, setMacros] = useState(null);
@@ -132,7 +134,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
 
                 <div className={styles.servingSection}>
                     <div className={styles.servingControl}>
-                        <label htmlFor="servings-input">Servings</label>
+                        <label htmlFor="servings-input">{t('recipe_modal.servings', 'Servings')}</label>
                         <div className={styles.servingRow}>
                             <button className="btn btn-ghost btn-sm" onClick={() => setServings(Math.max(1, servings - 1))}>−</button>
                             <input
@@ -153,7 +155,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                             onClick={handleSave}
                             disabled={isSaving}
                         >
-                            {isSaving ? 'Saving...' : '💾 Save as Default'}
+                            {isSaving ? t('recipe_modal.saving', 'Saving...') : t('recipe_modal.save_default', '💾 Save as Default')}
                         </button>
                     )}
                     {isOwner && (
@@ -163,7 +165,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                             onClick={handleDelete}
                             disabled={isDeleting}
                         >
-                            {isDeleting ? 'Deleting...' : '🗑️ Delete Recipe'}
+                            {isDeleting ? t('recipe_modal.deleting', 'Deleting...') : t('recipe_modal.delete', '🗑️ Delete Recipe')}
                         </button>
                     )}
                     {!isOwner && (
@@ -173,14 +175,14 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                             onClick={handleDuplicate}
                             disabled={isDuplicating}
                         >
-                            {isDuplicating ? 'Saving...' : '⭐ Save to My Recipes'}
+                            {isDuplicating ? t('recipe_modal.saving', 'Saving...') : t('recipe_modal.save_community', '⭐ Save to My Recipes')}
                         </button>
                     )}
                 </div>
 
                 <div className="divider" />
 
-                <h3 className={styles.sectionLabel}>Ingredients</h3>
+                <h3 className={styles.sectionLabel}>{t('recipe_modal.ingredients', 'Ingredients')}</h3>
                 <ul className={styles.ingredientList}>
                     {scaled.map((ing, i) => {
                         const m = displayMeasurement(ing.qty, ing.unit, storageService.getSettings()?.measurementSystem || 'metric');
@@ -196,13 +198,13 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                 <div className="divider" />
                 
                 <h3 className={styles.sectionLabel} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    Nutrition & Macros
+                    {t('recipe_modal.nutrition', 'Nutrition & Macros')}
                     <button 
                         className="btn btn-secondary btn-sm" 
                         onClick={handleGetMacros} 
                         disabled={loadingMacros}
                     >
-                        {loadingMacros ? 'Analyzing...' : macros ? '🔄 Recalculate' : '🔬 Calculate'}
+                        {loadingMacros ? t('recipe_modal.analyzing', 'Analyzing...') : macros ? t('recipe_modal.recalculate', '🔄 Recalculate') : t('recipe_modal.calculate', '🔬 Calculate')}
                     </button>
                 </h3>
                 
@@ -215,14 +217,14 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                 {macros && (
                     <div style={{ display: 'flex', justifyContent: 'space-around', backgroundColor: '#1e293b', padding: '15px', borderRadius: '8px', border: '1px solid #334155', marginBottom: '20px' }}>
                         <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#4ade80' }}>{macros.calories}</strong> <small style={{ color: '#94a3b8' }}>kcal</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#60a5fa' }}>{macros.protein}g</strong> <small style={{ color: '#94a3b8' }}>Protein</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f59e0b' }}>{macros.carbs}g</strong> <small style={{ color: '#94a3b8' }}>Carbs</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f87171' }}>{macros.fat}g</strong> <small style={{ color: '#94a3b8' }}>Fat</small></div>
-                        {macros.fiber > 0 && <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#a78bfa' }}>{macros.fiber}g</strong> <small style={{ color: '#94a3b8' }}>Fiber</small></div>}
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#60a5fa' }}>{macros.protein}g</strong> <small style={{ color: '#94a3b8' }}>{t('nutrition.protein', 'Protein')}</small></div>
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f59e0b' }}>{macros.carbs}g</strong> <small style={{ color: '#94a3b8' }}>{t('nutrition.carbs', 'Carbs')}</small></div>
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f87171' }}>{macros.fat}g</strong> <small style={{ color: '#94a3b8' }}>{t('nutrition.fat', 'Fat')}</small></div>
+                        {macros.fiber > 0 && <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#a78bfa' }}>{macros.fiber}g</strong> <small style={{ color: '#94a3b8' }}>{t('nutrition.fiber', 'Fiber')}</small></div>}
                     </div>
                 )}
 
-                <h3 className={styles.sectionLabel}>Instructions</h3>
+                <h3 className={styles.sectionLabel}>{t('recipe_modal.instructions', 'Instructions')}</h3>
                 <ol className={styles.instructions}>
                     {recipe.instructions.map((step, i) => (
                         <li key={i} className={styles.instructionStep}>{step.replace(/^\d+\.\s*/, '')}</li>
@@ -234,6 +236,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
 }
 
 function RecipeCard({ recipe, onDetail, onAddToPlan }) {
+    const { t } = useTranslation();
     const currency = storageService.getSettings()?.currency || 'EUR';
     return (
         <div className={`card ${styles.recipeCard}`} onClick={() => onDetail(recipe)}>
@@ -245,11 +248,11 @@ function RecipeCard({ recipe, onDetail, onAddToPlan }) {
             <p className={styles.cardDesc}>{recipe.description}</p>
             <div className={styles.cardMeta}>
                 <span>⏱ {recipe.prepTime} min</span>
-                <span>🍽 {recipe.servings} serving{recipe.servings > 1 ? 's' : ''}</span>
+                <span>🍽 {recipe.servings} {t('library.serving', 'serving')}{recipe.servings > 1 ? 's' : ''}</span>
             </div>
             <div className={styles.tagRow}>
-                {recipe.dietTags.map((t) => (
-                    <span key={t} className={`tag tag-${t}`}>{TAG_LABELS[t]}</span>
+                {recipe.dietTags.map((t_tag) => (
+                    <span key={t_tag} className={`tag tag-${t_tag}`}>{TAG_LABELS[t_tag]}</span>
                 ))}
             </div>
             <button
@@ -257,13 +260,14 @@ function RecipeCard({ recipe, onDetail, onAddToPlan }) {
                 onClick={(e) => { e.stopPropagation(); onAddToPlan(recipe); }}
                 aria-label={`Add ${recipe.name} to plan`}
             >
-                + Add to Plan
+                + {t('library.add_to_plan', 'Add to Plan')}
             </button>
         </div>
     );
 }
 
 function AddToPlanModal({ recipe, onClose }) {
+    const { t } = useTranslation();
     const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const MEALS = ['breakfast', 'lunch', 'dinner'];
     const [day, setDay] = useState('Monday');
@@ -282,23 +286,23 @@ function AddToPlanModal({ recipe, onClose }) {
             <div className="modal-box" style={{ maxWidth: 400 }} onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
                 <h2 className={styles.modalTitle} style={{ fontSize: '1.2rem', marginBottom: 20 }}>
-                    Add "{recipe.name}" to Plan
+                    {t('library.add_recipe_to_plan', 'Add "{{recipe}}" to Plan').replace('{{recipe}}', recipe.name)}
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <div>
-                        <label htmlFor="plan-day">Day</label>
+                        <label htmlFor="plan-day">{t('planner.day', 'Day')}</label>
                         <select id="plan-day" value={day} onChange={(e) => setDay(e.target.value)}>
                             {DAYS.map((d) => <option key={d}>{d}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="plan-meal">Meal</label>
+                        <label htmlFor="plan-meal">{t('planner.meal', 'Meal')}</label>
                         <select id="plan-meal" value={meal} onChange={(e) => setMeal(e.target.value)}>
                             {MEALS.map((m) => <option key={m} value={m} style={{ textTransform: 'capitalize' }}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>)}
                         </select>
                     </div>
                     <button className="btn btn-primary" onClick={handleAdd}>
-                        ✔ Add to {day} {meal.charAt(0).toUpperCase() + meal.slice(1)}
+                        ✔ {t('library.add_to', 'Add to')} {day} {meal.charAt(0).toUpperCase() + meal.slice(1)}
                     </button>
                 </div>
             </div>
@@ -307,6 +311,7 @@ function AddToPlanModal({ recipe, onClose }) {
 }
 
 export default function RecipeLibrary() {
+    const { t } = useTranslation();
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -374,12 +379,12 @@ export default function RecipeLibrary() {
         <div>
             {toast && <div className={styles.toast}>{toast}</div>}
 
-            <h1 className="section-title">Recipe Library</h1>
-            <p className="section-subtitle">Browse {recipes.length} recipes · filter by diet · add to your weekly plan</p>
+            <h1 className="section-title">{t('library.title', 'Recipe Library')}</h1>
+            <p className="section-subtitle">{t('library.subtitle', 'Browse recipes · filter by diet · add to your weekly plan')}</p>
 
             {loading && (
                 <div style={{ textAlign: 'center', padding: '40px' }}>
-                    <p>Loading recipes...</p>
+                    <p>{t('library.loading', 'Loading recipes...')}</p>
                 </div>
             )}
 
@@ -427,14 +432,14 @@ export default function RecipeLibrary() {
 
                     {/* Results count */}
                     <p className={styles.resultsCount}>
-                        {filtered.length} recipe{filtered.length !== 1 ? 's' : ''} found
+                        {filtered.length} {t('library.found', 'recipe(s) found')}
                     </p>
 
                     {/* Recipe grid */}
                     {filtered.length === 0 ? (
                         <div className="empty-state">
                             <div className="empty-state__icon">🍽</div>
-                            <p className="empty-state__text">No recipes match your filters.</p>
+                            <p className="empty-state__text">{t('library.empty', 'No recipes match your filters.')}</p>
                         </div>
                     ) : (
                         <div className={styles.grid}>

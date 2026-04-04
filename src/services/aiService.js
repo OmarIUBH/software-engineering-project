@@ -3,7 +3,7 @@ export const aiService = {
      * Sends a message to MealMate AI (powered by Cloudflare Workers AI).
      * Uses a Cloudflare Pages Function as a secure proxy to the AI binding.
      */
-    chat: async (message, history = []) => {
+    chat: async (message, history = [], settings = {}) => {
         try {
             const response = await fetch('/api/ai/chat', {
                 method: 'POST',
@@ -13,6 +13,8 @@ export const aiService = {
                 body: JSON.stringify({
                     message: message,
                     history: history,
+                    language: settings.language || 'en',
+                    dialect: settings.dialect || ''
                 }),
             });
 

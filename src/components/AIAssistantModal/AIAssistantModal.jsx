@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { aiService } from '../../services/aiService.js';
+import { storageService } from '../../services/storageService.js';
 import './AIAssistantModal.css';
 
 export default function AIAssistantModal() {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         { role: 'ai', text: 'Hi! I am the MealMate AI Assistant. What would you like to cook today?' }
@@ -27,7 +30,10 @@ export default function AIAssistantModal() {
         setLoading(true);
 
         try {
-            const data = await aiService.chat(userMsg, messages);
+            const currentSettings = storageService.getSettings();
+            const language = currentSettings?.language || 'en';
+            const dialect = currentSettings?.dialect || '';
+            const data = await aiService.chat(userMsg, messages, { language, dialect });
             setMessages(prev => [...prev, { role: 'ai', text: data.reply || 'Error: Empty reply' }]);
         } catch (err) {
             console.error('AI Error:', err);
@@ -57,11 +63,11 @@ export default function AIAssistantModal() {
                     <form className="ai-input-form" onSubmit={handleSend}>
                         <input 
                             type="text" 
-                            placeholder="Ask me for recipes..." 
+                            placeholder={t('ai.placeholder', 'Ask me for recipes...')}
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />
-                        <button type="submit" disabled={loading || !input.trim()}>Send</button>
+                        <button type="submit" disabled={loading || !input.trim()}>{t('ai.send', 'Send')}</button>
                     </form>
                 </div>
             )}

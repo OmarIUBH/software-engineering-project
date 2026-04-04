@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../../services/recipesApi.js';
 import { RecipeModal } from '../RecipeLibrary/RecipeLibrary.jsx';
 
 export default function CommunityRecipes() {
+    const { t } = useTranslation();
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -19,17 +21,17 @@ export default function CommunityRecipes() {
             });
     }, []);
 
-    if (loading) return <div style={{ padding: 40, textAlign: 'center' }}>Loading Community Recipes...</div>;
+    if (loading) return <div style={{ padding: 40, textAlign: 'center' }}>{t('community.loading', 'Loading Community Recipes...')}</div>;
 
     return (
         <div>
-            <h1 className="section-title">Community Recipes</h1>
-            <p className="section-subtitle">Discover meals shared by other MealMate users globally!</p>
+            <h1 className="section-title">{t('community.title', 'Community Recipes')}</h1>
+            <p className="section-subtitle">{t('community.subtitle', 'Discover meals shared by other MealMate users globally!')}</p>
             
             {recipes.length === 0 ? (
                 <div className="empty-state">
                     <div className="empty-state__icon">🌍</div>
-                    <p className="empty-state__text">No community recipes yet. Be the first to share one!</p>
+                    <p className="empty-state__text">{t('community.empty', 'No community recipes yet. Be the first to share one!')}</p>
                 </div>
             ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
@@ -49,7 +51,7 @@ export default function CommunityRecipes() {
                         >
                             <h3 style={{ margin: 0, color: 'var(--text-color)', fontSize: '1.2rem' }}>{r.name}</h3>
                             <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                                Shared by: {r.author_name || 'Anonymous'}
+                                {t('community.shared_by', 'Shared by')}: {r.author_name || t('community.anonymous', 'Anonymous')}
                             </div>
                         </div>
                     ))}

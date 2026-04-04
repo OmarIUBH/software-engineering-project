@@ -11,7 +11,7 @@ const CATEGORY_ICONS = {
 };
 
 export default function GroceryList() {
-    const [plan] = useState(() => storageService.getPlan());
+    const [plan, setPlan] = useState(() => storageService.getPlan());
     const [recipes, setRecipes] = useState([]);
     const [pantry, setPantry] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,7 +21,11 @@ export default function GroceryList() {
     const [checked, setChecked] = useState({});
 
     useEffect(() => {
-        Promise.all([recipesApi.getAll(), pantryApi.getAll()])
+        // Re-read plan fresh on every mount so drag-drop changes from planner are picked up
+        setPlan(storageService.getPlan());
+
+        // Use getAllForPlanning() so community recipes in the plan resolve correctly
+        Promise.all([recipesApi.getAllForPlanning(), pantryApi.getAll()])
             .then(([recipeData, pantryData]) => {
                 setRecipes(recipeData);
                 setPantry(pantryData);

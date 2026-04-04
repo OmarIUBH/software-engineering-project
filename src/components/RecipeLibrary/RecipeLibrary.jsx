@@ -49,17 +49,29 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
         setMacros(null);
         setLoadingMacros(true);
         try {
-            const data = await apiClient.post('/nutrition', {
-                recipeName: recipe.name,
-                ingredients: scaled,
-                servings: servings
+            // Call the Cloudflare Pages Function directly — bypasses the old backend
+            const res = await fetch('/api/nutrition', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    recipeName: recipe.name,
+                    ingredients: scaled,
+                    servings: servings
+                })
             });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || `HTTP ${res.status}`);
+            }
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
             setMacros(data);
             if (data && Array.isArray(data.dietTags)) {
                 setLocalDietTags(data.dietTags);
             }
         } catch (error) {
-            setMacroError('AI is temporarily unavailable. Please try again in a moment.');
+            setMacroError('Could not calculate nutrition. Please try again.');
+            console.error('Nutrition error:', error);
         } finally {
             setLoadingMacros(false);
         }
@@ -172,9 +184,10 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                 {macros && (
                     <div style={{ display: 'flex', justifyContent: 'space-around', backgroundColor: '#1e293b', padding: '15px', borderRadius: '8px', border: '1px solid #334155', marginBottom: '20px' }}>
                         <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#4ade80' }}>{macros.calories}</strong> <small style={{ color: '#94a3b8' }}>kcal</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#4ade80' }}>{macros.protein}g</strong> <small style={{ color: '#94a3b8' }}>Protein</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#4ade80' }}>{macros.carbs}g</strong> <small style={{ color: '#94a3b8' }}>Carbs</small></div>
-                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#4ade80' }}>{macros.fat}g</strong> <small style={{ color: '#94a3b8' }}>Fat</small></div>
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#60a5fa' }}>{macros.protein}g</strong> <small style={{ color: '#94a3b8' }}>Protein</small></div>
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f59e0b' }}>{macros.carbs}g</strong> <small style={{ color: '#94a3b8' }}>Carbs</small></div>
+                        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#f87171' }}>{macros.fat}g</strong> <small style={{ color: '#94a3b8' }}>Fat</small></div>
+                        {macros.fiber > 0 && <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', fontSize: '1.2rem', color: '#a78bfa' }}>{macros.fiber}g</strong> <small style={{ color: '#94a3b8' }}>Fiber</small></div>}
                     </div>
                 )}
 

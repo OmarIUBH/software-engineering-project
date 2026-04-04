@@ -56,7 +56,10 @@ export const storageService = {
     getPantry: () => read(keys.PANTRY) ?? [],
     setPantry: (items) => write(keys.PANTRY, items),
 
-    getSettings: () => read(keys.SETTINGS) ?? { budget: 40, currency: '€' },
+    getSettings: () => {
+        const defaults = { budget: 40, currency: '€', language: 'en', measurementSystem: 'metric' };
+        return { ...defaults, ...read(keys.SETTINGS) };
+    },
     setSettingsLocalOnly: (s) => write(keys.SETTINGS, s),
     setSettings: (s) => {
         write(keys.SETTINGS, s);

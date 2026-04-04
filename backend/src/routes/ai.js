@@ -8,7 +8,9 @@ router.post('/chat', async (req, res) => {
         
         const systemPrompt = "You are the MealMate AI Assistant. You help users decide what to cook based on their ingredients, and you provide complete cooking recipes when asked. Keep your answers concise, well-formatted, and enthusiastic.";
 
-        const response = await fetch('http://127.0.0.1:11434/api/generate', {
+        const ollamaHost = process.env.OLLAMA_HOST || 'http://host.docker.internal:11434';
+
+        const response = await fetch(`${ollamaHost}/api/generate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

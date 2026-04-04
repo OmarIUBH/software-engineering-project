@@ -1,0 +1,48 @@
+{
+    "app_title": "MealMate",
+    "nav": {
+        "recipes": "Rezepte",
+        "meal_plan": "Speiseplan",
+        "grocery_list": "Einkaufsliste",
+        "pantry": "Vorratsschrank",
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "settings": "Einstellungen",
+        "ai_assistant": "KI-Assistent"
+    },
+    "recipes": {
+        "my_recipes": "Meine Rezepte",
+        "community": "Community",
+        "create_new": "Neu Erstellen",
+        "import_url": "Von URL Importieren",
+        "import_btn": "Importieren",
+        "search_placeholder": "Rezepte suchen...",
+        "recipe_title": "Rezepttitel",
+        "ingredients": "Zutaten",
+        "instructions": "Zubereitung (Eine pro Zeile)"
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "language": "Sprache",
+        "measurement_system": "Maßsystem",
+        "metric": "Metrisch (g, ml)",
+        "imperial": "Imperial (oz, cups)",
+        "currency": "Bevorzugte Währung",
+        "save": "Einstellungen speichern"
+    },
+    "grocery": {
+        "title": "Einkaufsliste",
+        "clear_all": "Alle löschen",
+        "add_item": "Artikel hinzufügen",
+        "bought": "Gekauft",
+        "total_cost": "Geschätzte Kosten"
+    },
+    "auth": {
+        "login_title": "Willkommen zurück",
+        "email": "E-Mail-Adresse",
+        "password": "Passwort",
+        "sign_in": "Einloggen",
+        "sign_up": "Registrieren",
+        "demo": "Demo-Modus"
+    }
+}

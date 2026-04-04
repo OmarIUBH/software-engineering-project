@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Auth.css';
 
 export default function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,7 +19,7 @@ export default function Login() {
         setLoading(true);
         try {
             await login(email, password);
-            navigate('/');
+            navigate(from, { replace: true });
         } catch (err) {
             setError(err.message || 'Failed to login');
         } finally {

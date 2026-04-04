@@ -23,7 +23,9 @@ router.post('/', async (req, res) => {
         }
         `;
         
-        const response = await fetch('http://127.0.0.1:11434/api/generate', {
+        const ollamaHost = process.env.OLLAMA_HOST || 'http://host.docker.internal:11434';
+
+        const response = await fetch(`${ollamaHost}/api/generate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

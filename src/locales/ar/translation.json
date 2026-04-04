@@ -1,0 +1,48 @@
+{
+    "app_title": "MealMate",
+    "nav": {
+        "recipes": "الوصفات",
+        "meal_plan": "خطة الوجبات",
+        "grocery_list": "قائمة البقالة",
+        "pantry": "مخزن الطعام",
+        "login": "تسجيل الدخول",
+        "logout": "تسجيل الخروج",
+        "settings": "الإعدادات",
+        "ai_assistant": "المساعد الذكي"
+    },
+    "recipes": {
+        "my_recipes": "وصفاتي",
+        "community": "المجتمع",
+        "create_new": "إنشاء جديد",
+        "import_url": "استيراد من رابط",
+        "import_btn": "استيراد",
+        "search_placeholder": "البحث عن وصفات...",
+        "recipe_title": "عنوان الوصفة",
+        "ingredients": "المكونات",
+        "instructions": "التعليمات (واحدة في كل سطر)"
+    },
+    "settings": {
+        "title": "الإعدادات",
+        "language": "اللغة",
+        "measurement_system": "نظام القياس",
+        "metric": "متري (جرام، مل)",
+        "imperial": "إمبراطوري (أونصة، كوب)",
+        "currency": "العملة المفضلة",
+        "save": "حفظ الإعدادات"
+    },
+    "grocery": {
+        "title": "قائمة البقالة",
+        "clear_all": "مسح الكل",
+        "add_item": "إضافة عنصر",
+        "bought": "تم الشراء",
+        "total_cost": "التكلفة التقديرية"
+    },
+    "auth": {
+        "login_title": "مرحباً بعودتك",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "sign_in": "تسجيل الدخول",
+        "sign_up": "إنشاء حساب",
+        "demo": "الوضع التجريبي"
+    }
+}

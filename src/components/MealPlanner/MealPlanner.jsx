@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
 import { computeWeeklyCost } from '../../engines/groceryEngine.js';
+import { formatCurrency } from '../../utils/currency.js';
+import { settingsApi } from '../../services/settingsApi.js';
 import { RecipeModal } from '../RecipeLibrary/RecipeLibrary.jsx';
 import styles from './MealPlanner.module.css';
 
@@ -9,7 +11,7 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const MEALS = ['breakfast', 'lunch', 'dinner'];
 const MEAL_ICONS = { breakfast: '🌅', lunch: '☀️', dinner: '🌙' };
 
-function BudgetBar({ plan, recipes, budget, onBudgetChange }) {
+function BudgetBar({ plan, recipes, budget, onBudgetChange, currency, onCurrencyChange }) {
     const cost = computeWeeklyCost(plan, recipes);
     const pct = Math.min(100, Math.round((cost / (budget || 1)) * 100));
     const over = cost > budget;
@@ -19,7 +21,6 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange }) {
             <div className={styles.budgetLeft}>
                 <span className={styles.budgetLabel}>Weekly Budget</span>
                 <div className={styles.budgetInputRow}>
-                    <span className={styles.currency}>€</span>
                     <input
                         type="number"
                         min="0"
@@ -28,11 +29,21 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange }) {
                         className={styles.budgetInput}
                         aria-label="Weekly budget"
                     />
+                    <select
+                        value={currency}
+                        onChange={(e) => onCurrencyChange(e.target.value)}
+                        className={styles.currencySelect}
+                        aria-label="Currency"
+                    >
+                        {['USD', 'EUR', 'JPY', 'GBP', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'NZD', 'SEK', 'KRW', 'SGD', 'NOK', 'MXN', 'INR', 'RUB', 'ZAR', 'TRY', 'BRL', 'TWD', 'DKK', 'PLN', 'THB', 'IDR', 'HUF', 'CZK', 'ILS', 'CLP', 'PHP', 'AED', 'COP', 'SAR', 'MYR', 'RON', 'VND', 'ARS', 'BHD', 'BGN', 'HRK', 'EGP', 'ISK', 'JMD', 'JOD', 'KES', 'KWD', 'LBP', 'MAD', 'OMR', 'PKR', 'PEN', 'QAR', 'RSD', 'LKR', 'NGN', 'BDT'].sort().map(code => (
+                            <option key={code} value={code}>{code}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
             <div className={styles.budgetRight}>
                 <span className={over ? styles.costOver : styles.costOk}>
-                    €{cost.toFixed(2)} estimated
+                    {formatCurrency(cost, currency)} estimated
                 </span>
                 <div className={styles.progressTrack}>
                     <div
@@ -40,7 +51,7 @@ function BudgetBar({ plan, recipes, budget, onBudgetChange }) {
                         style={{ width: `${pct}%` }}
                     />
                 </div>
-                {over && <span className={styles.overAlert}>⚠ Over budget by €{(cost - budget).toFixed(2)}</span>}
+                {over && <span className={styles.overAlert}>⚠ Over budget by {formatCurrency(cost - budget, currency)}</span>}
             </div>
         </div>
     );
@@ -54,9 +65,10 @@ export default function MealPlanner() {
     const [budget, setBudget] = useState(() => storageService.getSettings().budget ?? 40);
     const [dragging, setDragging] = useState(null);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [currency, setCurrency] = useState(() => storageService.getSettings()?.currency || 'EUR');
 
     useEffect(() => {
-        recipesApi.getAll()
+        recipesApi.getAllForPlanning()
             .then(data => {
                 const savedServings = storageService.getSettings().recipeServings || {};
                 const augmented = data.map(r => ({
@@ -86,6 +98,14 @@ export default function MealPlanner() {
         storageService.setSettings({ ...s, budget: val });
         const p = storageService.getPlan();
         storageService.setPlan({ ...p, budget: val });
+    }, []);
+
+    const saveCurrency = useCallback((val) => {
+        setCurrency(val);
+        const s = storageService.getSettings();
+        const updatedSettings = { ...s, currency: val };
+        storageService.setSettings(updatedSettings);
+        settingsApi.pushToServer(updatedSettings);
     }, []);
 
     function getSlot(day, meal) {
@@ -155,7 +175,14 @@ export default function MealPlanner() {
 
             {!loading && !error && (
                 <>
-                    <BudgetBar plan={planData} recipes={recipes} budget={budget} onBudgetChange={saveBudget} />
+                    <BudgetBar 
+                        plan={planData} 
+                        recipes={recipes} 
+                        budget={budget} 
+                        onBudgetChange={saveBudget} 
+                        currency={currency}
+                        onCurrencyChange={saveCurrency} 
+                    />
 
                     <div className={styles.summary}>
                         <span>📅 {totalMeals} / 21 meals planned</span>
@@ -209,7 +236,7 @@ export default function MealPlanner() {
                                                     </div>
 
                                                     <div className={styles.slotMeta}>
-                                                        €{(recipe.estimatedCostPerServing * recipe.plannedServings).toFixed(2)}
+                                                        {formatCurrency(recipe.estimatedCostPerServing * recipe.plannedServings, currency)}
                                                     </div>
                                                     <button
                                                         className={styles.slotRemove}
@@ -233,7 +260,7 @@ export default function MealPlanner() {
                         <h2 className={styles.pickerTitle}>📚 Recipe Quick-Pick</h2>
                         <p className={styles.pickerHint}>Drag a recipe card onto a meal slot above</p>
                         <div className={styles.pickerGrid}>
-                            {recipes.map((r) => (
+                            {recipes.filter(r => !r.is_community).map((r) => (
                                 <div
                                     key={r.id}
                                     className={styles.pickerCard}
@@ -242,7 +269,7 @@ export default function MealPlanner() {
                                     title={r.description}
                                 >
                                     <span className={styles.pickerName}>{r.name}</span>
-                                    <span className={styles.pickerCost}>€{r.estimatedCostPerServing.toFixed(2)}/sv</span>
+                                    <span className={styles.pickerCost}>{formatCurrency(r.estimatedCostPerServing, currency)}/sv</span>
                                 </div>
                             ))}
                         </div>

@@ -5,6 +5,8 @@ import { storageService } from '../../services/storageService.js';
 import { filterByTags, ALL_TAGS } from '../../engines/filterEngine.js';
 import { searchRecipes } from '../../engines/searchEngine.js';
 import { scaleIngredients } from '../../engines/scalingEngine.js';
+import { formatCurrency } from '../../utils/currency.js';
+import { displayMeasurement } from '../../utils/units.js';
 import styles from './RecipeLibrary.module.css';
 
 export const TAG_LABELS = {
@@ -23,7 +25,9 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
     const [macroError, setMacroError] = useState(null);
     const [localDietTags, setLocalDietTags] = useState(recipe.dietTags || []);
     const [isDuplicating, setIsDuplicating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const currency = storageService.getSettings()?.currency || 'EUR';
 
     useEffect(() => {
         recipesApi.getCurrentUser().then(setCurrentUser);
@@ -82,11 +86,25 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
         try {
             await recipesApi.duplicate(recipe.id);
             alert('Recipe saved to your personal library! 🎉');
-            onClose();
+            onClose('RELOAD');
         } catch (error) {
             alert('Failed to save recipe. Please log in first.');
         } finally {
             setIsDuplicating(false);
+        }
+    }
+
+    async function handleDelete() {
+        if (!window.confirm(`Are you sure you want to delete "${recipe.name}"? This cannot be undone.`)) return;
+        setIsDeleting(true);
+        try {
+            await recipesApi.delete(recipe.id);
+            alert('Recipe deleted successfully!');
+            onClose('RELOAD');
+        } catch (error) {
+            alert('Failed to delete recipe. ' + error.message);
+        } finally {
+            setIsDeleting(false);
         }
     }
 
@@ -101,7 +119,7 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                     <p className={styles.modalDesc}>{recipe.description}</p>
                     <div className={styles.modalMeta}>
                         <span>⏱ {recipe.prepTime} min</span>
-                        <span>💶 €{recipe.estimatedCostPerServing.toFixed(2)} / serving</span>
+                        <span>💶 {formatCurrency(recipe.estimatedCostPerServing, currency)} / serving</span>
                     </div>
                     <div className={styles.tagRow}>
                         {localDietTags?.map((t) => {
@@ -138,6 +156,16 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
                             {isSaving ? 'Saving...' : '💾 Save as Default'}
                         </button>
                     )}
+                    {isOwner && (
+                        <button 
+                            className="btn btn-primary btn-sm" 
+                            style={{ marginLeft: '10px', backgroundColor: '#ef4444', color: 'white' }}
+                            onClick={handleDelete}
+                            disabled={isDeleting}
+                        >
+                            {isDeleting ? 'Deleting...' : '🗑️ Delete Recipe'}
+                        </button>
+                    )}
                     {!isOwner && (
                         <button 
                             className="btn btn-primary btn-sm" 
@@ -154,12 +182,15 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
 
                 <h3 className={styles.sectionLabel}>Ingredients</h3>
                 <ul className={styles.ingredientList}>
-                    {scaled.map((ing, i) => (
-                        <li key={i} className={styles.ingredientItem}>
-                            <span className={styles.ingQty}>{ing.qty} {ing.unit}</span>
-                            <span>{ing.name}</span>
-                        </li>
-                    ))}
+                    {scaled.map((ing, i) => {
+                        const m = displayMeasurement(ing.qty, ing.unit, storageService.getSettings()?.measurementSystem || 'metric');
+                        return (
+                            <li key={i} className={styles.ingredientItem}>
+                                <span className={styles.ingQty}>{m}</span>
+                                <span>{ing.name}</span>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 <div className="divider" />
@@ -203,11 +234,12 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
 }
 
 function RecipeCard({ recipe, onDetail, onAddToPlan }) {
+    const currency = storageService.getSettings()?.currency || 'EUR';
     return (
         <div className={`card ${styles.recipeCard}`} onClick={() => onDetail(recipe)}>
             <div className={styles.cardHeader}>
                 <span className={styles.cardCategory}>{recipe.category}</span>
-                <span className={styles.cardCost}>€{recipe.estimatedCostPerServing.toFixed(2)}/srv</span>
+                <span className={styles.cardCost}>{formatCurrency(recipe.estimatedCostPerServing, currency)}/srv</span>
             </div>
             <h3 className={styles.cardTitle}>{recipe.name}</h3>
             <p className={styles.cardDesc}>{recipe.description}</p>
@@ -420,7 +452,21 @@ export default function RecipeLibrary() {
                     {selectedRecipe && (
                         <RecipeModal
                             recipe={selectedRecipe}
-                            onClose={() => setSelectedRecipe(null)}
+                            onClose={(reason) => {
+                                setSelectedRecipe(null);
+                                if (reason === 'RELOAD') {
+                                    setLoading(true);
+                                    recipesApi.getAll().then(data => {
+                                        const savedServings = storageService.getSettings().recipeServings || {};
+                                        const augmented = data.map(r => ({
+                                            ...r,
+                                            servings: savedServings[r.id] || r.servings
+                                        }));
+                                        setRecipes(augmented);
+                                        setLoading(false);
+                                    }).catch(() => setLoading(false));
+                                }
+                            }}
                             onSaveServings={handleSaveServings}
                         />
                     )}

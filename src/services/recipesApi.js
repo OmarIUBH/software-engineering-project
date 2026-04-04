@@ -56,6 +56,43 @@ export const recipesApi = {
     },
 
     /**
+     * Fetch ALL recipes the user can see: their own + all public community recipes.
+     * Used by MealPlanner and GroceryList so plan slots are always resolvable.
+     */
+    getAllForPlanning: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        // Always fetch public recipes
+        const { data: publicData, error: pubError } = await supabase
+            .from('recipes')
+            .select(RECIPE_SELECT)
+            .eq('is_public', true);
+
+        if (pubError) throw new Error(pubError.message);
+
+        let ownData = [];
+        if (user) {
+            const { data, error } = await supabase
+                .from('recipes')
+                .select(RECIPE_SELECT)
+                .eq('user_id', user.id)
+                .eq('is_public', false); // avoid duplicates with public
+            if (!error) ownData = data || [];
+        }
+
+        // Merge and deduplicate by id
+        const all = [...(publicData || []), ...ownData];
+        const seen = new Set();
+        const unique = all.filter(r => {
+            if (seen.has(r.id)) return false;
+            seen.add(r.id);
+            return true;
+        });
+
+        return unique.map(mapRecipe);
+    },
+
+    /**
      * Fetch all recipes belonging to the current user
      */
     getAll: async () => {
@@ -112,7 +149,11 @@ export const recipesApi = {
             .from('recipes')
             .insert({
                 user_id: user.id,
-                title: recipe.title || recipe.name,
+                title: recipe.name || recipe.title || 'Untitled Recipe',
+                description: recipe.description || '',
+                category: recipe.category || 'Main Course',
+                prepTime: recipe.prepTime || 20,
+                estimated_cost_per_serving: recipe.estimatedCostPerServing || 5.0,
                 instructions: Array.isArray(recipe.instructions)
                     ? JSON.stringify(recipe.instructions)
                     : recipe.instructions,
@@ -197,7 +238,11 @@ export const recipesApi = {
             .from('recipes')
             .insert({
                 user_id: user.id,
-                title: `${fullRecipe.title} (Copy)`,
+                title: `${fullRecipe.name || fullRecipe.title} (Copy)`,
+                description: fullRecipe.description || '',
+                category: fullRecipe.category || 'Main Course',
+                prepTime: fullRecipe.prepTime || 20,
+                estimated_cost_per_serving: fullRecipe.estimatedCostPerServing || 5.0,
                 instructions: JSON.stringify(fullRecipe.instructions),
                 default_servings: fullRecipe.servings || 1,
                 is_public: false, // Personal copy

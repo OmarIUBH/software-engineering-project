@@ -5,6 +5,8 @@ import './index.css';
 import { storageService } from './services/storageService.js';
 import { RECIPES, PANTRY_ITEMS, WEEKLY_PLAN } from './data/seedData.js';
 
+import './i18n';
+
 // Seed localStorage on first run
 if (!storageService.isInitialized()) {
     storageService.setRecipes(RECIPES);

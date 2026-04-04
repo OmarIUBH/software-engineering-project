@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { recipesApi } from '../../services/recipesApi.js';
 import { apiClient } from '../../services/apiClient.js';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateRecipeForm() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [instructions, setInstructions] = useState('');
@@ -130,7 +132,7 @@ export default function CreateRecipeForm() {
 
     return (
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <h1 className="section-title">Create a Recipe</h1>
+            <h1 className="section-title">{t('recipes.create_new', 'Create a Recipe')}</h1>
             <p className="section-subtitle">Add your own recipe to MealMate</p>
             
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px', padding: '15px', backgroundColor: '#eef2ff', borderRadius: '8px' }}>
@@ -147,13 +149,13 @@ export default function CreateRecipeForm() {
                     disabled={scraping || !scrapeUrl} 
                     style={{ padding: '10px 15px', backgroundColor: '#4f46e5', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
                 >
-                    {scraping ? 'Importing...' : 'Import'}
+                    {scraping ? 'Importing...' : t('recipes.import_btn', 'Import')}
                 </button>
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '30px' }}>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Recipe Title</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>{t('recipes.recipe_title', 'Recipe Title')}</label>
                     <input 
                         type="text" 
                         required 
@@ -165,7 +167,7 @@ export default function CreateRecipeForm() {
                 </div>
 
                 <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Ingredients</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>{t('recipes.ingredients', 'Ingredients')}</label>
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                         <input type="text" list="ingredients-list" placeholder="Ingredient name (e.g. Tomato)" value={ingName} onChange={e => setIngName(e.target.value)} style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
                         <datalist id="ingredients-list">
@@ -201,7 +203,7 @@ export default function CreateRecipeForm() {
                 </div>
                 
                 <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Instructions (One per line)</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>{t('recipes.instructions', 'Instructions (One per line)')}</label>
                     <textarea 
                         required 
                         rows={5} 

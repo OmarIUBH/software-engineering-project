@@ -132,8 +132,9 @@ async function request(endpoint, options = {}) {
 
         return response.json();
     } catch (error) {
-        // Fallback to mock on network error OR if specific services are failing (e.g. rate limit, blocked scrapers)
-        if (error.name === 'TypeError' || error.message.includes('fetch') || endpoint.includes('/ai') || endpoint.includes('/nutrition') || endpoint.includes('/scrape')) {
+        // Only fall back to mock on genuine network errors (backend unreachable)
+        // Do NOT silently swallow errors from /ai or /nutrition - let them surface
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
             return handleMockRequest(endpoint, options);
         }
         throw error;

@@ -508,3 +508,28 @@ label {
     font-size: 0.82rem;
   }
 }
+
+/* ── Internationalization / RTL ── */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .navbar__logo {
+    margin-right: 0;
+    margin-left: auto; /* Push links to other side if flex */
+}
+
+[dir="rtl"] .modal-close {
+    right: auto;
+    left: 16px;
+}
+
+[dir="rtl"] .checkbox {
+    margin-right: 0;
+    margin-left: 12px;
+}
+
+[dir="rtl"] .btn-sm {
+    margin-left: 0;
+    margin-right: 10px;
+}

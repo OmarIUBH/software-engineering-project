@@ -1,0 +1,48 @@
+{
+    "app_title": "MealMate",
+    "nav": {
+        "recipes": "Recipes",
+        "meal_plan": "Meal Plan",
+        "grocery_list": "Grocery List",
+        "pantry": "Pantry",
+        "login": "Login",
+        "logout": "Logout",
+        "settings": "Settings",
+        "ai_assistant": "AI Assistant"
+    },
+    "recipes": {
+        "my_recipes": "My Recipes",
+        "community": "Community",
+        "create_new": "Create New",
+        "import_url": "Import from URL",
+        "import_btn": "Import",
+        "search_placeholder": "Search recipes...",
+        "recipe_title": "Recipe Title",
+        "ingredients": "Ingredients",
+        "instructions": "Instructions (One per line)"
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "measurement_system": "Measurement System",
+        "metric": "Metric (g, ml)",
+        "imperial": "Imperial (oz, cups)",
+        "currency": "Preferred Currency",
+        "save": "Save Settings"
+    },
+    "grocery": {
+        "title": "Grocery List",
+        "clear_all": "Clear All",
+        "add_item": "Add Item",
+        "bought": "Bought",
+        "total_cost": "Est. Cost"
+    },
+    "auth": {
+        "login_title": "Welcome Back",
+        "email": "Email Address",
+        "password": "Password",
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up",
+        "demo": "Demo Mode"
+    }
+}

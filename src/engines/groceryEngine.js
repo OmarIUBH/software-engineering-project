@@ -106,7 +106,6 @@ function getCategory(canonicalName) {
  */
 export function generateGroceryList(weeklyPlan, recipes) {
     const recipeMap = Object.fromEntries(recipes.map((r) => [r.id, r]));
-    /** @type {Record<string, {qty:number,unit:string,displayName:string,baseQty:number}>} */
     const totals = {};
 
     for (const day of Object.values(weeklyPlan.plan)) {
@@ -125,35 +124,50 @@ export function generateGroceryList(weeklyPlan, recipes) {
                 recipe.servings,
                 finalServings
             );
+            
             for (const ing of scaled) {
                 const key = normalise(ing.name);
                 const { qty: baseQty } = toBase(ing.qty, ing.unit);
+
                 if (totals[key]) {
                     totals[key].baseQty += baseQty;
-                    totals[key].qty += ing.qty; // accumulate original qty too
+                    totals[key].qty += (ing.qty || 1);
                 } else {
-                    // Keep original unit for display; use baseQty only for pantry deduction
-                    totals[key] = {
-                        qty: ing.qty,
+                    totals[key] = { 
+                        baseQty, 
+                        qty: (ing.qty || 1),
                         unit: ing.unit || 'pcs',
-                        displayName: ing.name,
-                        baseQty,
+                        originalName: ing.name 
                     };
                 }
             }
         }
     }
 
-    return Object.entries(totals).map(([key, { qty, unit, displayName, baseQty }]) => ({
-        id: key,
-        name: displayName,
-        canonicalName: key,
-        qty: Math.round(qty * 100) / 100,
-        unit,
-        baseQty, // used by deductPantry
-        category: getCategory(key),
-        checked: false,
-    }));
+    return Object.entries(totals).map(([key, { baseQty, qty, unit, originalName }]) => {
+        // Drop any matching unit or 'whole' words from name
+        let cleanName = originalName.replace(new RegExp(`\\b${unit}\\b`, 'gi'), '').trim();
+        
+        const stopWords = ['shredded', 'chopped', 'minced', 'sliced', 'diced', 'peeled', 'fresh', 'dried', 'crushed', 'ground', 'cooked', 'raw', 'whole', 'large', 'small', 'medium', 'thinly', 'finely'];
+        const stopRegex = new RegExp(`\\b(${stopWords.join('|')})\\b`, 'gi');
+        cleanName = cleanName.replace(stopRegex, '').trim();
+
+        // Remove trailing or leading extraneous spaces/punctuation
+        cleanName = cleanName.replace(/[^\w\s-]/gi, '').replace(/\s+/g, ' ').trim();
+        // Capitalize first letter
+        cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1).toLowerCase();
+
+        return {
+            id: key,
+            name: cleanName || key,
+            canonicalName: key,
+            qty: Math.ceil(qty),
+            unit: unit === 'pcs' || unit === 'whole' ? '' : unit,
+            baseQty, 
+            category: getCategory(key),
+            checked: false,
+        };
+    });
 }
 
 /**

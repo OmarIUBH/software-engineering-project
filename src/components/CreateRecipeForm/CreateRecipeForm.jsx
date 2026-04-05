@@ -45,8 +45,7 @@ export default function CreateRecipeForm() {
 
         if (val.trim()) {
             const matches = availableIngredients
-                .map(i => i.name)
-                .filter(n => n && n.toLowerCase().includes(val.toLowerCase()) && n.toLowerCase() !== val.toLowerCase())
+                .filter(n => typeof n === 'string' && n.toLowerCase().includes(val.toLowerCase()) && n.toLowerCase() !== val.toLowerCase())
                 .slice(0, 5);
             setSuggestions(matches);
             setShowSuggestions(matches.length > 0);
@@ -63,8 +62,22 @@ export default function CreateRecipeForm() {
     }
 
     useEffect(() => {
-        apiClient.get('/ingredients')
-            .then(data => setAvailableIngredients(Array.isArray(data) ? data : []))
+        recipesApi.getAll()
+            .then(recipes => {
+                const names = new Set();
+                recipes.forEach(r => {
+                    if (r.ingredients) {
+                        r.ingredients.forEach(ing => {
+                            const cleanName = (ing.name || '').trim();
+                            if (!cleanName) return;
+                            if (/[\d\/\u00BC-\u00BE\u2150-\u215E]/.test(cleanName)) return;
+                            if (cleanName.length > 35) return;
+                            names.add(cleanName);
+                        });
+                    }
+                });
+                setAvailableIngredients(Array.from(names).sort());
+            })
             .catch(err => console.error('Failed to load ingredients', err));
     }, []);
 

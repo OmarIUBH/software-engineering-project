@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { pantryApi } from '../../services/pantryApi.js';
 import { recipesApi } from '../../services/recipesApi.js';
 import { storageService } from '../../services/storageService.js';
+import { useDialog } from '../DialogManager/DialogContext.jsx';
 import styles from './PantryManager.module.css';
 
 const UNITS = ['g', 'kg', 'ml', 'L', 'pcs', 'slices', 'tbsp', 'tsp', 'cup'];
@@ -45,6 +46,7 @@ export default function PantryManager() {
     const [recipes, setRecipes] = useState([]);
     const [isAdding, setIsAdding] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const { showAlert } = useDialog();
 
     // Autocomplete state
     const [suggestions, setSuggestions] = useState([]);
@@ -177,7 +179,11 @@ export default function PantryManager() {
             await pantryApi.delete(id);
             setItems(items.filter((i) => i.id !== id));
         } catch (err) {
-            alert('Failed to delete item.');
+            showAlert({
+                type: 'error',
+                title: 'Delete Failed',
+                message: 'We were unable to remove this item from your pantry. Please check your connection and try again.'
+            });
         }
     }
 

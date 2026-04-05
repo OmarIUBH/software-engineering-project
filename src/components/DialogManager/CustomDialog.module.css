@@ -1,0 +1,205 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease-out forwards;
+}
+
+.modalContent {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    color: #f8fafc;
+}
+
+.message {
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.actions {
+    display: flex;
+    justify-content: stretch;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnCancel {
+    background: #334155;
+    color: #f8fafc;
+}
+
+.btnCancel:hover {
+    background: #475569;
+}
+
+.btnPrimary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btnPrimary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btnDanger {
+    background: #ef4444;
+    color: white;
+}
+
+.btnDanger:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.iconContainer {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 20px auto;
+}
+
+/* Base SVG styling */
+svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Error Animation */
+.iconError .iconCircle {
+    stroke: #ef4444;
+    stroke-width: 4;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.iconError .iconCross {
+    stroke: #ef4444;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+/* Warning Animation */
+.iconWarning .iconCircleWarning {
+    stroke: #f59e0b;
+    stroke-width: 4;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.iconExclamation {
+    stroke: #f59e0b;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+
+.iconDot {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out 0.7s forwards;
+}
+
+/* Success Animation */
+.iconSuccess .iconCircleSuccess {
+    stroke: #10b981;
+    stroke-width: 4;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.iconCheck {
+    stroke: #10b981;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+/* Info Animation */
+.iconInfo .iconCircleInfo {
+    stroke: #3b82f6;
+    stroke-width: 4;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.iconI {
+    stroke: #3b82f6;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+
+.iconDotInfo {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out 0.7s forwards;
+}
+
+/* Keyframes */
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

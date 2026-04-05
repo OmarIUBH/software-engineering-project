@@ -14,6 +14,7 @@ import { settingsApi } from './services/settingsApi.js';
 import { useEffect } from 'react';
 import SettingsModal from './components/SettingsModal/SettingsModal.jsx';
 import { useState } from 'react';
+import { DialogProvider } from './components/DialogManager/DialogContext.jsx';
 
 import { useTranslation } from 'react-i18next';
 
@@ -88,32 +89,34 @@ export default function App() {
 
     return (
         <AuthProvider>
-            <BrowserRouter
-                future={{
-                    v7_startTransition: true,
-                    v7_relativeSplatPath: true,
-                }}
-            >
-                <div className="app-layout">
-                    <DemoBanner />
-                    <Navbar onOpenSettings={() => setIsSettingsOpen(true)} />
-                    <main className="main-content">
-                        <Routes>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/" element={<RecipeLibrary />} />
-                            <Route path="/community" element={<CommunityRecipes />} />
-                            <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipeForm /></ProtectedRoute>} />
-                            <Route path="/planner" element={<ProtectedRoute><MealPlanner /></ProtectedRoute>} />
-                            <Route path="/grocery" element={<ProtectedRoute><GroceryList /></ProtectedRoute>} />
-                            <Route path="/pantry" element={<ProtectedRoute><PantryManager /></ProtectedRoute>} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </main>
-                    <AIAssistantModal />
-                    <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
-                </div>
-            </BrowserRouter>
+            <DialogProvider>
+                <BrowserRouter
+                    future={{
+                        v7_startTransition: true,
+                        v7_relativeSplatPath: true,
+                    }}
+                >
+                    <div className="app-layout">
+                        <DemoBanner />
+                        <Navbar onOpenSettings={() => setIsSettingsOpen(true)} />
+                        <main className="main-content">
+                            <Routes>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/" element={<RecipeLibrary />} />
+                                <Route path="/community" element={<CommunityRecipes />} />
+                                <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipeForm /></ProtectedRoute>} />
+                                <Route path="/planner" element={<ProtectedRoute><MealPlanner /></ProtectedRoute>} />
+                                <Route path="/grocery" element={<ProtectedRoute><GroceryList /></ProtectedRoute>} />
+                                <Route path="/pantry" element={<ProtectedRoute><PantryManager /></ProtectedRoute>} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </main>
+                        <AIAssistantModal />
+                        <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+                    </div>
+                </BrowserRouter>
+            </DialogProvider>
         </AuthProvider>
     );
 }

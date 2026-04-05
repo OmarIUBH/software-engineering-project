@@ -234,7 +234,7 @@ export const recipesApi = {
             .from('recipes')
             .insert({
                 user_id: user.id,
-                title: `${fullRecipe.name || fullRecipe.title} (Copy)`,
+                title: fullRecipe.name || fullRecipe.title || 'Untitled Recipe',
                 instructions: JSON.stringify(fullRecipe.instructions),
                 default_servings: fullRecipe.servings || 1,
                 is_public: false, // Personal copy

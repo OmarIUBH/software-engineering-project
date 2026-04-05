@@ -8,6 +8,7 @@ import { searchRecipes } from '../../engines/searchEngine.js';
 import { scaleIngredients } from '../../engines/scalingEngine.js';
 import { formatCurrency } from '../../utils/currency.js';
 import { displayMeasurement } from '../../utils/units.js';
+import { useDialog } from '../DialogManager/DialogContext.jsx';
 import styles from './RecipeLibrary.module.css';
 
 export const TAG_LABELS = {
@@ -20,6 +21,7 @@ export const TAG_LABELS = {
 
 export function RecipeModal({ recipe, onClose, onSaveServings }) {
     const { t } = useTranslation();
+    const { showConfirm } = useDialog();
     const [servings, setServings] = useState(recipe.servings);
     const [isSaving, setIsSaving] = useState(false);
     const [macros, setMacros] = useState(null);
@@ -104,7 +106,15 @@ export function RecipeModal({ recipe, onClose, onSaveServings }) {
     }
 
     async function handleDelete() {
-        if (!window.confirm(`Are you sure you want to delete "${recipe.name}"? This cannot be undone.`)) return;
+        const confirmed = await showConfirm({
+            type: 'warning',
+            title: 'Delete Recipe?',
+            message: `Are you sure you want to discard "${recipe.name}"? It will be permanently removed from your library.`,
+            confirmText: 'Yes, Delete',
+            cancelText: 'Keep it'
+        });
+        if (!confirmed) return;
+        
         setIsDeleting(true);
         setActionMessage(null);
         try {

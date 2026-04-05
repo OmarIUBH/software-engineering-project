@@ -3,9 +3,11 @@ import { recipesApi } from '../../services/recipesApi.js';
 import { apiClient } from '../../services/apiClient.js';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDialog } from '../DialogManager/DialogContext.jsx';
 
 export default function CreateRecipeForm() {
     const { t } = useTranslation();
+    const { showAlert } = useDialog();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [instructions, setInstructions] = useState('');
@@ -64,7 +66,11 @@ export default function CreateRecipeForm() {
             }
         } catch (error) {
             console.error(error);
-            alert('Failed to save recipe');
+            showAlert({
+                type: 'error',
+                title: 'Save Failed',
+                message: 'Uh oh! We ran into an issue while saving your masterpiece. Please try again.'
+            });
             setLoading(false);
         }
     }
@@ -99,7 +105,11 @@ export default function CreateRecipeForm() {
                 }
             }
         } catch (err) {
-            alert('Import failed: ' + (err.message || 'Unknown error'));
+            showAlert({
+                type: 'error',
+                title: 'Import Failed',
+                message: 'We couldn\'t extract the recipe from this URL. The site might be blocking us, or the format is unsupported.'
+            });
         } finally {
             setScraping(false);
         }

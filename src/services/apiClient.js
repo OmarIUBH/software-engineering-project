@@ -1,6 +1,12 @@
 import { MOCK_USER, MOCK_RECIPES } from './mockData.js';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// On Cloudflare Pages, use relative /api path (Functions are served on the same origin).
+// Locally, fall back to localhost:3000/api.
+const BASE_URL = import.meta.env.VITE_API_URL || (
+    typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+        ? '/api'
+        : 'http://localhost:3000/api'
+);
 
 /**
  * Fallback handler for when the backend is unreachable (Offline/Demo Mode)

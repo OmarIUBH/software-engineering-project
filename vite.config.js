@@ -6,6 +6,17 @@ export default defineConfig({
   server: {
     allowedHosts: true,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          utils: ['sortablejs', 'i18next', 'react-i18next'],
+          db: ['@supabase/supabase-js']
+        }
+      }
+    }
+  },
   test: {
     environment: 'jsdom',
     globals: true,

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://487cd917.mealmate-835.pages.dev/sitemap.xml

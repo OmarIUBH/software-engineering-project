@@ -1,19 +1,20 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom';
-import RecipeLibrary from './components/RecipeLibrary/RecipeLibrary.jsx';
-import MealPlanner from './components/MealPlanner/MealPlanner.jsx';
-import GroceryList from './components/GroceryList/GroceryList.jsx';
-import PantryManager from './components/PantryManager/PantryManager.jsx';
-import NotFound from './components/NotFound/NotFound.jsx';
-import Login from './components/Authentication/Login.jsx';
-import Signup from './components/Authentication/Signup.jsx';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { AuthProvider, useAuth } from './components/Authentication/AuthContext.jsx';
-import CommunityRecipes from './components/CommunityRecipes/CommunityRecipes.jsx';
-import CreateRecipeForm from './components/CreateRecipeForm/CreateRecipeForm.jsx';
 import AIAssistantModal from './components/AIAssistantModal/AIAssistantModal.jsx';
 import { settingsApi } from './services/settingsApi.js';
-import { useEffect } from 'react';
 import SettingsModal from './components/SettingsModal/SettingsModal.jsx';
-import { useState } from 'react';
+import Loader from './components/Loader/Loader.jsx';
+
+const RecipeLibrary = lazy(() => import('./components/RecipeLibrary/RecipeLibrary.jsx'));
+const MealPlanner = lazy(() => import('./components/MealPlanner/MealPlanner.jsx'));
+const GroceryList = lazy(() => import('./components/GroceryList/GroceryList.jsx'));
+const PantryManager = lazy(() => import('./components/PantryManager/PantryManager.jsx'));
+const NotFound = lazy(() => import('./components/NotFound/NotFound.jsx'));
+const Login = lazy(() => import('./components/Authentication/Login.jsx'));
+const Signup = lazy(() => import('./components/Authentication/Signup.jsx'));
+const CommunityRecipes = lazy(() => import('./components/CommunityRecipes/CommunityRecipes.jsx'));
+const CreateRecipeForm = lazy(() => import('./components/CreateRecipeForm/CreateRecipeForm.jsx'));
 import { DialogProvider } from './components/DialogManager/DialogContext.jsx';
 
 import { useTranslation } from 'react-i18next';
@@ -100,17 +101,19 @@ export default function App() {
                         <DemoBanner />
                         <Navbar onOpenSettings={() => setIsSettingsOpen(true)} />
                         <main className="main-content">
-                            <Routes>
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/signup" element={<Signup />} />
-                                <Route path="/" element={<RecipeLibrary />} />
-                                <Route path="/community" element={<CommunityRecipes />} />
-                                <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipeForm /></ProtectedRoute>} />
-                                <Route path="/planner" element={<ProtectedRoute><MealPlanner /></ProtectedRoute>} />
-                                <Route path="/grocery" element={<ProtectedRoute><GroceryList /></ProtectedRoute>} />
-                                <Route path="/pantry" element={<ProtectedRoute><PantryManager /></ProtectedRoute>} />
-                                <Route path="*" element={<NotFound />} />
-                            </Routes>
+                            <Suspense fallback={<Loader />}>
+                                <Routes>
+                                    <Route path="/login" element={<Login />} />
+                                    <Route path="/signup" element={<Signup />} />
+                                    <Route path="/" element={<RecipeLibrary />} />
+                                    <Route path="/community" element={<CommunityRecipes />} />
+                                    <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipeForm /></ProtectedRoute>} />
+                                    <Route path="/planner" element={<ProtectedRoute><MealPlanner /></ProtectedRoute>} />
+                                    <Route path="/grocery" element={<ProtectedRoute><GroceryList /></ProtectedRoute>} />
+                                    <Route path="/pantry" element={<ProtectedRoute><PantryManager /></ProtectedRoute>} />
+                                    <Route path="*" element={<NotFound />} />
+                                </Routes>
+                            </Suspense>
                         </main>
                         <AIAssistantModal />
                         <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />

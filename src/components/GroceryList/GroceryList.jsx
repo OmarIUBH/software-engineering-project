@@ -219,7 +219,7 @@ function GroceryItem({ item, checked, onToggle, onAdjust, system }) {
             <span className={styles.itemName} onClick={() => onToggle(item.id)}>{item.name}</span>
             <div className={styles.itemControls}>
                 <button className={styles.qtyBtn} onClick={() => onAdjust(item.id, -1)}>−</button>
-                <span className={styles.qtyLabel}>{displayMeasurement(item.qty, item.unit, system)}</span>
+                <span className={styles.qtyLabel}>{displayMeasurement(item.qty, item.unit, system, true)}</span>
                 <button className={styles.qtyBtn} onClick={() => onAdjust(item.id, 1)}>+</button>
             </div>
         </li>

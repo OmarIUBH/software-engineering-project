@@ -121,9 +121,14 @@ export function formatQuantityUnit(quantity, unit, system = 'metric') {
                 outUnit = 'g';
             }
         } else if (info.type === UNIT_TYPES.VOLUME) {
+            const normUnit = normalizeUnit(unit);
             if (baseValue >= 1000) {
                 outQty = baseValue / 1000;
                 outUnit = 'l';
+            } else if (normUnit === 'tsp' || normUnit === 'tbsp') {
+                // Universally understood in culinary contexts, even in metric systems
+                outQty = numQty;
+                outUnit = normUnit;
             } else {
                 outQty = baseValue;
                 outUnit = 'ml';
@@ -139,11 +144,15 @@ export function formatQuantityUnit(quantity, unit, system = 'metric') {
 }
 
 /**
- * Returns a formatted string showing only the number (no unit label).
+ * Returns a formatted string for display. Hides unit if requested or if 'pcs'.
  */
-export function displayMeasurement(quantity, unit, system = 'metric') {
+export function displayMeasurement(quantity, unit, system = 'metric', hideUnit = false) {
     if (!quantity && quantity !== 0) return '';
     const formatted = formatQuantityUnit(quantity, unit, system);
-    // Return only the number — no unit label (ml, g, oz, etc.)
-    return `${formatted.qty}`;
+    
+    if (hideUnit || formatted.unit === 'pcs' || formatted.unit === 'pc' || !formatted.unit) {
+        return `${formatted.qty}`;
+    }
+
+    return `${formatted.qty} ${formatted.unit}`.trim();
 }

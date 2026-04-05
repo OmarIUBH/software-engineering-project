@@ -69,6 +69,7 @@ export default function MealPlanner() {
     const [dragging, setDragging] = useState(null);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [currency, setCurrency] = useState(() => storageService.getSettings()?.currency || 'EUR');
+    const [selectedPickerId, setSelectedPickerId] = useState(null); // For mobile tap-to-assign
 
     useEffect(() => {
         recipesApi.getAllForPlanning()
@@ -149,19 +150,29 @@ export default function MealPlanner() {
     }
 
     function handleDrop(day, meal) {
-        if (!dragging) return;
+        const recipeId = dragging || selectedPickerId;
+        if (!recipeId) return;
         const updated = JSON.parse(JSON.stringify(planData));
         if (!updated.plan[day]) updated.plan[day] = {};
 
-        // Use recipe's current default servings for the new slot
-        const recipe = recipeMap[dragging];
+        const recipe = recipeMap[recipeId];
         updated.plan[day][meal] = {
-            id: dragging,
+            id: recipeId,
             servings: recipe ? recipe.servings : 2
         };
 
         savePlan(updated);
         setDragging(null);
+        setSelectedPickerId(null);
+    }
+
+    function handlePickerClick(recipeId) {
+        // Toggle selection for mobile tap-to-assign
+        if (selectedPickerId === recipeId) {
+            setSelectedPickerId(null);
+        } else {
+            setSelectedPickerId(recipeId);
+        }
     }
 
     const totalMeals = DAYS.reduce((acc, day) =>
@@ -213,9 +224,11 @@ export default function MealPlanner() {
                                     return (
                                         <div
                                             key={`${day}-${meal}`}
-                                            className={`${styles.slot} ${dragging ? styles.slotDraggable : ''}`}
+                                            className={`${styles.slot} ${dragging || selectedPickerId ? styles.slotDraggable : ''}`}
+                                            data-day={day}
                                             onDragOver={(e) => e.preventDefault()}
                                             onDrop={() => handleDrop(day, meal)}
+                                            onClick={() => (dragging || selectedPickerId) && handleDrop(day, meal)}
                                         >
                                             {recipe ? (
                                                 <div
@@ -266,9 +279,10 @@ export default function MealPlanner() {
                             {recipes.filter(r => !r.is_community).map((r) => (
                                 <div
                                     key={r.id}
-                                    className={styles.pickerCard}
+                                    className={`${styles.pickerCard} ${selectedPickerId === r.id ? styles.pickerCardSelected : ''}`}
                                     draggable
                                     onDragStart={() => handleDragStart(r.id)}
+                                    onClick={() => handlePickerClick(r.id)}
                                     title={r.description}
                                 >
                                     <span className={styles.pickerName}>{r.name}</span>

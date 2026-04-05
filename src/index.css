@@ -83,12 +83,14 @@ img {
   border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  gap: 32px;
+  padding: 0 16px;
+  gap: 16px;
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(12px);
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .navbar__logo {
@@ -110,6 +112,15 @@ img {
   gap: 4px;
   list-style: none;
   flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+  padding: 10px 0;
+}
+
+.navbar__links::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Brave */
 }
 
 .navbar__links a {
@@ -496,17 +507,36 @@ label {
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .main-content {
-    padding: 20px 16px 48px;
+    padding: 16px 12px 48px;
+  }
+
+  .navbar {
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .navbar__logo {
+    font-size: 1.1rem;
+    gap: 4px;
   }
 
   .navbar__links {
-    gap: 2px;
+      gap: 2px;
   }
 
-  .navbar__links a {
+  .navbar__links a,
+  .nav-logout-btn,
+  .nav-btn {
     padding: 6px 10px;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.3rem;
+    }
 }
 
 /* ── Internationalization / RTL ── */

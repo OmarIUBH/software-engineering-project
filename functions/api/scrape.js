@@ -91,14 +91,21 @@ INGREDIENT RULES — follow every one strictly:
             temperature: 0.1
         });
 
-        const rawText = response.response || response.choices?.[0]?.message?.content || '';
-
-        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) {
-            throw new Error('AI did not return valid JSON. Got: ' + rawText.substring(0, 300));
+        let rawText = response.response || response.choices?.[0]?.message?.content || response;
+        
+        let parsed;
+        if (typeof rawText === 'object' && rawText !== null) {
+            // AI already returned a parsed JSON object (often happens with strong system prompts)
+            parsed = rawText;
+        } else {
+            // Need to parse string
+            rawText = String(rawText);
+            const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) {
+                throw new Error('AI did not return valid JSON. Got: ' + rawText.substring(0, 300));
+            }
+            parsed = JSON.parse(jsonMatch[0]);
         }
-
-        const parsed = JSON.parse(jsonMatch[0]);
 
         if (!parsed.title || !parsed.ingredients || parsed.ingredients.length === 0) {
             throw new Error('Could not extract recipe from this page. The site may block scrapers.');

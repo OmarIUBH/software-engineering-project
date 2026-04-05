@@ -155,7 +155,7 @@ export const recipesApi = {
                     : recipe.instructions,
                 default_servings: recipe.servings || recipe.default_servings || 1,
                 is_public: recipe.is_public || false,
-                author_name: user.user_metadata?.name || user.email,
+                author_name: recipe.author_name || user.user_metadata?.name || user.email,
             })
             .select()
             .single();
